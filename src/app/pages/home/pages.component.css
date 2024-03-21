@@ -1,0 +1,26 @@
+mat-card {
+  width: 60%;
+
+}
+
+.transacoes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.red {
+  color: red;
+  background-color: red;
+
+}
+
+
+.mat-mdc-card-content.meses {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+
+}

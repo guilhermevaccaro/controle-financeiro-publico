@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-content>
+
+    <mat-toolbar color="primary">
+      <span>Receitas</span>
+      <button mat-mini-fab color="accent" (click)="onAdd('receita')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <app-tabela [dados]="dados" (edit)="onEdit($event)" (remove)="onRemove($event)"></app-tabela>
+
+  </mat-card-content>
+</mat-card>

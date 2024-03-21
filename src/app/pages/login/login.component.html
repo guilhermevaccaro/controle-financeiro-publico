@@ -1,0 +1,16 @@
+<form [formGroup]="form" class="min-width">
+
+  <div class="center">
+    <br><br><br>
+    <mat-form-field>
+      <mat-label>Login</mat-label>
+      <input matInput formControlName="login">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Senha</mat-label>
+      <input matInput formControlName="senha">
+    </mat-form-field>
+    <button mat-button (click)="onClick()">Login</button>
+  </div>
+</form>

@@ -1,0 +1,12 @@
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.categoria{
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,36 @@
+.month-navigation {
+  display: flex;
+  align-items: center;
+}
+
+.prev-month,
+.next-month {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.month-container {
+  width: 300px; /* Largura para exibir apenas três meses */
+  overflow-x: auto; /* Adiciona barra de rolagem horizontal se necessário */
+}
+
+.month-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.month-item {
+  flex: 0 0 auto; /* Evita que os itens se expandam além do tamanho definido */
+  width: calc(100% / 3); /* Define a largura de cada mês */
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
