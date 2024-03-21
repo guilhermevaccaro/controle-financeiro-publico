@@ -18,7 +18,7 @@ export class TransacoesListaComponent {
   contato!: Contato;
 
   displayedColumns = [
-    'id',
+    // 'id',
     'descricao',
     'categoria',
     'tipo',

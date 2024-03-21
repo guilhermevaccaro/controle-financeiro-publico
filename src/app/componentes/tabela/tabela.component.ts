@@ -12,8 +12,8 @@ export class TabelaComponent {
   displayedColumns = [
     'situacao',
     'categoria',
-    // 'descricao',
-    // 'tipo',
+    'descricao',
+    'tipo',
     'valor',
     'data',
     'acoes',

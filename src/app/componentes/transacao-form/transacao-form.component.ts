@@ -40,8 +40,12 @@ export class TransacaoFormComponent {
     });
 
     this.form = this.formBuilder.group({
-      nome: [''],
-      telefone: [''],
+      categoria: [''],
+      descricao: [''],
+      tipo: [''],
+      valor: [''],
+      data: [''],
+      situacao: [''],
     });
     this.contato = new Contato();
   }
@@ -49,6 +53,7 @@ export class TransacaoFormComponent {
     if (this.key) {
     } else {
       this.serviceContato.insert(this.form.value);
+      console.log(this.form.value)
     }
     this.router.navigate(['home']);
   }
