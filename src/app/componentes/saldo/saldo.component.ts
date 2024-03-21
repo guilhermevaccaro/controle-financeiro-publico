@@ -20,8 +20,8 @@ export class SaldoComponent {
   }
 
   carregar() {
-    this.carregarSaldoMes();
-    this.carregarSaldoPrevistoMes();
+    // this.carregarSaldoMes();
+    // this.carregarSaldoPrevistoMes();
   }
 
   carregarSaldoPrevistoMes(): void {

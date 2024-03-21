@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Contato } from 'src/app/models/contato';
 import { transacoes } from 'src/app/models/transacoes';
+import { ContatoService } from 'src/app/services/contato.service';
 import { TransacoesService } from 'src/app/services/transacoes.service';
 
 @Component({
@@ -15,13 +17,15 @@ export class TransacaoFormComponent {
   transacao: string = '';
   tipo: string = ''; // Aqui obtemos o valor do parâmetro 'tipo' da rota
   data = new Date();
+  contato!: any;
 
   constructor(
     private dateAdapter: DateAdapter<Date>,
     private formBuilder: FormBuilder,
     private service: TransacoesService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private serviceContato: ContatoService
   ) {
     this.dateAdapter.setLocale('pt-BR');
   }
@@ -39,29 +43,15 @@ export class TransacaoFormComponent {
   onSubmit() {
     const novaTransacao = this.form.value;
 
-    novaTransacao.data = this.formatandoData();
-    if (novaTransacao.id) {
-      this.editarTransação(novaTransacao);
-    } else this.criarNovaTransação(novaTransacao);
+    this.criarNovaTransação(novaTransacao);
   }
 
   onCancel() {
     this.router.navigate(['home']);
   }
 
-  criarNovaTransação(novaTransacao: transacoes) {
-    this.service.createDespesa(novaTransacao).subscribe(
-      (response) => {
-        console.log('Transação criada com sucesso:', response);
-        // Lógica adicional após a criação da transação, se necessário
-        this.router.navigate(['home']);
-      },
-      (error) => {
-        console.error('Erro ao criar transação:', error);
-        // Lógica para lidar com o erro, se necessário
-        console.log(novaTransacao);
-      }
-    );
+  criarNovaTransação(contato: Contato) {
+    this.serviceContato.insert(this.contato);
   }
   editarTransação(novaTransacao: any) {
     this.service.editarDespesa(novaTransacao.id, novaTransacao).subscribe(
@@ -97,7 +87,7 @@ export class TransacaoFormComponent {
           data: [transacao[0].data],
           valor: [transacao[0].valor],
           tipo: [transacao[0].tipo],
-          situacao: [transacao[0].situacao]
+          situacao: [transacao[0].situacao],
         });
         console.log(transacao[0].tipo);
       } else if (ultimaParteUrl === 'new') {
@@ -110,7 +100,7 @@ export class TransacaoFormComponent {
           data: [new Date()],
           valor: [''],
           tipo: [penultimaParteUrl],
-          situacao: ['']
+          situacao: [''],
         });
       }
     });

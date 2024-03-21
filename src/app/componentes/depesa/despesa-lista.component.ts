@@ -38,14 +38,14 @@ export class DespesaListaComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.carregar();
+    // this.carregar();
   }
   handleTabChange() {
-    this.carregar();
+    // this.carregar();
   }
   ngOnChanges(changes: SimpleChanges) {
     if ('valorSelecionado' in changes) {
-      this.carregar();
+      // this.carregar();
     }
   }
 
