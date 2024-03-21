@@ -15,6 +15,7 @@ import { Contato } from 'src/app/models/contato';
 })
 export class TransacoesListaComponent {
   tipoTransacao: string = '';
+  contato!: Contato;
 
   displayedColumns = [
     'id',
@@ -36,6 +37,7 @@ export class TransacoesListaComponent {
   ) {
     this.carregar();
     console.log('valor', this.valorSelecionado);
+    this.contato = new Contato;
   }
   handleTabChange() {
     this.carregar();

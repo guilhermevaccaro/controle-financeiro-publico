@@ -14,7 +14,7 @@ export class ContatoService {
       .list('contato')
       .push(contato)
       .then((result: any) => {
-        console.log('valeu corno');
+        console.log(result.key);
       });
   }
 
