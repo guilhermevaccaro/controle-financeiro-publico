@@ -6,6 +6,7 @@ import { TransacoesService } from 'src/app/services/transacoes.service';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { ContatoService } from 'src/app/services/contato.service';
+import { Contato } from 'src/app/models/contato';
 
 @Component({
   selector: 'app-transacoes-lista',
@@ -24,7 +25,7 @@ export class TransacoesListaComponent {
     'data',
     'acoes',
   ];
-  dados!: TransacoesModel[];
+  contatos!: Contato[];
   @Input() valorSelecionado!: string;
 
   constructor(
@@ -65,7 +66,7 @@ export class TransacoesListaComponent {
     //   }
     // );
     this.serviceContato.getAll().subscribe((contatos) => {
-      console.log('Contatos:', contatos);
+      this.contatos = contatos;
     });
   }
 
