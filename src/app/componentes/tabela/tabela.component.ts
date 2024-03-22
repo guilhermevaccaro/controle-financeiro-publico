@@ -1,16 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Transacao } from 'src/app/models/Transacao';
 
-
 @Component({
   selector: 'app-tabela',
   templateUrl: './tabela.component.html',
   styleUrls: ['./tabela.component.css'],
 })
 export class TabelaComponent {
-
   @Input() contatos!: Transacao[];
-  @Input() tipoTransacao: string = ''; // Propriedade de entrada para receber o tipo de transação do componente pai
+  @Input() tipoTransacao: string = '';
 
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);

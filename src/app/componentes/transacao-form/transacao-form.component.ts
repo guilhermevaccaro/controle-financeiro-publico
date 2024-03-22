@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Transacao } from 'src/app/models/Transacao';
-import { ContatoDataService } from 'src/app/services/contato-data.service';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -14,25 +13,19 @@ import { ContatoService } from 'src/app/services/contato.service';
 export class TransacaoFormComponent {
   form: FormGroup;
   transacao: string = '';
-  tipo: string = ''; // Aqui obtemos o valor do parâmetro 'tipo' da rota
-  data = new Date();
-  contato: Transacao | null = null; // Defina o tipo de contato
-  key: string | null = null;
-  dataSelecionada!: Date;
-  dataSelecionadaString!: string;
-  categorias: any[] | undefined;
-  situacaoLabel: string = 'Pendente'; // Inicialmente é definido como 'Pendente'
+  tipo = '';
+  contato!: Transacao;
+  situacaoLabel: string = 'Pendente';
 
   constructor(
     private dateAdapter: DateAdapter<Date>,
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private serviceContato: ContatoService,
-    private serviceContatoData: ContatoDataService
+    private serviceContato: ContatoService
   ) {
     this.route.params.subscribe((params) => {
-      this.tipo = params['tipo']; // Obtém o valor do parâmetro 'tipo' da rota
+      this.tipo = params['tipo'];
     });
     this.dateAdapter.setLocale('pt-BR');
     this.form = this.formBuilder.group({
@@ -46,28 +39,17 @@ export class TransacaoFormComponent {
   }
 
   ngOnInit() {
-    this.categorias = ['New York', 'Rome', 'London', 'Istanbul', 'Paris'];
     console.log(this.route.snapshot.paramMap.get('key'));
     this.route.data.subscribe((data) => {
       this.form.patchValue(data['transacao']);
     });
     this.contato = new Transacao();
     this.route.params.subscribe((params) => {
-      this.tipo = params['tipo']; // Obtém o valor do parâmetro 'tipo' da rota
-
+      this.tipo = params['tipo'];
       if (this.tipo !== 'receita' && this.tipo !== 'despesa') {
         this.transacao = 'Editando';
       } else this.transacao = 'Adicionando';
     });
-
-    this.serviceContatoData.currentContato.subscribe((data) => {
-      console.log(data);
-      if (data && data.key) {
-        this.key = data.key;
-        this.form.patchValue(data);
-      }
-    });
-    console.log(this.form.value);
   }
 
   onSubmit() {
@@ -84,8 +66,6 @@ export class TransacaoFormComponent {
         contatoToInsert.situacao = this.situacaoLabel;
         contatoToInsert.tipo = this.tipo;
         this.serviceContato.insert(this.form.value);
-
-        // console.log(this.form.value);
       }
       this.router.navigate(['home']);
     });

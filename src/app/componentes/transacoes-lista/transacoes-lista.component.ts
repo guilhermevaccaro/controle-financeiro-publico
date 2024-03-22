@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -13,21 +13,12 @@ export class TransacoesListaComponent {
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private serviceContato: ContatoService
-  ) {
-    this.carregar();
-    // console.log('valor', this.valorSelecionado);
-  }
-  handleTabChange() {
+  constructor(private router: Router, private serviceContato: ContatoService) {
     this.carregar();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if ('valorSelecionado' in changes) {
-      this.carregar();
     }
   }
   carregar() {

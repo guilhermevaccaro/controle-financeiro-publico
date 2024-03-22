@@ -1,7 +1,6 @@
 import { trigger } from '@angular/animations';
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { DespesaListaComponent } from '../../componentes/depesa/despesa-lista.component';
 import { ReceitasListaComponent } from '../../componentes/receitas-lista/receitas-lista.component';
@@ -28,20 +27,6 @@ export class PagesComponent {
     this.form = this.formBuilder.group({
       mes: ['1'],
     });
-  }
-
-  onTabChange(event: MatTabChangeEvent) {
-    switch (event.index) {
-      case 0:
-        this.transacoesLista.handleTabChange();
-        break;
-      case 1:
-        this.despesaLista.handleTabChange();
-        break;
-      case 2:
-        this.receitasLista.handleTabChange();
-        break;
-    }
   }
 
   ngOnInit() {}
