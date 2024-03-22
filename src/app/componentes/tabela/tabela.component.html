@@ -16,10 +16,10 @@
       <tr>
         <td>
           <ng-container *ngIf="product.situacao === 'Efetivado'; else pendente">
-            <i class="pi pi-check-circle" style="font-size: 1.2rem" pTooltip="Receita"></i>
+            <i class="pi pi-check-circle green" style="font-size: 1.2rem" pTooltip="Efetivado"></i>
           </ng-container>
           <ng-template #pendente>
-            <i class="pi pi-clock" style="font-size: 1.2rem" pTooltip="Pendente"></i>
+            <i class="pi pi-clock orange"  style="font-size: 1.2rem" pTooltip="Pendente"></i>
           </ng-template>
         </td>
         <td>{{product.categoria}}</td>

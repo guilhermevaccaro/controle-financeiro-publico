@@ -41,7 +41,6 @@ import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DespesaListaComponent } from './componentes/depesa/despesa-lista.component';
-import { MesesComponent } from './componentes/meses/meses.component';
 import { ReceitasListaComponent } from './componentes/receitas-lista/receitas-lista.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
@@ -50,7 +49,6 @@ import { TransacoesListaComponent } from './componentes/transacoes-lista/transac
 import { PagesComponent } from './pages/home/pages.component';
 import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
-
 
 registerLocaleData(localePt);
 
@@ -64,7 +62,6 @@ registerLocaleData(localePt);
     TransacoesListaComponent,
     TabelaComponent,
     SaldoComponent,
-    MesesComponent,
   ],
   imports: [
     IconFieldModule,
