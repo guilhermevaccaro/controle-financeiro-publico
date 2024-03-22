@@ -1,13 +1,10 @@
-import { transacoes } from './../../models/transacoes';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Contato } from 'src/app/models/contato';
+import { Transacao } from 'src/app/models/Transacao';
 import { ContatoDataService } from 'src/app/services/contato-data.service';
 import { ContatoService } from 'src/app/services/contato.service';
-import { TransacoesService } from 'src/app/services/transacoes.service';
-import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-transacao-form',
@@ -19,7 +16,7 @@ export class TransacaoFormComponent {
   transacao: string = '';
   tipo: string = ''; // Aqui obtemos o valor do parâmetro 'tipo' da rota
   data = new Date();
-  contato: Contato | null = null; // Defina o tipo de contato
+  contato: Transacao | null = null; // Defina o tipo de contato
   key: string | null = null;
   dataSelecionada!: Date;
   dataSelecionadaString!: string;
@@ -29,7 +26,6 @@ export class TransacaoFormComponent {
   constructor(
     private dateAdapter: DateAdapter<Date>,
     private formBuilder: FormBuilder,
-    private service: TransacoesService,
     private router: Router,
     private route: ActivatedRoute,
     private serviceContato: ContatoService,
@@ -51,13 +47,11 @@ export class TransacaoFormComponent {
 
   ngOnInit() {
     this.categorias = ['New York', 'Rome', 'London', 'Istanbul', 'Paris'];
-    // console.log(this.route.snapshot.paramMap.get('key'));
+    console.log(this.route.snapshot.paramMap.get('key'));
     this.route.data.subscribe((data) => {
-      // console.log(data['transacao']);
-      this.form.patchValue(data['transacao']); // ou use setValue se quiser substituir todos os campos
-      // Aqui você terá acesso aos dados resolvidos
+      this.form.patchValue(data['transacao']);
     });
-    this.contato = new Contato();
+    this.contato = new Transacao();
     this.route.params.subscribe((params) => {
       this.tipo = params['tipo']; // Obtém o valor do parâmetro 'tipo' da rota
 
@@ -67,14 +61,13 @@ export class TransacaoFormComponent {
     });
 
     this.serviceContatoData.currentContato.subscribe((data) => {
-      // console.log(data);
+      console.log(data);
       if (data && data.key) {
-        // Verifique se data e data.key existem
-        this.key = data.key; // Atribua a chave de data a this.key
-        this.form.patchValue(data); // Preencha o formulário com os dados do contato
+        this.key = data.key;
+        this.form.patchValue(data);
       }
     });
-    // console.log(this.form.value);
+    console.log(this.form.value);
   }
 
   onSubmit() {
@@ -82,15 +75,14 @@ export class TransacaoFormComponent {
       const parametroKey = params.get('key');
 
       if (parametroKey) {
-        // Extraia os valores do FormGroup
-        const contatoToUpdate: Contato = this.form.value;
-        contatoToUpdate.situacao = this.situacaoLabel; // Adicione a palavra do switch ao objeto contatoToInsert
-        // console.log('contato atualizado:', contatoToUpdate);
+        const contatoToUpdate: Transacao = this.form.value;
+        contatoToUpdate.situacao = this.situacaoLabel;
+
         this.serviceContato.update(contatoToUpdate, parametroKey);
       } else {
-        const contatoToInsert: Contato = this.form.value;
-        contatoToInsert.situacao = this.situacaoLabel; // Adicione a palavra do switch ao objeto contatoToInsert
-        contatoToInsert.tipo = this.tipo; // Adicione a palavra do switch ao objeto contatoToInsert
+        const contatoToInsert: Transacao = this.form.value;
+        contatoToInsert.situacao = this.situacaoLabel;
+        contatoToInsert.tipo = this.tipo;
         this.serviceContato.insert(this.form.value);
 
         // console.log(this.form.value);

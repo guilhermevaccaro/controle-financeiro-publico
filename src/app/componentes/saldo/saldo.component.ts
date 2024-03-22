@@ -1,5 +1,4 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { TransacoesService } from 'src/app/services/transacoes.service';
 
 @Component({
   selector: 'app-saldo',
@@ -11,7 +10,7 @@ export class SaldoComponent {
   saldoMes = 0;
   @Input() mes!: string;
 
-  constructor(private service: TransacoesService) {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('mes' in changes) {
@@ -24,27 +23,7 @@ export class SaldoComponent {
     // this.carregarSaldoPrevistoMes();
   }
 
-  carregarSaldoPrevistoMes(): void {
-    this.service.getSaldoPrevistoMes(this.mes).subscribe(
-      (data: any) => {
-        this.saldoPrevisto = data.saldoPrevisto;
-        console.log('saldo', this.saldoPrevisto);
-      },
-      (error) => {
-        console.error('Erro ao carregar saldo:', error);
-      }
-    );
-  }
+  carregarSaldoPrevistoMes(): void {}
 
-  carregarSaldoMes() {
-    this.service.getSaldoMes(this.mes).subscribe(
-      (data: any) => {
-        this.saldoMes = data.saldo;
-        console.log(this.saldoMes);
-      },
-      (error) => {
-        console.error('Erro ao carregar saldo:', error);
-      }
-    );
-  }
+  carregarSaldoMes() {}
 }

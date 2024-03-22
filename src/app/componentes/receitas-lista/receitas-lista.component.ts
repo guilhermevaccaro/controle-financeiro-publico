@@ -1,8 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { TransacoesModel } from 'src/app/models/TransacoesModel';
-import { transacoes } from 'src/app/models/transacoes';
-import { TransacoesService } from 'src/app/services/transacoes.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Transacao } from 'src/app/models/Transacao';
+import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
   selector: 'app-receitas-lista',
@@ -10,62 +9,43 @@ import { TransacoesService } from 'src/app/services/transacoes.service';
   styleUrls: ['./receitas-lista.component.css'],
 })
 export class ReceitasListaComponent {
-  displayedColumns = ['descricao', 'categoria', 'valor', 'data', 'acoes'];
-  dados!: TransacoesModel[];
+  tipoTransacao: string = '';
+  contatos!: Transacao[];
   @Input() valorSelecionado!: string;
 
-
   constructor(
-    private service: TransacoesService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private serviceContato: ContatoService
   ) {
-    // this.carregar();
+    this.carregar();
+    // console.log('valor', this.valorSelecionado);
+  }
+  handleTabChange() {
+    this.carregar();
   }
 
-  handleTabChange() {
-    // this.carregar();
-  }
   ngOnChanges(changes: SimpleChanges) {
     if ('valorSelecionado' in changes) {
-      // this.carregar()
+      this.carregar();
     }
   }
-
   carregar() {
-    this.service.listarReceitasMes(this.valorSelecionado).subscribe(
-      (res) => {
-        if (res) {
-          this.dados = res;
-          console.log('Dados recebidos:', res);
-        } else {
-          console.log('Resposta vazia ou nula');
-        }
-      },
-      (error) => {
-        console.error('Ocorreu um erro:', error);
-      }
-    );
+    this.serviceContato.getAll().subscribe((dados) => {
+      this.contatos = dados.filter((dados) => dados.tipo === 'receita');
+    });
   }
 
   onAdd(tipo: string) {
     this.router.navigate(['new', tipo]);
   }
-  onEdit(transacao: transacoes) {
-    this.router.navigate(['edit', transacao.id]);
+
+  onEdit(transacao: any, key: string) {
+    this.router.navigate(['edit', key], { state: { transacao: transacao } });
   }
 
-  onRemove(transacaoId: string) {
-    this.service.deletarDespesa(transacaoId).subscribe(
-      (response: any) => {
-        console.log('Transação deletada com sucesso:', response);
-        this.carregar();
-        // Lógica adicional após a exclusão da transação, se necessário
-      },
-      (error: any) => {
-        console.error('Erro ao deletar transação:', error);
-        // Lógica para lidar com o erro, se necessário
-      }
-    );
+  onRemove(key: string) {
+    console.log('key', key);
+    this.serviceContato.delete(key);
   }
 }

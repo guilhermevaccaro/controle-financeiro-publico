@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable, map, tap } from 'rxjs';
-import { Contato } from '../models/contato';
+import { Transacao } from '../models/Transacao';
 
 @Injectable({
   providedIn: 'root',
@@ -9,26 +9,22 @@ import { Contato } from '../models/contato';
 export class ContatoService {
   constructor(private db: AngularFireDatabase) {}
 
-  insert(contato: Contato) {
-    this.db
-      .list('contato')
-      .push(contato)
-      .then((result: any) => {
-      });
+  insert(transacao: Transacao) {
+    this.db.list('transacoes').push(transacao);
   }
 
-  update(contato: Contato, key: string) {
+  update(transacao: Transacao, key: string) {
     this.db
-      .list('contato')
-      .update(key, contato)
+      .list('transacoes')
+      .update(key, transacao)
       .catch((error: any) => {
         console.log(error);
       });
   }
 
-  getAll(): Observable<Contato[]> {
+  getAll(): Observable<Transacao[]> {
     return this.db
-      .list('contato')
+      .list('transacoes')
       .snapshotChanges()
       .pipe(
         map((changes) => {
@@ -41,10 +37,10 @@ export class ContatoService {
   }
 
   delete(key: string) {
-    this.db.object(`contato/${key}`).remove();
+    this.db.object(`transacoes/${key}`).remove();
   }
 
   getByKey(key: string): Observable<any> {
-    return this.db.object<any>(`contato/${key}`).valueChanges();
+    return this.db.object<any>(`transacoes/${key}`).valueChanges();
   }
 }

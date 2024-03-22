@@ -1,4 +1,4 @@
-export class Contato {
+export class Transacao {
   key?: string;
   categoria!: string;
   data!: string;

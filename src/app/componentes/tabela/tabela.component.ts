@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Contato } from 'src/app/models/contato';
-import { transacoes } from 'src/app/models/transacoes';
-import { TransacoesModel } from 'src/app/models/TransacoesModel';
+import { Transacao } from 'src/app/models/Transacao';
+
 
 @Component({
   selector: 'app-tabela',
@@ -9,18 +8,8 @@ import { TransacoesModel } from 'src/app/models/TransacoesModel';
   styleUrls: ['./tabela.component.css'],
 })
 export class TabelaComponent {
-  displayedColumns = [
-    'situacao',
-    'categoria',
-    // 'descricao',
-    // 'tipo',
-    'valor',
-    'data',
-    'acoes',
-  ];
 
-  @Input() dados!: TransacoesModel[];
-  @Input() contatos!: Contato[];
+  @Input() contatos!: Transacao[];
   @Input() tipoTransacao: string = ''; // Propriedade de entrada para receber o tipo de transação do componente pai
 
   @Output() edit = new EventEmitter(false);
@@ -35,10 +24,10 @@ export class TabelaComponent {
       this.addReceita.emit({ evento: true, tipo: tipo });
     }
   }
-  editandoTransacao(transacao: transacoes) {
+  editandoTransacao(transacao: Transacao) {
     this.edit.emit(transacao);
   }
-  deletandoTransacao(key: Contato) {
+  deletandoTransacao(key: Transacao) {
     this.remove.emit(key);
   }
 }

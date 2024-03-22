@@ -1,12 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { TransacoesModel } from 'src/app/models/TransacoesModel';
-import { transacoes } from 'src/app/models/transacoes';
-import { TransacoesService } from 'src/app/services/transacoes.service';
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
-import { Contato } from 'src/app/models/contato';
 
 @Component({
   selector: 'app-transacoes-lista',
@@ -15,21 +10,10 @@ import { Contato } from 'src/app/models/contato';
 })
 export class TransacoesListaComponent {
   tipoTransacao: string = '';
-
-  displayedColumns = [
-    // 'id',
-    'descricao',
-    'categoria',
-    'tipo',
-    'valor',
-    'data',
-    'acoes',
-  ];
-  contatos!: Contato[];
+  contatos!: Transacao[];
   @Input() valorSelecionado!: string;
 
   constructor(
-    private service: TransacoesService,
     private router: Router,
     private route: ActivatedRoute,
     private serviceContato: ContatoService
@@ -61,7 +45,7 @@ export class TransacoesListaComponent {
   }
 
   onRemove(key: string) {
-    console.log('key',key)
+    console.log('key', key);
     this.serviceContato.delete(key);
   }
 

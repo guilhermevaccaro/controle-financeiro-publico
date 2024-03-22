@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Contato } from '../models/contato';
+import { Transacao } from '../models/Transacao';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContatoDataService {
   private contatoSource = new BehaviorSubject<{
-    contato: Contato | null;
+    contato: Transacao | null;
     key: string;
   }>({ contato: null, key: '' });
   currentContato = this.contatoSource.asObservable();
 
   constructor() {}
 
-  changeContato(contato: Contato, key: string) {
+  changeContato(contato: Transacao, key: string) {
     this.contatoSource.next({ contato: contato, key: key });
   }
 }
