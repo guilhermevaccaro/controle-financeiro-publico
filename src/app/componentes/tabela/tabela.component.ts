@@ -40,6 +40,5 @@ export class TabelaComponent {
   }
   deletandoTransacao(key: Contato) {
     this.remove.emit(key);
-    location.reload();
   }
 }
