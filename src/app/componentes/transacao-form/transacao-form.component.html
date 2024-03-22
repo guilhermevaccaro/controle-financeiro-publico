@@ -1,48 +1,69 @@
-<mat-card>
-  <mat-toolbar color="primary">{{transacao | titlecase}} {{tipo | titlecase}}
-  </mat-toolbar>
+<p-card>
+  <p color="primary">{{transacao | titlecase}} {{tipo | titlecase}}</p>
 
-  <mat-card-content>
+  <p-divider></p-divider>
 
-    <form [formGroup]="form" class="min-width">
+  <form [formGroup]="form" class="min-width">
 
-      <mat-form-field class="full-width">
-        <mat-label>Categoria</mat-label>
-        <input matInput formControlName="categoria" />
+    <p-inputGroup>
+      <p-inputGroupAddon> <i class="pi pi-list"></i></p-inputGroupAddon>
+      <input type="text" pInputText placeholder="Descrição" formControlName="descricao" />
+    </p-inputGroup>
+    <small class="p-error block" *ngIf="
+          form.get('descricao')?.invalid && form.get('descricao')?.dirty || form.get('descricao')?.invalid && form.get('descricao')?.touched
+        ">
+      Descrição é obrigatória</small>
 
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>Descrição</mat-label>
-        <input matInput formControlName="descricao" />
-
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>Tipo</mat-label>
-        <input matInput formControlName="tipo" />
-
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>Valor</mat-label>
-        <input matInput formControlName="valor" />
-
-      </mat-form-field>
-
-      <input type="date" value="data" formControlName="data">
-
-      <mat-form-field class="full-width">
-        <mat-label>Situação</mat-label>
-        <input matInput formControlName="situacao" />
-
-      </mat-form-field>
+    <p-inputGroup>
+      <p-inputGroupAddon> <i class="pi pi-money-bill"></i></p-inputGroupAddon>
+      <p-inputNumber formControlName="valor" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
+    </p-inputGroup>
 
 
+    <!-- <p-inputGroup>
+      <p-inputGroupAddon> <i class="pi pi-plus"></i></p-inputGroupAddon>
+      <input type="text" pInputText placeholder="Tipo" formControlName="tipo" />
+    </p-inputGroup>
+    <small class="p-error block" *ngIf="
+          form.get('tipo')?.invalid && form.get('tipo')?.dirty || form.get('tipo')?.touched
+        ">
+      Tipo é obrigatório</small> -->
 
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="onSubmit()">
-      Salvar
-    </button>
-    <button mat-raised-button (click)="onCancel()">Cancelar</button>
-  </mat-card-actions>
-</mat-card>
+    <p-inputGroup>
+      <p-inputGroupAddon> <i class="pi pi-calendar-plus"></i></p-inputGroupAddon>
+      <p-calendar formControlName="data" dataType="string" dateFormat="dd/mm/yy"></p-calendar>
+    </p-inputGroup>
+    <small class="p-error block" *ngIf="
+          form.get('data')?.invalid && form.get('data')?.dirty ||form.get('data')?.invalid && form.get('data')?.touched
+        ">
+      Data obrigatória</small>
+
+    <p-inputGroup>
+      <p-inputGroupAddon> <i class="pi pi-database"></i></p-inputGroupAddon>
+      <input type="text" pInputText placeholder="Categoria" formControlName="categoria" />
+    </p-inputGroup>
+    <small class="p-error block" *ngIf="
+            form.get('categoria')?.invalid && form.get('categoria')?.dirty || form.get('categoria')?.invalid && form.get('categoria')?.touched
+          ">
+      Categoria é obrigatória</small>
+
+    <p-inputGroup>
+      <p>{{ situacaoLabel }}</p>
+      <p-inputSwitch formControlName="situacao" (onChange)="atualizarLabel()"></p-inputSwitch>
+    </p-inputGroup>
+
+  </form>
+
+  <p-divider></p-divider>
+
+  <ng-template pTemplate="footer">
+
+    <div>
+      <p-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">
+        Salvar
+      </p-button>
+      <p-button (click)="onCancel()">Cancelar</p-button>
+    </div>
+  </ng-template>
+
+</p-card>

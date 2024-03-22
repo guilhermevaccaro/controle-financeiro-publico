@@ -1,5 +1,5 @@
 <div class="transacoes">
-  <mat-card>
+  <p-card>
     <mat-card-content class="meses">
       <!-- month-carousel.component.html -->
       <button mat-button (click)="onPrevious()" [disabled]="counter===0">
@@ -16,20 +16,20 @@
       <button mat-button (click)="onNext()" [disabled]="this.counter == this.list.length - 1"><mat-icon
           class="mat-18">arrow_forward_ios</mat-icon></button>
     </mat-card-content>
-  </mat-card>
+  </p-card>
 </div>
 
 
 <div class="transacoes">
-  <mat-card>
+  <p-card>
     <mat-card-content>
       <app-saldo [mes]="valorSelecionado"></app-saldo>
     </mat-card-content>
 
-  </mat-card>
+  </p-card>
 </div>
 <div class="transacoes">
-  <mat-card>
+  <!-- <mat-card>
 
     <mat-card-content>
       <mat-tab-group animationDuration="200ms" (selectedTabChange)="onTabChange($event)">
@@ -44,5 +44,27 @@
         </mat-tab>
       </mat-tab-group> </mat-card-content>
 
-  </mat-card>
+  </mat-card> -->
+  <p-card>
+
+    <p-tabView>
+      <p-tabPanel header="Transações">
+        <p>
+          <app-transacoes-lista [valorSelecionado]="valorSelecionado"></app-transacoes-lista>
+        </p>
+      </p-tabPanel>
+      <p-tabPanel header="Despesas">
+        <p>
+          <app-despesa-lista [valorSelecionado]="valorSelecionado"></app-despesa-lista>
+
+        </p>
+      </p-tabPanel>
+      <p-tabPanel header="Receitas">
+        <p>
+          <app-receitas-lista [valorSelecionado]="valorSelecionado"></app-receitas-lista>
+
+        </p>
+      </p-tabPanel>
+    </p-tabView>
+  </p-card>
 </div>

@@ -14,7 +14,6 @@ export class ContatoService {
       .list('contato')
       .push(contato)
       .then((result: any) => {
-        console.log(result.key);
       });
   }
 
@@ -37,8 +36,7 @@ export class ContatoService {
             key: c.payload.key,
             ...c.payload.exportVal(),
           }));
-        }),
-        tap(c => console.log(c))
+        })
       );
   }
 
@@ -49,6 +47,4 @@ export class ContatoService {
   getByKey(key: string): Observable<any> {
     return this.db.object<any>(`contato/${key}`).valueChanges();
   }
-
-
 }

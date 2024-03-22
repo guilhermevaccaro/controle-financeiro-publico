@@ -1,110 +1,49 @@
-<mat-table [dataSource]="contatos">
-  <!-- id Column -->
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
-    <mat-cell *matCellDef="let despesa"> {{despesa.id}} </mat-cell>
-    <mat-footer-cell *matFooterCellDef> Total </mat-footer-cell>
-  </ng-container>
-
-  <!-- Descricao Column -->
-  <ng-container matColumnDef="descricao">
-    <mat-header-cell *matHeaderCellDef> descricao </mat-header-cell>
-    <mat-cell *matCellDef="let despesa"> {{despesa.descricao | titlecase}} </mat-cell>
-    <mat-footer-cell *matFooterCellDef>
-      <!-- {{getCustoTotal()}}  -->
-    </mat-footer-cell>
-  </ng-container>
-
-
-  <!-- categoria Column -->
-  <ng-container matColumnDef="categoria">
-    <mat-header-cell *matHeaderCellDef> Categoria </mat-header-cell>
-    <mat-cell *matCellDef="let despesa">
-      {{despesa.categoria | titlecase}}
-      <br>
-      {{despesa.descricao | titlecase}}
-    </mat-cell>
-
-    <mat-footer-cell *matFooterCellDef>
-      <!-- {{getCustoTotal()}}  -->
-    </mat-footer-cell>
-  </ng-container>
-  <!-- tipo Column -->
-  <ng-container matColumnDef="tipo">
-    <mat-header-cell *matHeaderCellDef> tipo </mat-header-cell>
-    <mat-cell *matCellDef="let despesa"> {{despesa.tipo}}
-    </mat-cell>
-    <mat-footer-cell *matFooterCellDef>
-    </mat-footer-cell>
-  </ng-container>
-
-  <!-- valor Column -->
-  <ng-container matColumnDef="valor">
-    <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
-    <mat-cell *matCellDef="let transacao"
-      [ngClass]="{'green': transacao.tipo === 'receita', 'red': transacao.tipo === 'despesa'}">
-
-      R$&nbsp;
-      <span *ngIf="transacao.tipo === 'receita'">+</span>
-      <span *ngIf="transacao.tipo === 'despesa'">-</span>
-      {{transacao.valor }}
-    </mat-cell>
-
-    <mat-footer-cell *matFooterCellDef>
-    </mat-footer-cell>
-  </ng-container>
-  <!-- data Column -->
-  <ng-container matColumnDef="data">
-    <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
-    <mat-cell *matCellDef="let despesa"> {{despesa.data}} </mat-cell>
-    <!-- <td mat-cell *matCellDef="let despesa"> {{data | date : "fullDate"}}
-    </td> -->
-    <mat-footer-cell *matFooterCellDef>
-      <!-- {{getCustoTotal()}}  -->
-    </mat-footer-cell>
-  </ng-container>
-  <ng-container matColumnDef="situacao">
-    <mat-header-cell *matHeaderCellDef> Situação </mat-header-cell>
-
-    <mat-cell *matCellDef="let despesa">
-      <ng-container *ngIf="despesa.situacao === 'nao efetivado'; else efetivadoBlock">
-        <mat-icon matTooltip="Não efetivado">schedule</mat-icon>
-      </ng-container>
-      <ng-template #efetivadoBlock>
-        <mat-icon matTooltip="Efetivado">check_circle</mat-icon>
-      </ng-template>
-    </mat-cell>
-
-    <!-- <td mat-cell *matCellDef="let despesa"> {{data | date : "fullDate"}}
-    </td> -->
-    <mat-footer-cell *matFooterCellDef>
-      <!-- {{getCustoTotal()}}  -->
-    </mat-footer-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="acoes">
-    <mat-header-cell *matHeaderCellDef class="action-column-header">
-      <button mat-mini-fab color="accent" [matMenuTriggerFor]="menu">
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-header-cell>
-
-    <mat-cell *matCellDef="let transacao" class="action-column">
-      <button mat-icon-button color="primary" (click)="editandoTransacao(transacao)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" (click)="deletandoTransacao(transacao.key)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-cell>
-  </ng-container>
-
-
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"
-    [ngClass]="{'read': row.tipo === 'despesa', 'greean' : row.tipo === 'receita' }"></mat-row>
-</mat-table>
+<div class="card">
+  <p-table [value]="contatos" [tableStyle]="{'min-width': '60rem'}">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="code" style="width:20%">Situação <p-sortIcon field="code"></p-sortIcon></th>
+        <th pSortableColumn="name" style="width:20%">Categoria <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="category" style="width:20%">Valor <p-sortIcon field="category"></p-sortIcon></th>
+        <th pSortableColumn="quantity" style="width:20%">Data <p-sortIcon field="quantity"></p-sortIcon></th>
+        <!-- <th pSortableColumn="quantity" style="width:20%">Tipo <p-sortIcon field="quantity"></p-sortIcon></th> -->
+        <th style="width:20%">
+          <p-button icon="pi pi-plus" [matMenuTriggerFor]="menu" [rounded]="true"></p-button>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>
+          <ng-container *ngIf="product.situacao === 'Efetivado'; else pendente">
+            <i class="pi pi-check-circle" style="font-size: 1.2rem" pTooltip="Receita"></i>
+          </ng-container>
+          <ng-template #pendente>
+            <i class="pi pi-clock" style="font-size: 1.2rem" pTooltip="Pendente"></i>
+          </ng-template>
+        </td>
+        <td>{{product.categoria}}</td>
+        <td>
+          <ng-container *ngIf="product.tipo === 'despesa'; else receita">
+            <div>R$ -{{ product.valor | number: '0.2' }}</div>
+          </ng-container>
+          <ng-template #receita>
+            <div>R$ +{{ product.valor | number: '0.2' }}</div>
+          </ng-template>
+        </td>
+        <td>{{product.data}}</td>
+        <!-- <td>{{product.tipo}}</td> -->
+        <td style="display: flex;"><p-button icon="pi pi-pencil" [rounded]="true" [text]="true"
+            (click)="editandoTransacao(product)">
+          </p-button>
+          <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger "
+            (click)="deletandoTransacao(product.key)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="adicionarTransacao('despesa')">
     <mat-icon>add</mat-icon>

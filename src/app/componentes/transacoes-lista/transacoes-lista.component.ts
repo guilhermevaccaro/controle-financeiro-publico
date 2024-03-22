@@ -35,7 +35,7 @@ export class TransacoesListaComponent {
     private serviceContato: ContatoService
   ) {
     this.carregar();
-    console.log('valor', this.valorSelecionado);
+    // console.log('valor', this.valorSelecionado);
   }
   handleTabChange() {
     this.carregar();

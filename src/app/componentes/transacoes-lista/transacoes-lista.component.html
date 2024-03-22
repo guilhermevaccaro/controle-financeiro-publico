@@ -1,12 +1,4 @@
-<mat-card>
-  <mat-card-content>
 
-    <mat-toolbar color="primary">
-      <span>Transações</span>
-    </mat-toolbar>
 
     <app-tabela [contatos]="contatos" (edit)="onEdit($event.transacao, $event.key)" (remove)="onRemove($event)"
       (addDespesa)="onAdd('despesa')" (addReceita)="onAdd('receita')"></app-tabela>
-
-  </mat-card-content>
-</mat-card>
