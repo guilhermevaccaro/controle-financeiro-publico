@@ -7,32 +7,30 @@
     <form [formGroup]="form" class="min-width">
 
       <mat-form-field class="full-width">
-        <mat-label>nome</mat-label>
+        <mat-label>Categoria</mat-label>
         <input matInput formControlName="categoria" />
 
       </mat-form-field>
       <mat-form-field class="full-width">
-        <mat-label>telefone</mat-label>
+        <mat-label>Descrição</mat-label>
         <input matInput formControlName="descricao" />
 
       </mat-form-field>
       <mat-form-field class="full-width">
-        <mat-label>telefone</mat-label>
+        <mat-label>Tipo</mat-label>
         <input matInput formControlName="tipo" />
 
       </mat-form-field>
       <mat-form-field class="full-width">
-        <mat-label>telefone</mat-label>
+        <mat-label>Valor</mat-label>
         <input matInput formControlName="valor" />
 
       </mat-form-field>
-      <mat-form-field class="full-width">
-        <mat-label>telefone</mat-label>
-        <input matInput formControlName="data" />
 
-      </mat-form-field>
+      <input type="date" value="data" formControlName="data">
+
       <mat-form-field class="full-width">
-        <mat-label>telefone</mat-label>
+        <mat-label>Situação</mat-label>
         <input matInput formControlName="situacao" />
 
       </mat-form-field>

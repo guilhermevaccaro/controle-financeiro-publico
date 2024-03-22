@@ -1,4 +1,4 @@
-<mat-table [dataSource]="dados">
+<mat-table [dataSource]="contatos">
   <!-- id Column -->
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
@@ -32,12 +32,12 @@
   <!-- tipo Column -->
   <ng-container matColumnDef="tipo">
     <mat-header-cell *matHeaderCellDef> tipo </mat-header-cell>
-    <mat-cell *matCellDef="let despesa"> {{despesa.tipo | titlecase}}
+    <mat-cell *matCellDef="let despesa"> {{despesa.tipo}}
     </mat-cell>
     <mat-footer-cell *matFooterCellDef>
-      <!-- {{getCustoTotal()}}  -->
     </mat-footer-cell>
   </ng-container>
+
   <!-- valor Column -->
   <ng-container matColumnDef="valor">
     <mat-header-cell *matHeaderCellDef> Valor </mat-header-cell>
@@ -47,7 +47,7 @@
       R$&nbsp;
       <span *ngIf="transacao.tipo === 'receita'">+</span>
       <span *ngIf="transacao.tipo === 'despesa'">-</span>
-      {{transacao.valor | number : '1.2-2' }}
+      {{transacao.valor }}
     </mat-cell>
 
     <mat-footer-cell *matFooterCellDef>
@@ -56,7 +56,7 @@
   <!-- data Column -->
   <ng-container matColumnDef="data">
     <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
-    <mat-cell *matCellDef="let despesa"> {{despesa.data | date:'dd/MM/yyyy'}} </mat-cell>
+    <mat-cell *matCellDef="let despesa"> {{despesa.data}} </mat-cell>
     <!-- <td mat-cell *matCellDef="let despesa"> {{data | date : "fullDate"}}
     </td> -->
     <mat-footer-cell *matFooterCellDef>
@@ -93,7 +93,7 @@
       <button mat-icon-button color="primary" (click)="editandoTransacao(transacao)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="deletandoTransacao(transacao.id)">
+      <button mat-icon-button color="warn" (click)="deletandoTransacao(transacao.key)">
         <mat-icon>delete</mat-icon>
       </button>
     </mat-cell>

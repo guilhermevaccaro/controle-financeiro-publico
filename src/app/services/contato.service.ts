@@ -38,11 +38,17 @@ export class ContatoService {
             ...c.payload.exportVal(),
           }));
         }),
-        tap()
+        tap(c => console.log(c))
       );
   }
 
   delete(key: string) {
     this.db.object(`contato/${key}`).remove();
   }
+
+  getByKey(key: string): Observable<any> {
+    return this.db.object<any>(`contato/${key}`).valueChanges();
+  }
+
+
 }

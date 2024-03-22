@@ -12,8 +12,8 @@ export class TabelaComponent {
   displayedColumns = [
     'situacao',
     'categoria',
-    'descricao',
-    'tipo',
+    // 'descricao',
+    // 'tipo',
     'valor',
     'data',
     'acoes',
@@ -38,8 +38,8 @@ export class TabelaComponent {
   editandoTransacao(transacao: transacoes) {
     this.edit.emit(transacao);
   }
-  deletandoTransacao(transacao: transacoes) {
-    this.remove.emit(transacao);
+  deletandoTransacao(key: Contato) {
+    this.remove.emit(key);
     location.reload();
   }
 }

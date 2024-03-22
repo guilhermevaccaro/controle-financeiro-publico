@@ -1,4 +1,9 @@
 export class Contato {
-  nome: string = '';
-  telefone: string = '';
+  key?: string;
+  categoria!: string;
+  data!: string;
+  descricao!: string;
+  situacao!: string;
+  tipo!: string;
+  valor!: string;
 }

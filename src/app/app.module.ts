@@ -25,23 +25,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DespesaListaComponent } from './componentes/depesa/despesa-lista.component';
+import { MesesComponent } from './componentes/meses/meses.component';
 import { ReceitasListaComponent } from './componentes/receitas-lista/receitas-lista.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacaoFormComponent } from './componentes/transacao-form/transacao-form.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
-import { LoginComponent } from './pages/login/login.component';
-import { MesesComponent } from './componentes/meses/meses.component';
 
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environment';
-import { ContatosFormComponent } from './contatos-form/contatos-form.component';
-import { ContatosListComponent } from './contatos-list/contatos-list.component';
+
 
 registerLocaleData(localePt);
 
@@ -54,11 +49,9 @@ registerLocaleData(localePt);
     PagesComponent,
     TransacoesListaComponent,
     TabelaComponent,
-    LoginComponent,
     SaldoComponent,
     MesesComponent,
-    ContatosFormComponent,
-    ContatosListComponent,
+
   ],
   imports: [
     BrowserModule,

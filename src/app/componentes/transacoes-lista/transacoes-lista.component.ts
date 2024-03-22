@@ -15,7 +15,6 @@ import { Contato } from 'src/app/models/contato';
 })
 export class TransacoesListaComponent {
   tipoTransacao: string = '';
-  contato!: Contato;
 
   displayedColumns = [
     // 'id',
@@ -37,7 +36,6 @@ export class TransacoesListaComponent {
   ) {
     this.carregar();
     console.log('valor', this.valorSelecionado);
-    this.contato = new Contato;
   }
   handleTabChange() {
     this.carregar();
@@ -49,24 +47,6 @@ export class TransacoesListaComponent {
     }
   }
   carregar() {
-    // this.service.listarTodasTransacoes().subscribe((res) => {
-    //   if (res) {
-    //     this.dados = res;
-    //   }
-    // });
-    // this.service.listarTransacaoMes(this.valorSelecionado).subscribe(
-    //   (res) => {
-    //     if (res) {
-    //       this.dados = res;
-    //       console.log('Dados recebidos:', res);
-    //     } else {
-    //       console.log('Resposta vazia ou nula');
-    //     }
-    //   },
-    //   (error) => {
-    //     console.error('Ocorreu um erro:', error);
-    //   }
-    // );
     this.serviceContato.getAll().subscribe((contatos) => {
       this.contatos = contatos;
     });
@@ -76,21 +56,13 @@ export class TransacoesListaComponent {
     this.router.navigate(['new', tipo]);
   }
 
-  onEdit(transacao: transacoes) {
-    this.router.navigate(['edit', transacao.id]);
+  onEdit(transacao: any, key: string) {
+    this.router.navigate(['edit', key], { state: { transacao: transacao } });
   }
-  onRemove(transacao: string) {
-    this.service.deletarDespesa(transacao).subscribe(
-      (response: any) => {
-        console.log('Transação deletada com sucesso:', response);
-        this.carregar();
-        // Lógica adicional após a exclusão da transação, se necessário
-      },
-      (error: any) => {
-        console.error('Erro ao deletar transação:', error);
-        // Lógica para lidar com o erro, se necessário
-      }
-    );
+
+  onRemove(key: string) {
+    console.log('key',key)
+    this.serviceContato.delete(key);
   }
 
   testaFirebase() {}

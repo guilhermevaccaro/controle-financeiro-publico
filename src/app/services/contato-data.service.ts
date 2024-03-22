@@ -6,7 +6,10 @@ import { Contato } from '../models/contato';
   providedIn: 'root',
 })
 export class ContatoDataService {
-  private contatoSource = new BehaviorSubject<{ contato: Contato | null; key: string }>({ contato: null, key: '' });
+  private contatoSource = new BehaviorSubject<{
+    contato: Contato | null;
+    key: string;
+  }>({ contato: null, key: '' });
   currentContato = this.contatoSource.asObservable();
 
   constructor() {}
