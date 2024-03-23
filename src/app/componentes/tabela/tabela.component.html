@@ -1,12 +1,12 @@
 <div class="card">
-  <p-table [value]="contatos" [tableStyle]="{'min-width': '60rem'}">
+  <p-table [value]="contatos" [tableStyle]="{'min-width': '50rem'}" class="responsive-table">
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="code" style="width:20%">Situação <p-sortIcon field="code"></p-sortIcon></th>
-        <th pSortableColumn="name" style="width:20%">Categoria <p-sortIcon field="name"></p-sortIcon></th>
-        <th pSortableColumn="category" style="width:20%">Valor <p-sortIcon field="category"></p-sortIcon></th>
-        <th pSortableColumn="quantity" style="width:20%">Data <p-sortIcon field="quantity"></p-sortIcon></th>
-        <!-- <th pSortableColumn="quantity" style="width:20%">Tipo <p-sortIcon field="quantity"></p-sortIcon></th> -->
+        <th style="width:20%">Situação </th>
+        <th style="width:20%">Categoria </th>
+        <th style="width:20%">Valor </th>
+        <th style="width:20%">Data </th>
+        <!-- <th pSortableColumn="quantity" style="width:20%">Tipo <p-sortIcon field="quantity"></th> -->
         <th style="width:20%">
           <p-button icon="pi pi-plus" [matMenuTriggerFor]="menu" [rounded]="true"></p-button>
         </th>
@@ -19,7 +19,7 @@
             <i class="pi pi-check-circle green" style="font-size: 1.2rem" pTooltip="Efetivado"></i>
           </ng-container>
           <ng-template #pendente>
-            <i class="pi pi-clock orange"  style="font-size: 1.2rem" pTooltip="Pendente"></i>
+            <i class="pi pi-clock orange" style="font-size: 1.2rem" pTooltip="Pendente"></i>
           </ng-template>
         </td>
         <td>{{product.categoria}}</td>

@@ -105,7 +105,7 @@ registerLocaleData(localePt);
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule, // Inicializa o AngularFire com as configurações do ambiente
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt' }],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

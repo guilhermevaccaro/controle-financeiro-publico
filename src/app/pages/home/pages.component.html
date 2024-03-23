@@ -1,23 +1,14 @@
 <div class="transacoes">
-  <p-card>
-    <mat-card-content class="meses">
-      <button mat-button (click)="onPrevious()" [disabled]="counter===0">
-        <mat-icon class="mat-18">arrow_back_ios</mat-icon></button>
-      <div [@animSlider]="counter">
-        <ng-container *ngFor="let a of list; let i=index">
+  <p-card header="{{ getNomeMes(valorSelecionado) }}" align="center">
+    <div class="transacoes">
+      <form [formGroup]="form" class="form">
 
-          <div *ngIf="i===counter">
-            {{a.name}}
-          </div>
-
-        </ng-container>
-      </div>
-      <button mat-button (click)="onNext()" [disabled]="this.counter == this.list.length - 1"><mat-icon
-          class="mat-18">arrow_forward_ios</mat-icon></button>
-    </mat-card-content>
+        <p-calendar view="month" formControlName="mes" dateFormat="mm" dataType="string" [readonlyInput]="true"
+          (onSelect)="onDateSelect($event)"></p-calendar>
+      </form>
+    </div>
   </p-card>
 </div>
-
 
 <div class="transacoes">
   <p-card>

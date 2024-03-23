@@ -1,11 +1,6 @@
 import { trigger } from '@angular/animations';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-import { DespesaListaComponent } from '../../componentes/depesa/despesa-lista.component';
-import { ReceitasListaComponent } from '../../componentes/receitas-lista/receitas-lista.component';
-import { TransacoesListaComponent } from '../../componentes/transacoes-lista/transacoes-lista.component';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-pages',
@@ -15,71 +10,82 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 })
 export class PagesComponent {
   form!: FormGroup;
-  valorSelecionado!: string;
+  valorSelecionado!: any;
+  mesAtual = this.obterMesAtualString();
 
-  @ViewChild(TransacoesListaComponent)
-  transacoesLista!: TransacoesListaComponent;
-  @ViewChild(DespesaListaComponent)
-  despesaLista!: DespesaListaComponent;
-  @ViewChild(ReceitasListaComponent)
-  receitasLista!: ReceitasListaComponent;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private localStorageService: LocalStorageService
-  ) {
+  constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      mes: [''],
+      mes: [this.obterMesAtualString()],
     });
+
+    // Inicializando valorSelecionado com o mês atual
+    this.valorSelecionado = new Date().getMonth() + 1;
   }
 
   ngOnInit(): void {
-    // Restaurar o estado anterior, se disponível
-    const savedMonth = this.localStorageService.getItem('selectedMonth');
-    if (savedMonth) {
-      this.valorSelecionado = savedMonth;
-    }
-  }
-  saveState(): void {
-    this.localStorageService.setItem('selectedMonth', this.valorSelecionado);
+    this.getNomeMes(this.valorSelecionado);
   }
 
-  ngOnChanges() {
-    this.saveState();
+  ngOnChanges() {}
+
+  onDateSelect(event: any) {
+    const selectedDate: Date = event;
+    this.valorSelecionado = selectedDate.getMonth() + 1; // Adiciona +1 porque os meses em JavaScript são zero-indexados
+  }
+  getNomeMes(numeroMes: number): string {
+    const meses: string[] = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ];
+    return meses[numeroMes - 1]; // Subtrai -1 porque os meses são zero-indexados
+  }
+  obterMesAtualString(): string {
+    const dataAtual = new Date();
+    const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0'); // Adiciona zero à esquerda se o mês for menor que 10
+    return mes;
   }
 
-  counter: number = 0;
-  list: { name: string; value: string }[] = [
-    { name: 'Janeiro', value: '1' },
-    { name: 'Fevereiro', value: '2' },
-    { name: 'Março', value: '3' },
-    { name: 'Abril', value: '4' },
-    { name: 'Maio', value: '5' },
-    { name: 'Junho', value: '6' },
-    { name: 'Julho', value: '7' },
-    { name: 'Agosto', value: '8' },
-    { name: 'Setembro', value: '9' },
-    { name: 'Outubro', value: '10' },
-    { name: 'Novembro', value: '11' },
-    { name: 'Dezembro', value: '12' },
-  ];
+  // counter: number = 0;
+  // list: { name: string; value: string }[] = [
+  //   { name: 'Janeiro', value: '1' },
+  //   { name: 'Fevereiro', value: '2' },
+  //   { name: 'Março', value: '3' },
+  //   { name: 'Abril', value: '4' },
+  //   { name: 'Maio', value: '5' },
+  //   { name: 'Junho', value: '6' },
+  //   { name: 'Julho', value: '7' },
+  //   { name: 'Agosto', value: '8' },
+  //   { name: 'Setembro', value: '9' },
+  //   { name: 'Outubro', value: '10' },
+  //   { name: 'Novembro', value: '11' },
+  //   { name: 'Dezembro', value: '12' },
+  // ];
 
-  onNext() {
-    if (this.counter != this.list.length - 1) {
-      this.counter++;
-      this.valorSelecionado = this.list[this.counter].value;
-    }
-  }
+  // onNext() {
+  //   if (this.counter != this.list.length - 1) {
+  //     this.counter++;
+  //     this.valorSelecionado = this.list[this.counter].value;
+  //   }
+  // }
 
-  onPrevious() {
-    if (this.counter > 0) {
-      this.counter--;
-      this.valorSelecionado = this.list[this.counter].value;
-    }
-  }
+  // onPrevious() {
+  //   if (this.counter > 0) {
+  //     this.counter--;
+  //     this.valorSelecionado = this.list[this.counter].value;
+  //   }
+  // }
 
-  updateSelectedValue(selectedValue: string): void {
-    this.valorSelecionado = selectedValue;
-    this.saveState(); // Salve o estado sempre que houver uma mudança
-  }
+  // updateSelectedValue(selectedValue: string): void {
+  //   this.valorSelecionado = selectedValue;
+  // }
 }

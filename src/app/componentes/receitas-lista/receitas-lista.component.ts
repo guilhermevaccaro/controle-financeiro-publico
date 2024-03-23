@@ -31,8 +31,13 @@ export class ReceitasListaComponent {
     }
   }
   carregar() {
-    this.serviceContato.getAll().subscribe((dados) => {
-      this.contatos = dados.filter((dados) => dados.tipo === 'receita');
+    this.serviceContato.getAll().subscribe((items) => {
+      const dataFiltrada = items.filter((item) => {
+        // Extrai o mês da data (considerando que as datas estão no formato "dd/mm/yyyy")
+        const mes = parseInt(item.data.split('/')[1], 10);
+        return mes === parseInt(this.valorSelecionado) && item.tipo === 'receita';
+      });
+      this.contatos = dataFiltrada;
     });
   }
 
