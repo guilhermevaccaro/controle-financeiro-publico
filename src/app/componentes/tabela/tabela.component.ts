@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Transacao } from 'src/app/models/Transacao';
+import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
   selector: 'app-tabela',
@@ -14,6 +15,8 @@ export class TabelaComponent {
   @Output() remove = new EventEmitter(false);
   @Output() addDespesa = new EventEmitter<{ evento: any; tipo: string }>();
   @Output() addReceita = new EventEmitter<{ evento: any; tipo: string }>();
+
+  constructor(private transacaoService: ContatoService) {}
 
   adicionarTransacao(tipo: string) {
     if (tipo === 'despesa') {

@@ -5,5 +5,5 @@ export class Transacao {
   descricao!: string;
   situacao!: string;
   tipo!: string;
-  valor!: string;
+  valor!: number;
 }

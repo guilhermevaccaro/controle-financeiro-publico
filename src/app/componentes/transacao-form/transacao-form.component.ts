@@ -50,6 +50,7 @@ export class TransacaoFormComponent {
         this.transacao = 'Editando';
       } else this.transacao = 'Adicionando';
     });
+    console.log(this.form.value)
   }
 
   onSubmit() {

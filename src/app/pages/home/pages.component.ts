@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DespesaListaComponent } from '../../componentes/depesa/despesa-lista.component';
 import { ReceitasListaComponent } from '../../componentes/receitas-lista/receitas-lista.component';
 import { TransacoesListaComponent } from '../../componentes/transacoes-lista/transacoes-lista.component';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-pages',
@@ -23,15 +24,29 @@ export class PagesComponent {
   @ViewChild(ReceitasListaComponent)
   receitasLista!: ReceitasListaComponent;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private localStorageService: LocalStorageService
+  ) {
     this.form = this.formBuilder.group({
-      mes: ['1'],
+      mes: [''],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Restaurar o estado anterior, se disponível
+    const savedMonth = this.localStorageService.getItem('selectedMonth');
+    if (savedMonth) {
+      this.valorSelecionado = savedMonth;
+    }
+  }
+  saveState(): void {
+    this.localStorageService.setItem('selectedMonth', this.valorSelecionado);
+  }
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    this.saveState();
+  }
 
   counter: number = 0;
   list: { name: string; value: string }[] = [
@@ -52,7 +67,6 @@ export class PagesComponent {
   onNext() {
     if (this.counter != this.list.length - 1) {
       this.counter++;
-      console.log('Mês selecionado:', this.list[this.counter].value);
       this.valorSelecionado = this.list[this.counter].value;
     }
   }
@@ -61,7 +75,11 @@ export class PagesComponent {
     if (this.counter > 0) {
       this.counter--;
       this.valorSelecionado = this.list[this.counter].value;
-      console.log('valorselecionado:', this.valorSelecionado);
     }
+  }
+
+  updateSelectedValue(selectedValue: string): void {
+    this.valorSelecionado = selectedValue;
+    this.saveState(); // Salve o estado sempre que houver uma mudança
   }
 }

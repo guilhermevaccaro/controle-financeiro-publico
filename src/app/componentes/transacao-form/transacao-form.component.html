@@ -19,16 +19,6 @@
       <p-inputNumber formControlName="valor" mode="currency" currency="BRL" locale="pt-BR"></p-inputNumber>
     </p-inputGroup>
 
-
-    <!-- <p-inputGroup>
-      <p-inputGroupAddon> <i class="pi pi-plus"></i></p-inputGroupAddon>
-      <input type="text" pInputText placeholder="Tipo" formControlName="tipo" />
-    </p-inputGroup>
-    <small class="p-error block" *ngIf="
-          form.get('tipo')?.invalid && form.get('tipo')?.dirty || form.get('tipo')?.touched
-        ">
-      Tipo é obrigatório</small> -->
-
     <p-inputGroup>
       <p-inputGroupAddon> <i class="pi pi-calendar-plus"></i></p-inputGroupAddon>
       <p-calendar formControlName="data" dataType="string" dateFormat="dd/mm/yy"></p-calendar>
