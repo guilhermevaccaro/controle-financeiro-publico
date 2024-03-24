@@ -9,8 +9,8 @@ export const courseResolver: ResolveFn<Observable<Transacao>> = (
   state,
   service: ContatoService = inject(ContatoService)
 ) => {
-  if (route.params?.['key']) {
-    return service.getByKey(route.params['key']);
+  if (route.params?.['id']) {
+    return service.getDocumentById('transacoes', route.params['id']);
   }
   return of({
     id: '',

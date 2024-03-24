@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'home', component: PagesComponent },
   // { path: 'login', component: LoginComponent },
   { path: 'new/:tipo', component: TransacaoFormComponent, resolve: { transacao: courseResolver } },
-  { path: 'edit/:key', component: TransacaoFormComponent, resolve: { transacao: courseResolver } },
+  { path: 'edit/:id', component: TransacaoFormComponent, resolve: { transacao: courseResolver } },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
 ];

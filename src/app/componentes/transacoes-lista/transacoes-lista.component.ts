@@ -16,8 +16,7 @@ export class TransacoesListaComponent {
 
   constructor(
     private router: Router,
-    private serviceContato: ContatoService,
-    // private localStorageService: LocalStorageService
+    private serviceContato: ContatoService // private localStorageService: LocalStorageService
   ) {
     this.carregar();
   }
@@ -28,6 +27,9 @@ export class TransacoesListaComponent {
     // if (savedMonth) {
     //   this.valorSelecionado = savedMonth;
     // }
+    this.serviceContato.getCollection('transacoes').subscribe((users) => {
+      console.log(users);
+    });
   }
 
   // saveState(): void {
@@ -40,7 +42,7 @@ export class TransacoesListaComponent {
     }
   }
   carregar() {
-    this.serviceContato.getAll().subscribe((items) => {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
         // Extrai o mês da data (considerando que as datas estão no formato "dd/mm/yyyy")
         const mes = parseInt(item.data.split('/')[1], 10);
@@ -55,12 +57,12 @@ export class TransacoesListaComponent {
     // this.saveState();
   }
 
-  onEdit(transacao: any, key: string) {
-    this.router.navigate(['edit', key], { state: { transacao: transacao } });
+  onEdit(transacao: any, id: string) {
+    this.router.navigate(['edit', id], { state: { transacao: transacao } });
     // this.saveState();
   }
 
   onRemove(key: string) {
-    this.serviceContato.delete(key);
+    this.serviceContato.deleteDocument('transacoes', key);
   }
 }

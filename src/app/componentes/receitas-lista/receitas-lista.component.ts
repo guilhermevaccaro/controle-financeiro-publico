@@ -31,11 +31,13 @@ export class ReceitasListaComponent {
     }
   }
   carregar() {
-    this.serviceContato.getAll().subscribe((items) => {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
         // Extrai o mês da data (considerando que as datas estão no formato "dd/mm/yyyy")
         const mes = parseInt(item.data.split('/')[1], 10);
-        return mes === parseInt(this.valorSelecionado) && item.tipo === 'receita';
+        return (
+          mes === parseInt(this.valorSelecionado) && item.tipo === 'receita'
+        );
       });
       this.contatos = dataFiltrada;
     });
@@ -51,6 +53,6 @@ export class ReceitasListaComponent {
 
   onRemove(key: string) {
     console.log('key', key);
-    this.serviceContato.delete(key);
+    this.serviceContato.deleteDocument('transacoes', key);
   }
 }

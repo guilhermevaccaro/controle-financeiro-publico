@@ -28,7 +28,7 @@ export class SaldoComponent {
   }
 
   calculaSaldoPrevisto() {
-    this.serviceContato.getAll().subscribe((items) => {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
         const mes = parseInt(item.data.split('/')[1], 10);
         return mes === parseInt(this.mes);
@@ -53,7 +53,7 @@ export class SaldoComponent {
   }
 
   calculaSaldo() {
-    this.serviceContato.getAll().subscribe((items) => {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dadosEfetivados = items.filter(
         (item) => item.situacao === 'Efetivado'
       );

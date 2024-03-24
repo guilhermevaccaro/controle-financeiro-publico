@@ -16,9 +16,9 @@ export class DespesaListaComponent {
 
   constructor(
     private router: Router,
-    private serviceContato: ContatoService,
-    // private localStorageService: LocalStorageService
-  ) {
+    private serviceContato: ContatoService
+  ) // private localStorageService: LocalStorageService
+  {
     this.carregar();
   }
 
@@ -40,16 +40,17 @@ export class DespesaListaComponent {
     }
   }
   carregar() {
-    this.serviceContato.getAll().subscribe((items) => {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
         // Extrai o mês da data (considerando que as datas estão no formato "dd/mm/yyyy")
         const mes = parseInt(item.data.split('/')[1], 10);
-        return mes === parseInt(this.valorSelecionado) && item.tipo === 'despesa';
+        return (
+          mes === parseInt(this.valorSelecionado) && item.tipo === 'despesa'
+        );
       });
       this.contatos = dataFiltrada;
     });
   }
-
 
   onAdd(tipo: string) {
     this.router.navigate(['new', tipo]);
@@ -62,6 +63,6 @@ export class DespesaListaComponent {
   }
 
   onRemove(key: string) {
-    this.serviceContato.delete(key);
+    this.serviceContato.deleteDocument('transacoes', key);
   }
 }

@@ -1,5 +1,5 @@
 export class Transacao {
-  key?: string;
+  id?: string;
   categoria!: string;
   data!: string;
   descricao!: string;

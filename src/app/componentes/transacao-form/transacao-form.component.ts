@@ -39,7 +39,7 @@ export class TransacaoFormComponent {
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('key'));
+    console.log(this.route.snapshot.paramMap.get('id'));
     this.route.data.subscribe((data) => {
       this.form.patchValue(data['transacao']);
     });
@@ -50,23 +50,27 @@ export class TransacaoFormComponent {
         this.transacao = 'Editando';
       } else this.transacao = 'Adicionando';
     });
-    console.log(this.form.value)
+    console.log(this.form.value);
   }
 
   onSubmit() {
     this.route.paramMap.subscribe((params) => {
-      const parametroKey = params.get('key');
+      const parametroKey = params.get('id');
 
       if (parametroKey) {
-        const contatoToUpdate: Transacao = this.form.value;
+        const contatoToUpdate: any = this.form.value;
         contatoToUpdate.situacao = this.situacaoLabel;
 
-        this.serviceContato.update(contatoToUpdate, parametroKey);
+        this.serviceContato.updateDocument(
+          'transacoes',
+          parametroKey,
+          contatoToUpdate
+        );
       } else {
         const contatoToInsert: Transacao = this.form.value;
         contatoToInsert.situacao = this.situacaoLabel;
         contatoToInsert.tipo = this.tipo;
-        this.serviceContato.insert(this.form.value);
+        this.serviceContato.addDocument('transacoes', this.form.value);
       }
       this.router.navigate(['home']);
     });
