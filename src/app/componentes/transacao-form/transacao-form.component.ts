@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
@@ -18,7 +17,6 @@ export class TransacaoFormComponent {
   situacaoLabel: string = 'Pendente';
 
   constructor(
-    private dateAdapter: DateAdapter<Date>,
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
@@ -27,7 +25,6 @@ export class TransacaoFormComponent {
     this.route.params.subscribe((params) => {
       this.tipo = params['tipo'];
     });
-    this.dateAdapter.setLocale('pt-BR');
     this.form = this.formBuilder.group({
       categoria: ['', Validators.required],
       data: ['', Validators.required],
@@ -39,7 +36,6 @@ export class TransacaoFormComponent {
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get('id'));
     this.route.data.subscribe((data) => {
       this.form.patchValue(data['transacao']);
     });
@@ -50,7 +46,6 @@ export class TransacaoFormComponent {
         this.transacao = 'Editando';
       } else this.transacao = 'Adicionando';
     });
-    console.log(this.form.value);
   }
 
   onSubmit() {

@@ -26,7 +26,6 @@ export class TabelaComponent {
     }
   }
   editandoTransacao(transacao: Transacao) {
-    console.log(transacao)
     this.edit.emit(transacao);
   }
   deletandoTransacao(key: Transacao) {

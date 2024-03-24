@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -13,13 +13,8 @@ export class ReceitasListaComponent {
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private serviceContato: ContatoService
-  ) {
+  constructor(private router: Router, private serviceContato: ContatoService) {
     this.carregar();
-    // console.log('valor', this.valorSelecionado);
   }
   handleTabChange() {
     this.carregar();
@@ -33,7 +28,6 @@ export class ReceitasListaComponent {
   carregar() {
     this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
-        // Extrai o mês da data (considerando que as datas estão no formato "dd/mm/yyyy")
         const mes = parseInt(item.data.split('/')[1], 10);
         return (
           mes === parseInt(this.valorSelecionado) && item.tipo === 'receita'
@@ -52,7 +46,6 @@ export class ReceitasListaComponent {
   }
 
   onRemove(key: string) {
-    console.log('key', key);
     this.serviceContato.deleteDocument('transacoes', key);
   }
 }

@@ -1,7 +1,5 @@
 {
   "projects": {
-    "e": "meuteste-59f6d"
-  },
-  "targets": {},
-  "etags": {}
+    "default": "meuteste-59f6d"
+  }
 }
