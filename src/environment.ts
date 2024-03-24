@@ -1,15 +1,12 @@
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyBA5FZVbOztmpydfjjyWDcFhCTI3zwi6T8',
-    authDomain: 'https://financeiroteste-9242e-default-rtdb.firebaseio.com/',
-    projectId: 'financeiroteste-9242e',
-    storageBucket: 'financeiroteste-9242e.appspot.com',
-    messagingSenderId: '264310733308',
-    appId: '1:264310733308:web:ae4b8133163d21b3815a79',
-    measurementId: 'G-3S19RQ1CLP',
+  firebaseConfig: {
+    apiKey: 'AIzaSyDqa3rxJhvLdOclZBdCqgre05-M6GRrt6A',
+    authDomain: 'meuteste-59f6d.firebaseapp.com',
+    projectId: 'meuteste-59f6d',
+    storageBucket: 'meuteste-59f6d.appspot.com',
+    messagingSenderId: 'S296649156651',
+    appId: '1:296649156651:web:a540ae438e83c7ee11e26e',
+    measurementId: 'G-VL01N6SPHJ',
   },
-
-
 };
-

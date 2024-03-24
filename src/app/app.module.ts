@@ -26,7 +26,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { environment2 } from '../environment1';
+import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DespesaListaComponent } from './componentes/depesa/despesa-lista.component';
@@ -36,8 +36,10 @@ import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacaoFormComponent } from './componentes/transacao-form/transacao-form.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
-const firebaseConfig = environment2.firebaseConfig;
+const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
 
 registerLocaleData(localePt);
@@ -58,11 +60,13 @@ registerLocaleData(localePt);
     TabViewModule,
     TooltipModule,
     InputSwitchModule,
+    MatNativeDateModule,
     InputIconModule,
     ToolbarModule,
     DropdownModule,
     InputNumberModule,
     DividerModule,
+    MatDatepickerModule,
     CardModule,
     InputGroupAddonModule,
     InputGroupModule,
