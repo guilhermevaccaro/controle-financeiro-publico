@@ -21,3 +21,8 @@ mat-card-actions {
 .form-array-error {
   text-align: left;
 }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
