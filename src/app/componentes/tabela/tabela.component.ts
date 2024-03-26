@@ -33,10 +33,11 @@ export class TabelaComponent {
   deletandoTransacao(key: Transacao) {
     this.remove.emit(key);
   }
-  abrindoModal(transacao: Transacao) {
-    this.open.emit(transacao);
-  }
-  abrindoModalAdd() {
-    this.openAdd.emit();
+  abrindoModal(transacao?: Transacao) {
+    if (transacao) {
+      this.open.emit(transacao); // Se houver uma transação, emite um sinal para abrir o modal de edição
+    } else {
+      this.openAdd.emit(); // Se não houver uma transação, emite um sinal para abrir o modal de adição
+    }
   }
 }

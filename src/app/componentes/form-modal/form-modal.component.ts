@@ -47,7 +47,9 @@ export class FormModalComponent {
     if (this.formData) {
       this.atualizarFormulario();
     } else {
-      this.form.reset(); // Resetar o formulário quando o formData for null
+      if (this.form) {
+        this.form.reset();
+      }
     }
   }
 
