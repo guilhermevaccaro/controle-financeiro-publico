@@ -12,17 +12,16 @@ export class TransacoesListaComponent {
   tipoTransacao: string = '';
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
+  @Input() filtro!: string;
   visible: boolean = false;
-
+  public tipo: string = '';
   formData: any;
 
   constructor(private router: Router, private serviceContato: ContatoService) {
     this.carregar();
   }
 
-  ngOnInit(): void {
-    console.log('esteira funcionando');
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('valorSelecionado' in changes) {
@@ -33,7 +32,9 @@ export class TransacoesListaComponent {
     this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
         const mes = parseInt(item.data.split('/')[1], 10);
-        return mes === parseInt(this.valorSelecionado);
+        return mes === parseInt(this.valorSelecionado) && this.filtro != ''
+          ? item.tipo === this.filtro
+          : true;
       });
       this.contatos = dataFiltrada;
     });
@@ -45,7 +46,8 @@ export class TransacoesListaComponent {
     this.visible = true;
   }
 
-  showModalAdd() {
+  showModalAdd(tipo: string) {
+    this.tipo = tipo;
     this.formData = null;
     this.visible = true;
   }

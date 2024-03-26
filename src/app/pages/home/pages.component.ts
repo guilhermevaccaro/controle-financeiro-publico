@@ -12,6 +12,8 @@ export class PagesComponent {
   form!: FormGroup;
   valorSelecionado!: any;
   mesAtual = this.obterMesAtualString();
+  tabIndex = 0;
+  activeTab = 0;
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
@@ -52,5 +54,9 @@ export class PagesComponent {
     const dataAtual = new Date();
     const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
     return mes;
+  }
+
+  switchHeaders(tabNumber: any) {
+    this.activeTab = tabNumber.index;
   }
 }
