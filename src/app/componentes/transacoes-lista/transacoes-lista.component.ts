@@ -32,9 +32,10 @@ export class TransacoesListaComponent {
     this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltrada = items.filter((item) => {
         const mes = parseInt(item.data.split('/')[1], 10);
-        return mes === parseInt(this.valorSelecionado) && this.filtro != ''
-          ? item.tipo === this.filtro
-          : true;
+        return (
+          mes === parseInt(this.valorSelecionado) &&
+          (this.filtro != '' ? item.tipo === this.filtro : true)
+        );
       });
       this.contatos = dataFiltrada;
     });
