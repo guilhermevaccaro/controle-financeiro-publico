@@ -20,6 +20,8 @@ export class FormModalComponent {
 
   @Input() formData!: Transacao;
 
+  @Input() tipo: string = '';
+
   @Output() close = new EventEmitter();
 
   constructor(
@@ -38,7 +40,7 @@ export class FormModalComponent {
       data: ['', Validators.required],
       descricao: ['', Validators.required],
       situacao: [''],
-      tipo: [''],
+      tipo: [this.tipo],
       valor: ['', [Validators.required, Validators.min(0)]],
     });
   }
@@ -47,9 +49,7 @@ export class FormModalComponent {
     if (this.formData) {
       this.atualizarFormulario();
     } else {
-      if (this.form) {
-        this.form.reset();
-      }
+      this.form = this.criarForm();
     }
   }
 

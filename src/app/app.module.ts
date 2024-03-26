@@ -30,15 +30,12 @@ import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DespesaListaComponent } from './componentes/depesa/despesa-lista.component';
-import { ReceitasListaComponent } from './componentes/receitas-lista/receitas-lista.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacaoFormComponent } from './componentes/transacao-form/transacao-form.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
 import { FormModalComponent } from './componentes/form-modal/form-modal.component';
-
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -48,9 +45,7 @@ registerLocaleData(localePt);
 @NgModule({
   declarations: [
     AppComponent,
-    DespesaListaComponent,
     // TransacaoFormComponent,
-    ReceitasListaComponent,
     PagesComponent,
     TransacoesListaComponent,
     TabelaComponent,

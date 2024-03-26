@@ -22,26 +22,29 @@
 </div>
 <div class="transacoes">
   <p-card>
-    <p-tabView>
+    <p-tabView (onChange)="switchHeaders($event)" [(activeIndex)]="tabIndex">
       <p-tabPanel header="Transações">
-        <p>
+        <p *ngIf="activeTab == 0">
           <app-transacoes-lista
             [valorSelecionado]="valorSelecionado"
+            [filtro]="''"
           ></app-transacoes-lista>
         </p>
       </p-tabPanel>
       <p-tabPanel header="Despesas">
-        <p>
-          <app-despesa-lista
+        <p *ngIf="activeTab == 1">
+          <app-transacoes-lista
             [valorSelecionado]="valorSelecionado"
-          ></app-despesa-lista>
+            [filtro]="'despesa'"
+          ></app-transacoes-lista>
         </p>
       </p-tabPanel>
       <p-tabPanel header="Receitas">
-        <p>
-          <app-receitas-lista
+        <p *ngIf="activeTab == 2">
+          <app-transacoes-lista
             [valorSelecionado]="valorSelecionado"
-          ></app-receitas-lista>
+            [filtro]="'receita'"
+          ></app-transacoes-lista>
         </p>
       </p-tabPanel>
     </p-tabView>

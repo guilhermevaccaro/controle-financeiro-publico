@@ -1,5 +1,3 @@
-<p-divider></p-divider>
-
 <form [formGroup]="form" class="min-width">
   <p-inputGroup>
     <p-inputGroupAddon> <i class="pi pi-list"></i></p-inputGroupAddon>
@@ -11,7 +9,7 @@
     />
   </p-inputGroup>
   <small
-    class="p-error block"
+    class="p-error block center"
     *ngIf="
       (form.get('descricao')?.invalid && form.get('descricao')?.dirty) ||
       (form.get('descricao')?.invalid && form.get('descricao')?.touched)
@@ -23,6 +21,7 @@
   <p-inputGroup>
     <p-inputGroupAddon> <i class="pi pi-money-bill"></i></p-inputGroupAddon>
     <p-inputNumber
+      placeholder="0,00"
       formControlName="valor"
       mode="currency"
       currency="BRL"
@@ -33,13 +32,15 @@
   <p-inputGroup>
     <p-inputGroupAddon> <i class="pi pi-calendar-plus"></i></p-inputGroupAddon>
     <p-calendar
+      placeholder="dd/mm/yyyy"
       formControlName="data"
       dataType="string"
       dateFormat="dd/mm/yy"
+      appendTo="body"
     ></p-calendar>
   </p-inputGroup>
   <small
-    class="p-error block"
+    class="p-error block center"
     *ngIf="
       (form.get('data')?.invalid && form.get('data')?.dirty) ||
       (form.get('data')?.invalid && form.get('data')?.touched)
@@ -58,20 +59,7 @@
     />
   </p-inputGroup>
   <small
-    class="p-error block"
-    *ngIf="
-      (form.get('categoria')?.invalid && form.get('categoria')?.dirty) ||
-      (form.get('categoria')?.invalid && form.get('categoria')?.touched)
-    "
-  >
-    Categoria é obrigatória</small
-  >
-  <p-inputGroup>
-    <p-inputGroupAddon> <i class="pi pi-database"></i></p-inputGroupAddon>
-    <input type="text" pInputText placeholder="Tipo" formControlName="tipo" />
-  </p-inputGroup>
-  <small
-    class="p-error block"
+    class="p-error block center"
     *ngIf="
       (form.get('categoria')?.invalid && form.get('categoria')?.dirty) ||
       (form.get('categoria')?.invalid && form.get('categoria')?.touched)
@@ -81,8 +69,9 @@
   >
 
   <p-inputGroup>
-    <p>{{ situacaoLabel }}</p>
+    <p class="no-margin vertical-center">{{ situacaoLabel }}</p>
     <p-inputSwitch
+      class="space-switch vertical-center"
       formControlName="situacao"
       (onChange)="atualizarLabel()"
     ></p-inputSwitch>
