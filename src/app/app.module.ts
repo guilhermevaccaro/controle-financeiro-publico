@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp } from 'firebase/app';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
@@ -24,18 +25,21 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
+import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormModalComponent } from './componentes/form-modal/form-modal.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
-import { TransacaoFormComponent } from './componentes/transacao-form/transacao-form.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
-import { FormModalComponent } from './componentes/form-modal/form-modal.component';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -45,7 +49,6 @@ registerLocaleData(localePt);
 @NgModule({
   declarations: [
     AppComponent,
-    // TransacaoFormComponent,
     PagesComponent,
     TransacoesListaComponent,
     TabelaComponent,
@@ -54,6 +57,8 @@ registerLocaleData(localePt);
   ],
   imports: [
     IconFieldModule,
+    ToastModule,
+    ConfirmDialogModule,
     DialogModule,
     TabViewModule,
     TooltipModule,
@@ -81,7 +86,7 @@ registerLocaleData(localePt);
 
     AngularFireModule.initializeApp(firebaseConfig),
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }, ConfirmationService, MessageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
