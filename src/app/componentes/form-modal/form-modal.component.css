@@ -26,3 +26,21 @@ mat-card-actions {
   display: flex;
   justify-content: space-between;
 }
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.space-switch {
+  margin-left: 8px;
+}
