@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp } from 'firebase/app';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -36,6 +37,8 @@ import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacaoFormComponent } from './componentes/transacao-form/transacao-form.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
+import { FormModalComponent } from './componentes/form-modal/form-modal.component';
+
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -46,15 +49,17 @@ registerLocaleData(localePt);
   declarations: [
     AppComponent,
     DespesaListaComponent,
-    TransacaoFormComponent,
+    // TransacaoFormComponent,
     ReceitasListaComponent,
     PagesComponent,
     TransacoesListaComponent,
     TabelaComponent,
     SaldoComponent,
+    FormModalComponent,
   ],
   imports: [
     IconFieldModule,
+    DialogModule,
     TabViewModule,
     TooltipModule,
     InputSwitchModule,

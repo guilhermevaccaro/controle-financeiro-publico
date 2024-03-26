@@ -39,7 +39,6 @@ export class TransacaoFormComponent {
     this.route.data.subscribe((data) => {
       this.form.patchValue(data['transacao']);
     });
-    this.contato = new Transacao();
     this.route.params.subscribe((params) => {
       this.tipo = params['tipo'];
       if (this.tipo !== 'receita' && this.tipo !== 'despesa') {

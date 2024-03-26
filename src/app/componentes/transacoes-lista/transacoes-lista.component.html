@@ -1,6 +1,11 @@
-<app-tabela [contatos]="contatos"
-(edit)="onEdit($event.transacao, $event.id)"
-(remove)="onRemove($event)"
-(addDespesa)="onAdd('despesa')"
-(addReceita)="onAdd('receita')">
+<app-tabela
+  [contatos]="contatos"
+  (remove)="onRemove($event)"
+  (open)="showModal($event)"
+  (openAdd)="showModalAdd()"
+>
 </app-tabela>
+
+<p-dialog [(visible)]="visible" [modal]="true">
+  <app-form-modal [formData]="formData" (close)="closeModal()"></app-form-modal>
+</p-dialog>

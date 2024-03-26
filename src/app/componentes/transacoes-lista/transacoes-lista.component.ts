@@ -12,13 +12,16 @@ export class TransacoesListaComponent {
   tipoTransacao: string = '';
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
+  visible: boolean = false;
+
+  formData: any;
 
   constructor(private router: Router, private serviceContato: ContatoService) {
     this.carregar();
   }
 
   ngOnInit(): void {
-    console.log('esteira funcionando')
+    console.log('esteira funcionando');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -36,15 +39,22 @@ export class TransacoesListaComponent {
     });
   }
 
-  onAdd(tipo: string) {
-    this.router.navigate(['new', tipo]);
+  showModal(formData: any) {
+    this.formData = formData;
+
+    this.visible = true;
   }
 
-  onEdit(transacao: any, id: string) {
-    this.router.navigate(['edit', id], { state: { transacao: transacao } });
+  showModalAdd() {
+    this.formData = null;
+    this.visible = true;
   }
 
   onRemove(key: string) {
     this.serviceContato.deleteDocument('transacoes', key);
+  }
+
+  public closeModal() {
+    this.visible = false;
   }
 }
