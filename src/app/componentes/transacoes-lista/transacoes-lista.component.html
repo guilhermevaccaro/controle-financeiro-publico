@@ -2,10 +2,14 @@
   [contatos]="contatos"
   (remove)="onRemove($event)"
   (open)="showModal($event)"
-  (openAdd)="showModalAdd()"
+  (openAdd)="showModalAdd($event)"
 >
 </app-tabela>
 
 <p-dialog [(visible)]="visible" [modal]="true">
-  <app-form-modal [formData]="formData" (close)="closeModal()"></app-form-modal>
+  <app-form-modal
+    [formData]="formData"
+    (close)="closeModal()"
+    [tipo]="tipo"
+  ></app-form-modal>
 </p-dialog>

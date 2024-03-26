@@ -1,14 +1,22 @@
 <div class="card">
-  <p-table [value]="contatos" [tableStyle]="{'min-width': '50rem'}" class="responsive-table">
+  <p-table
+    [value]="contatos"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    class="responsive-table"
+  >
     <ng-template pTemplate="header">
       <tr>
-        <th style="width:20%">Situação </th>
-        <th style="width:20%">Categoria </th>
-        <th style="width:20%">Valor </th>
-        <th style="width:20%">Data </th>
+        <th style="width: 20%">Situação</th>
+        <th style="width: 20%">Categoria</th>
+        <th style="width: 20%">Valor</th>
+        <th style="width: 20%">Data</th>
         <!-- <th pSortableColumn="quantity" style="width:20%">Tipo <p-sortIcon field="quantity"></th> -->
-        <th style="width:20%">
-          <p-button icon="pi pi-plus" [matMenuTriggerFor]="menu" [rounded]="true"></p-button>
+        <th style="width: 20%">
+          <p-button
+            icon="pi pi-plus"
+            [matMenuTriggerFor]="menu"
+            [rounded]="true"
+          ></p-button>
         </th>
       </tr>
     </ng-template>
@@ -16,28 +24,46 @@
       <tr>
         <td>
           <ng-container *ngIf="product.situacao === 'Efetivado'; else pendente">
-            <i class="pi pi-check-circle green" style="font-size: 1.2rem" pTooltip="Efetivado"></i>
+            <i
+              class="pi pi-check-circle green"
+              style="font-size: 1.2rem"
+              pTooltip="Efetivado"
+            ></i>
           </ng-container>
           <ng-template #pendente>
-            <i class="pi pi-clock orange" style="font-size: 1.2rem" pTooltip="Pendente"></i>
+            <i
+              class="pi pi-clock orange"
+              style="font-size: 1.2rem"
+              pTooltip="Pendente"
+            ></i>
           </ng-template>
         </td>
-        <td>{{product.categoria}}</td>
+        <td>{{ product.categoria }}</td>
         <td>
           <ng-container *ngIf="product.tipo === 'despesa'; else receita">
-            <div class="red">R$ -{{ product.valor | number: '0.2' }}</div>
+            <div class="red">R$ -{{ product.valor | number : "0.2" }}</div>
           </ng-container>
           <ng-template #receita>
-            <div class="green">R$ +{{ product.valor | number: '0.2' }}</div>
+            <div class="green">R$ +{{ product.valor | number : "0.2" }}</div>
           </ng-template>
         </td>
-        <td>{{product.data}}</td>
+        <td>{{ product.data }}</td>
         <!-- <td>{{product.tipo}}</td> -->
-        <td style="display: flex;"><p-button icon="pi pi-pencil" [rounded]="true" [text]="true"
-            (click)="abrindoModal(product)">
+        <td style="display: flex">
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            (click)="abrindoModal('', product)"
+          >
           </p-button>
-          <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger "
-            (click)="deletandoTransacao(product.id)">
+          <p-button
+            icon="pi pi-trash"
+            [rounded]="true"
+            [text]="true"
+            severity="danger "
+            (click)="deletandoTransacao(product.id)"
+          >
           </p-button>
         </td>
       </tr>
@@ -45,11 +71,12 @@
   </p-table>
 </div>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="abrindoModal()">
+  <button mat-menu-item (click)="abrindoModal('despesa')">
     <mat-icon>add</mat-icon>
     <span>Adicionar Despesa</span>
   </button>
-  <button mat-menu-item (click)="adicionarTransacao('receita')">
+  <button mat-menu-item (click)="abrindoModal('receita')">
     <mat-icon>add</mat-icon>
     <span>Adicionar Receita</span>
   </button>
+</mat-menu>
