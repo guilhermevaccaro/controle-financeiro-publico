@@ -28,7 +28,11 @@ export class FormModalComponent {
   ) {}
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
+    this.form = this.criarForm();
+  }
+
+  private criarForm() {
+    return this.formBuilder.group({
       id: [''],
       categoria: ['', Validators.required],
       data: ['', Validators.required],
@@ -37,12 +41,9 @@ export class FormModalComponent {
       tipo: [''],
       valor: ['', [Validators.required, Validators.min(0)]],
     });
-
-    console.log(this.form.value);
   }
 
   ngOnChanges() {
-    console.log(this.formData)
     if (this.formData) {
       this.atualizarFormulario();
     } else {
@@ -68,10 +69,12 @@ export class FormModalComponent {
       // Se o ID estiver preenchido, é uma atualização
       this.contatoService.updateDocument('transacoes', formData.id, formData);
     }
+    this.form = this.criarForm();
     this.close.emit(); // Emitir evento de fechamento após a submissão
   }
 
   onCancel() {
+    this.form = this.criarForm();
     this.close.emit(); // Emitir evento de fechamento ao cancelar
   }
 }

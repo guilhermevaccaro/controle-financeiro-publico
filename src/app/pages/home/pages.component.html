@@ -2,9 +2,14 @@
   <p-card header="{{ getNomeMes(valorSelecionado) }}" align="center">
     <div class="transacoes">
       <form [formGroup]="form" class="form">
-
-        <p-calendar view="month" formControlName="mes" dateFormat="mm" dataType="string" [readonlyInput]="true"
-          (onSelect)="onDateSelect($event)"></p-calendar>
+        <p-calendar
+          view="month"
+          formControlName="mes"
+          dateFormat="mm"
+          dataType="string"
+          [readonlyInput]="true"
+          (onSelect)="onDateSelect($event)"
+        ></p-calendar>
       </form>
     </div>
   </p-card>
@@ -13,29 +18,30 @@
 <div class="transacoes">
   <p-card>
     <app-saldo [mes]="valorSelecionado"></app-saldo>
-
   </p-card>
 </div>
 <div class="transacoes">
-
   <p-card>
-
     <p-tabView>
       <p-tabPanel header="Transações">
         <p>
-          <app-transacoes-lista [valorSelecionado]="valorSelecionado"></app-transacoes-lista>
+          <app-transacoes-lista
+            [valorSelecionado]="valorSelecionado"
+          ></app-transacoes-lista>
         </p>
       </p-tabPanel>
       <p-tabPanel header="Despesas">
         <p>
-          <app-despesa-lista [valorSelecionado]="valorSelecionado"></app-despesa-lista>
-
+          <app-despesa-lista
+            [valorSelecionado]="valorSelecionado"
+          ></app-despesa-lista>
         </p>
       </p-tabPanel>
       <p-tabPanel header="Receitas">
         <p>
-          <app-receitas-lista [valorSelecionado]="valorSelecionado"></app-receitas-lista>
-
+          <app-receitas-lista
+            [valorSelecionado]="valorSelecionado"
+          ></app-receitas-lista>
         </p>
       </p-tabPanel>
     </p-tabView>

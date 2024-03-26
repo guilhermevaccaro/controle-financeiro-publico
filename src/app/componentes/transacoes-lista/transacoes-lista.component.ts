@@ -46,10 +46,15 @@ export class TransacoesListaComponent {
   }
 
   showModalAdd() {
+    this.formData = null;
     this.visible = true;
   }
 
   onRemove(key: string) {
     this.serviceContato.deleteDocument('transacoes', key);
+  }
+
+  public closeModal() {
+    this.visible = false;
   }
 }

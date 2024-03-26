@@ -34,11 +34,9 @@ export class TabelaComponent {
     this.remove.emit(key);
   }
   abrindoModal(transacao: Transacao) {
-    console.log(transacao)
     this.open.emit(transacao);
   }
   abrindoModalAdd() {
-    console.log()
     this.openAdd.emit();
   }
 }
