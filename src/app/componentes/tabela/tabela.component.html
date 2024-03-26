@@ -34,7 +34,7 @@
         <td>{{product.data}}</td>
         <!-- <td>{{product.tipo}}</td> -->
         <td style="display: flex;"><p-button icon="pi pi-pencil" [rounded]="true" [text]="true"
-            (click)="editandoTransacao(product)">
+            (click)="abrindoModal(product)">
           </p-button>
           <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger "
             (click)="deletandoTransacao(product.id)">
@@ -45,7 +45,7 @@
   </p-table>
 </div>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="adicionarTransacao('despesa')">
+  <button mat-menu-item (click)="abrindoModalAdd()">
     <mat-icon>add</mat-icon>
     <span>Adicionar Despesa</span>
   </button>

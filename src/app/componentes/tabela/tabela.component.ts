@@ -12,6 +12,8 @@ export class TabelaComponent {
   @Input() tipoTransacao: string = '';
 
   @Output() edit = new EventEmitter(false);
+  @Output() open = new EventEmitter(false);
+  @Output() openAdd = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
   @Output() addDespesa = new EventEmitter<{ evento: any; tipo: string }>();
   @Output() addReceita = new EventEmitter<{ evento: any; tipo: string }>();
@@ -30,5 +32,13 @@ export class TabelaComponent {
   }
   deletandoTransacao(key: Transacao) {
     this.remove.emit(key);
+  }
+  abrindoModal(transacao: Transacao) {
+    console.log(transacao)
+    this.open.emit(transacao);
+  }
+  abrindoModalAdd() {
+    console.log()
+    this.openAdd.emit();
   }
 }
