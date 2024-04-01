@@ -10,6 +10,7 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class SaldoComponent {
   saldoPrevisto = 0;
+  saldoPendente = 0;
   saldoMes = 0;
   @Input() mes!: string;
   dados!: Transacao[];
@@ -22,64 +23,55 @@ export class SaldoComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     if ('mes' in changes) {
-      this.calculaSaldoPrevisto();
-      this.calculaSaldo();
+      this.calculaSaldos();
     }
   }
 
-  calculaSaldoPrevisto() {
+  calculaSaldos() {
     this.serviceContato.getCollection('transacoes').subscribe((items) => {
-      const dataFiltrada = items.filter((item) => {
+      const dataFiltradaPendente = items.filter((item) => {
         const mes = parseInt(item.data.split('/')[1], 10);
         return mes === parseInt(this.mes);
       });
-      this.dados = dataFiltrada;
+      this.dados = dataFiltradaPendente;
 
-      this.dadosReceita = this.dados.filter((item) => item.tipo === 'receita');
-      const valorReceita = this.dadosReceita.map((item) => item.valor);
-      this.somaReceita = valorReceita.reduce(
-        (total, valor) => total + valor,
-        0
+      this.saldoPrevisto =
+        this.dados
+          .filter((item) => item.tipo === 'receita')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0) -
+        this.dados
+          .filter((item) => item.tipo === 'despesa')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0);
+
+      const dadosEfetivados = dataFiltradaPendente.filter(
+        (item) => item.situacao === true
       );
 
-      this.dadosDespesa = this.dados.filter((item) => item.tipo === 'despesa');
-      const valorDespesa = this.dadosDespesa.map((item) => item.valor);
-      this.somaDespesa = valorDespesa.reduce(
-        (total, valor) => total + valor,
-        0
-      );
-      this.saldoPrevisto = this.somaReceita - this.somaDespesa;
-    });
-  }
+      this.saldoMes =
+        dadosEfetivados
+          .filter((item) => item.tipo === 'receita')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0) -
+        dadosEfetivados
+          .filter((item) => item.tipo === 'despesa')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0);
 
-  calculaSaldo() {
-    this.serviceContato.getCollection('transacoes').subscribe((items) => {
-      const dadosEfetivados = items.filter(
-        (item) => item.situacao === 'Efetivado'
+      const dadosPendentes = dataFiltradaPendente.filter(
+        (item) => item.situacao !== true
       );
 
-      const dataFiltrada = dadosEfetivados.filter((item) => {
-        const mes = parseInt(item.data.split('/')[1], 10);
-        return mes === parseInt(this.mes);
-      });
-
-      this.dados = dataFiltrada;
-
-      this.dadosReceita = this.dados.filter((item) => item.tipo === 'receita');
-      const valorReceita = this.dadosReceita.map((item) => item.valor);
-      this.somaReceita = valorReceita.reduce(
-        (total, valor) => total + valor,
-        0
-      );
-
-      this.dadosDespesa = this.dados.filter((item) => item.tipo === 'despesa');
-      const valorDespesa = this.dadosDespesa.map((item) => item.valor);
-      this.somaDespesa = valorDespesa.reduce(
-        (total, valor) => total + valor,
-        0
-      );
-
-      this.saldoMes = this.somaReceita - this.somaDespesa;
+      this.saldoPendente =
+        dadosPendentes
+          .filter((item) => item.tipo === 'receita')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0) -
+        dadosPendentes
+          .filter((item) => item.tipo === 'despesa')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0);
     });
   }
 }
