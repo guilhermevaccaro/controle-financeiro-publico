@@ -15,7 +15,7 @@
     <ng-template pTemplate="body" let-product>
       <tr>
         <td>
-          <ng-container *ngIf="product.situacao === 'true'; else pendente">
+          <ng-container *ngIf="product.situacao === true; else pendente">
             <i class="pi pi-check-circle green" style="font-size: 1.2rem" pTooltip="Efetivado"></i>
           </ng-container>
           <ng-template #pendente>
