@@ -1,5 +1,4 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -9,7 +8,6 @@ import { ContatoService } from 'src/app/services/contato.service';
   styleUrls: ['./transacoes-lista.component.css'],
 })
 export class TransacoesListaComponent {
-  tipoTransacao: string = '';
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
   @Input() filtro!: string;
@@ -17,7 +15,7 @@ export class TransacoesListaComponent {
   public tipo: string = '';
   formData: any;
 
-  constructor(private router: Router, private serviceContato: ContatoService) {
+  constructor(private serviceContato: ContatoService) {
     this.carregar();
   }
 
@@ -43,7 +41,6 @@ export class TransacoesListaComponent {
 
   showModal(formData: any) {
     this.formData = formData;
-
     this.visible = true;
   }
 
