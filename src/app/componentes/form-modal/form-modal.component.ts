@@ -24,6 +24,12 @@ export class FormModalComponent {
 
   ngOnInit() {
     this.form = this.criarForm();
+    this.countries = [
+      'Outros',
+      'Compra de produto',
+      'Gasto com carro',
+      'Manutenção',
+    ];
   }
 
   private criarForm() {
@@ -56,6 +62,7 @@ export class FormModalComponent {
   }
 
   onSubmit() {
+    console.log(this.form.value);
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
       this.contatoService.addDocument('transacoes', formData);
@@ -70,4 +77,5 @@ export class FormModalComponent {
     this.form = this.criarForm();
     this.close.emit();
   }
+  countries: any[] | undefined;
 }

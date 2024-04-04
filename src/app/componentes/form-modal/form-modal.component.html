@@ -1,80 +1,49 @@
 <form [formGroup]="form" class="min-width">
   <p-inputGroup>
     <p-inputGroupAddon> <i class="pi pi-list"></i></p-inputGroupAddon>
-    <input
-      type="text"
-      pInputText
-      placeholder="Descrição"
-      formControlName="descricao"
-    />
+    <input type="text" pInputText placeholder="Descrição" formControlName="descricao" />
   </p-inputGroup>
-  <small
-    class="p-error block center"
-    *ngIf="
+  <small class="p-error block center" *ngIf="
       (form.get('descricao')?.invalid && form.get('descricao')?.dirty) ||
       (form.get('descricao')?.invalid && form.get('descricao')?.touched)
-    "
-  >
-    Descrição é obrigatória</small
-  >
+    ">
+    Descrição é obrigatória</small>
 
   <p-inputGroup>
     <p-inputGroupAddon> <i class="pi pi-money-bill"></i></p-inputGroupAddon>
-    <p-inputNumber
-      placeholder="0,00"
-      formControlName="valor"
-      mode="currency"
-      currency="BRL"
-      locale="pt-BR"
-    ></p-inputNumber>
+    <p-inputNumber placeholder="0,00" formControlName="valor" mode="currency" currency="BRL"
+      locale="pt-BR"></p-inputNumber>
   </p-inputGroup>
 
   <p-inputGroup>
     <p-inputGroupAddon> <i class="pi pi-calendar-plus"></i></p-inputGroupAddon>
-    <p-calendar
-      placeholder="dd/mm/yyyy"
-      formControlName="data"
-      dataType="string"
-      dateFormat="dd/mm/yy"
-      appendTo="body"
-    ></p-calendar>
+    <p-calendar placeholder="dd/mm/yyyy" formControlName="data" dataType="string" dateFormat="dd/mm/yy"
+      appendTo="body"></p-calendar>
   </p-inputGroup>
-  <small
-    class="p-error block center"
-    *ngIf="
+  <small class="p-error block center" *ngIf="
       (form.get('data')?.invalid && form.get('data')?.dirty) ||
       (form.get('data')?.invalid && form.get('data')?.touched)
-    "
-  >
-    Data obrigatória</small
-  >
+    ">
+    Data obrigatória</small>
 
-  <p-inputGroup>
-    <p-inputGroupAddon> <i class="pi pi-database"></i></p-inputGroupAddon>
-    <input
-      type="text"
-      pInputText
-      placeholder="Categoria"
-      formControlName="categoria"
-    />
-  </p-inputGroup>
-  <small
-    class="p-error block center"
-    *ngIf="
+  <div class="teste">
+    <p-inputGroup>
+      <p-inputGroupAddon> <i class="pi pi-database"></i></p-inputGroupAddon>
+    </p-inputGroup>
+    <div class="dropdown" style="margin-left: -40px;">
+      <p-dropdown [options]="countries" formControlName="categoria" [showClear]="true"></p-dropdown>
+    </div>
+  </div>
+  <small class="p-error block center" *ngIf="
       (form.get('categoria')?.invalid && form.get('categoria')?.dirty) ||
       (form.get('categoria')?.invalid && form.get('categoria')?.touched)
-    "
-  >
-    Categoria é obrigatória</small
-  >
+    ">
+    Categoria é obrigatória</small>
 
   <p-inputGroup>
     <p class="no-margin vertical-center">{{ situacaoLabel }}</p>
-    <p-inputSwitch
-      class="space-switch vertical-center"
-      formControlName="situacao"
-      (onChange)="atualizarLabel()"
-    ></p-inputSwitch>
+    <p-inputSwitch class="space-switch vertical-center" formControlName="situacao"
+      (onChange)="atualizarLabel()"></p-inputSwitch>
   </p-inputGroup>
 </form>
 

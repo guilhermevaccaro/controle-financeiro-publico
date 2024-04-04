@@ -44,3 +44,16 @@ mat-card-actions {
 .space-switch {
   margin-left: 8px;
 }
+
+.teste {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown{
+  margin-left: -10px;
+}
+
+.teste .p-inputgroup{
+  width: 50%;
+}
