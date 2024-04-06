@@ -10,39 +10,24 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class TabelaComponent {
   @Input() contatos!: Transacao[];
-  @Input() tipoTransacao: string = '';
 
-  @Output() edit = new EventEmitter(false);
   @Output() open = new EventEmitter(false);
   @Output() openAdd = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
-  @Output() addDespesa = new EventEmitter<{ evento: any; tipo: string }>();
-  @Output() addReceita = new EventEmitter<{ evento: any; tipo: string }>();
 
   constructor(
-    private transacaoService: ContatoService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {}
 
-  adicionarTransacao(tipo: string) {
-    if (tipo === 'despesa') {
-      this.addDespesa.emit({ evento: true, tipo: tipo });
-    } else if (tipo === 'receita') {
-      this.addReceita.emit({ evento: true, tipo: tipo });
-    }
-  }
-  editandoTransacao(transacao: Transacao) {
-    this.edit.emit(transacao);
-  }
   deletandoTransacao(key: Transacao) {
     this.remove.emit(key);
   }
   abrindoModal(tipo: string, transacao?: Transacao) {
     if (transacao) {
-      this.open.emit(transacao); // Se houver uma transação, emite um sinal para abrir o modal de edição
+      this.open.emit(transacao);
     } else {
-      this.openAdd.emit(tipo); // Se não houver uma transação, emite um sinal para abrir o modal de adição
+      this.openAdd.emit(tipo);
     }
   }
   confirm(event: Event, key: Transacao) {
@@ -55,8 +40,8 @@ export class TabelaComponent {
       rejectButtonStyleClass: 'p-button-text p-button-text',
       acceptIcon: 'none',
       rejectIcon: 'none',
-      acceptLabel: 'Sim', // Texto para o botão "Sim" (ou "Yes")
-      rejectLabel: 'Não', // Texto para o botão "Não" (ou "No")
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
 
       accept: () => {
         this.deletandoTransacao(key);

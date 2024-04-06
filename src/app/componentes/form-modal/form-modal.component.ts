@@ -1,13 +1,8 @@
-import { ContatoService } from './../../services/contato.service';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Transacao } from 'src/app/models/Transacao';
+
+import { ContatoService } from './../../services/contato.service';
 
 @Component({
   selector: 'app-form-modal',
@@ -19,9 +14,7 @@ export class FormModalComponent {
   situacaoLabel: string = 'Pendente';
 
   @Input() formData!: Transacao;
-
   @Input() tipo: string = '';
-
   @Output() close = new EventEmitter();
 
   constructor(
@@ -31,6 +24,12 @@ export class FormModalComponent {
 
   ngOnInit() {
     this.form = this.criarForm();
+    this.countries = [
+      'Outros',
+      'Compra de produto',
+      'Gasto com carro',
+      'Manutenção',
+    ];
   }
 
   private criarForm() {
@@ -63,20 +62,20 @@ export class FormModalComponent {
   }
 
   onSubmit() {
+    console.log(this.form.value);
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
-      // Se o ID for nulo ou vazio, é uma adição
       this.contatoService.addDocument('transacoes', formData);
     } else {
-      // Se o ID estiver preenchido, é uma atualização
       this.contatoService.updateDocument('transacoes', formData.id, formData);
     }
     this.form = this.criarForm();
-    this.close.emit(); // Emitir evento de fechamento após a submissão
+    this.close.emit();
   }
 
   onCancel() {
     this.form = this.criarForm();
-    this.close.emit(); // Emitir evento de fechamento ao cancelar
+    this.close.emit();
   }
+  countries: any[] | undefined;
 }

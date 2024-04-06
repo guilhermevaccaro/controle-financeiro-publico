@@ -5,8 +5,22 @@ p-card {
   justify-content: center;
 }
 
-p-inputGroup {
+p-iconField {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
+}
+p-inputGroup {
+  display: flex;
+  padding-left: 13px;
+}
+
+:host ::ng-deep p-inputnumber {
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputnumber {
+  width: 100%;
 }
 
 .min-width {
@@ -24,7 +38,8 @@ mat-card-actions {
 
 .space-between {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
 }
 
 .center {
@@ -43,4 +58,8 @@ mat-card-actions {
 
 .space-switch {
   margin-left: 8px;
+}
+
+::ng-deep .p-dropdown {
+  width: 100%;
 }
