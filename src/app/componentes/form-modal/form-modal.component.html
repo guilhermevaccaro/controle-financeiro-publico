@@ -1,5 +1,6 @@
 <form [formGroup]="form" class="min-width">
   <p-iconField class="full-width">
+    <div>Categoria</div>
     <p-dropdown [options]="countries" formControlName="categoria" [showClear]="false" class="full-width"></p-dropdown>
 
   </p-iconField>
@@ -8,6 +9,8 @@
       (form.get('categoria')?.invalid && form.get('categoria')?.touched)
     ">
     Categoria é obrigatória</small>
+
+
   <p-iconField iconPosition="right">
     <p-inputIcon styleClass="pi pi-align-left" />
     <input type="text" pInputText placeholder="Descrição" formControlName="descricao" />
@@ -32,8 +35,6 @@
       (form.get('data')?.invalid && form.get('data')?.touched)
     ">
     Data obrigatória</small>
-
-
 
   <p-inputGroup>
     <p class="no-margin vertical-center">{{ situacaoLabel }}</p>

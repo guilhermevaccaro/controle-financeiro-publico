@@ -10,6 +10,10 @@ p-iconField {
   flex-direction: column;
   padding: 10px;
 }
+p-inputGroup {
+  display: flex;
+  padding-left: 13px;
+}
 
 :host ::ng-deep p-inputnumber {
   width: 100%;
