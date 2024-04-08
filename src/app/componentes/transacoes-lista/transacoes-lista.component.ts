@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+import { Categoria } from 'src/app/models/Categoria';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -14,6 +15,9 @@ export class TransacoesListaComponent {
   visible: boolean = false;
   public tipo: string = '';
   formData: any;
+  categorias!: Categoria[];
+  data: any;
+  options: any;
 
   constructor(private serviceContato: ContatoService) {
     this.carregar();
@@ -36,7 +40,37 @@ export class TransacoesListaComponent {
         );
       });
       this.contatos = dataFiltrada;
+      this.atualizarDadosGrafico();
     });
+  }
+  atualizarDadosGrafico() {
+    if (this.contatos && this.contatos.length > 0) {
+      const contagemCategorias: { [categoria: string]: number } = {};
+
+      this.contatos.forEach((objeto) => {
+        if (contagemCategorias[objeto.categoria]) {
+          contagemCategorias[objeto.categoria]++;
+        } else {
+          contagemCategorias[objeto.categoria] = 1;
+        }
+      });
+
+      const labels = Object.keys(contagemCategorias);
+      const data = Object.values(contagemCategorias);
+
+      this.data = {
+        labels: labels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: ['blue', 'yellow', 'green'],
+            hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen'],
+          },
+        ],
+      };
+    } else {
+      console.log('Nenhum contato encontrado para contar categorias.');
+    }
   }
 
   showModal(formData: any) {

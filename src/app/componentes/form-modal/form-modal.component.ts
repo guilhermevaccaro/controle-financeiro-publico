@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Transacao } from 'src/app/models/Transacao';
 
 import { ContatoService } from './../../services/contato.service';
+import { Categoria } from 'src/app/models/Categoria';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-form-modal',
@@ -12,6 +14,8 @@ import { ContatoService } from './../../services/contato.service';
 export class FormModalComponent {
   form!: FormGroup;
   situacaoLabel: string = 'Pendente';
+  categorias!: Categoria[];
+  categoriasSubscription!: Subscription;
 
   @Input() formData!: Transacao;
   @Input() tipo: string = '';
@@ -24,12 +28,14 @@ export class FormModalComponent {
 
   ngOnInit() {
     this.form = this.criarForm();
-    this.countries = [
-      'Outros',
-      'Compra de produto',
-      'Gasto com carro',
-      'Manutenção',
-    ];
+    this.categoriasSubscription = this.contatoService
+      .getCollection('categorias')
+      .subscribe((items) => {
+        this.categorias = [];
+        items.forEach((item) => {
+          this.categorias.push(item.nomeCategoria);
+        });
+      });
   }
 
   private criarForm() {
@@ -77,5 +83,4 @@ export class FormModalComponent {
     this.form = this.criarForm();
     this.close.emit();
   }
-  countries: any[] | undefined;
 }

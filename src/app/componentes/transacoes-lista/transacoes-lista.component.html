@@ -2,6 +2,11 @@
   (openAdd)="showModalAdd($event)">
 </app-tabela>
 
-<p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible" [modal]="true">
+<p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
+  [modal]="true">
   <app-form-modal [formData]="formData" (close)="closeModal()" [tipo]="tipo"></app-form-modal>
 </p-dialog>
+
+<div style="width: 300px;">
+  <p-chart type="pie" [data]="data" [options]="options"></p-chart>
+</div>
