@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase/app';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
@@ -40,6 +41,8 @@ import { TransacoesListaComponent } from './componentes/transacoes-lista/transac
 import { PagesComponent } from './pages/home/pages.component';
 
 
+
+
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
 
@@ -56,6 +59,7 @@ registerLocaleData(localePt);
   ],
   imports: [
     IconFieldModule,
+    ChartModule,
     ToastModule,
     ConfirmDialogModule,
     DialogModule,
