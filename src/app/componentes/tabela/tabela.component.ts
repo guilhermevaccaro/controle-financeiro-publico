@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
@@ -10,6 +16,8 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class TabelaComponent {
   @Input() contatos!: Transacao[];
+  @Input() filtro!: string;
+  @Input() valorSelecionado!: string;
 
   @Output() open = new EventEmitter(false);
   @Output() openAdd = new EventEmitter(false);
@@ -17,8 +25,10 @@ export class TabelaComponent {
 
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private serviceContato: ContatoService
+  ) {
+  }
 
   deletandoTransacao(key: Transacao) {
     this.remove.emit(key);
@@ -58,6 +68,30 @@ export class TabelaComponent {
           detail: 'Rejeitado',
         });
       },
+    });
+  }
+
+  ngOnInit() {
+    this.carregar()
+    console.log(this.valorSelecionado)
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('valorSelecionado' in changes) {
+      this.carregar();
+    }
+  }
+  carregar() {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
+      const dataFiltrada = items.filter((item) => {
+        const mes = parseInt(item.data.split('/')[1], 10);
+        return (
+          mes === parseInt(this.valorSelecionado) &&
+          (this.filtro != '' ? item.tipo === this.filtro : true)
+        );
+      });
+      this.contatos = dataFiltrada;
+      console.log(this.contatos)
     });
   }
 }

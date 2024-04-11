@@ -2,6 +2,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 import { Categoria } from 'src/app/models/Categoria';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-transacoes-lista',
@@ -12,18 +13,17 @@ export class TransacoesListaComponent {
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
   @Input() filtro!: string;
-  visible: boolean = false;
-  public tipo: string = '';
-  formData: any;
-  categorias!: Categoria[];
+  @Input() somaReceita!: number;
+  @Input() somaDespesa!: number;
   data: any;
+  data2: any;
   options: any;
 
-  constructor(private serviceContato: ContatoService) {
+  constructor(private serviceContato: ContatoService) {}
+
+  ngOnInit(): void {
     this.carregar();
   }
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('valorSelecionado' in changes) {
@@ -43,15 +43,16 @@ export class TransacoesListaComponent {
       this.atualizarDadosGrafico();
     });
   }
+
   atualizarDadosGrafico() {
     if (this.contatos && this.contatos.length > 0) {
       const contagemCategorias: { [categoria: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
         if (contagemCategorias[objeto.categoria]) {
-          contagemCategorias[objeto.categoria]++;
+          contagemCategorias[objeto.categoria] += objeto.valor;
         } else {
-          contagemCategorias[objeto.categoria] = 1;
+          contagemCategorias[objeto.categoria] = objeto.valor;
         }
       });
 
@@ -68,27 +69,60 @@ export class TransacoesListaComponent {
           },
         ],
       };
+      const contagemTipos: { [tipo: string]: number } = {};
+
+      this.contatos.forEach((objeto) => {
+        if (contagemTipos[objeto.tipo]) {
+          contagemTipos[objeto.tipo] += objeto.valor;
+        } else {
+          contagemTipos[objeto.tipo] = objeto.valor;
+        }
+      });
+
+      const labels1 = Object.keys(contagemTipos);
+      const data2 = Object.values(contagemTipos);
+
+      this.data2 = {
+        labels: labels1,
+        datasets: [
+          {
+            data: data2,
+            backgroundColor: ['blue', 'yellow', 'green'],
+            hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen'],
+          },
+        ],
+      };
     } else {
       console.log('Nenhum contato encontrado para contar categorias.');
     }
+    this.options = {
+      barPercentage: 0.2,
+      cutout: '80%',
+      borderWidth: 0,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    };
   }
 
-  showModal(formData: any) {
-    this.formData = formData;
-    this.visible = true;
-  }
+  // showModal(formData: any) {
+  //   this.formData = formData;
+  //   this.visible = true;
+  // }
 
-  showModalAdd(tipo: string) {
-    this.tipo = tipo;
-    this.formData = null;
-    this.visible = true;
-  }
+  // showModalAdd(tipo: string) {
+  //   this.tipo = tipo;
+  //   this.formData = null;
+  //   this.visible = true;
+  // }
 
-  onRemove(key: string) {
-    this.serviceContato.deleteDocument('transacoes', key);
-  }
+  // onRemove(key: string) {
+  //   this.serviceContato.deleteDocument('transacoes', key);
+  // }
 
-  public closeModal() {
-    this.visible = false;
-  }
+  // public closeModal() {
+  //   this.visible = false;
+  // }
 }

@@ -1,12 +1,25 @@
-<app-tabela [contatos]="contatos" (remove)="onRemove($event)" (open)="showModal($event)"
-  (openAdd)="showModalAdd($event)">
-</app-tabela>
+<div class="conteudo">
+  <div *ngIf="filtro === ''">
+    <p-chart type="bar" [data]="data2" [options]="options"></p-chart>
+  </div>
 
-<p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
-  [modal]="true">
-  <app-form-modal [formData]="formData" (close)="closeModal()" [tipo]="tipo"></app-form-modal>
-</p-dialog>
+  <div class="p-chart-container" *ngIf="filtro === 'receita'">
+    <p-chart type="doughnut" [data]="data" [options]="options" class="p-chart">
+    </p-chart>
+    <div class="centered-text">
+      <h1 *ngIf="filtro === 'receita'"> R$ {{ somaReceita | number : "1.2-2" }}
+      </h1>
+      <h2>Total</h2>
+    </div>
+  </div>
 
-<div style="width: 300px;">
-  <p-chart type="pie" [data]="data" [options]="options"></p-chart>
+  <div class="p-chart-container" *ngIf="filtro === 'despesa'">
+    <p-chart type="doughnut" [data]="data" [options]="options" class="p-chart">
+    </p-chart>
+    <div class="centered-text">
+      <h1 *ngIf="filtro === 'despesa'"> R$ {{ somaDespesa | number : "1.2-2" }}
+      </h1>
+      <h2>Total</h2>
+    </div>
+  </div>
 </div>

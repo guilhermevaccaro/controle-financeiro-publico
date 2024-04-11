@@ -1,16 +1,51 @@
 <div class="saldo">
-  <div class="item">
-    <p>Saldo</p>
-    <p>R$ {{ saldoMes | number : "1.2-2" }}</p>
-  </div>
 
-  <div class="item">
-    <p>Pendente</p>
-    <p>R$ {{ saldoPendente | number : "1.2-2" }}</p>
-  </div>
+  <p-card header="Saldo Atual">
+    <div class="conteudoCard">
+      <div class="numero">
+        R$ {{ saldoMes | number : "1.2-2" }}
+      </div>
 
-  <div class="item">
-    <p>Previsto</p>
-    <p>R$ {{ saldoPrevisto | number : "1.2-2" }}</p>
-  </div>
+      <div class="icone">
+        <p-button icon="pi pi-wallet" [rounded]="true"></p-button>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card header="Receitas">
+    <div class="conteudoCard">
+      <div class="numero">
+        R$ {{ somaReceita | number : "1.2-2" }}
+      </div>
+
+      <div class="icone">
+        <p-button icon="pi pi-arrow-up" [rounded]="true" severity="success"></p-button>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card header="Despesas">
+    <div class="conteudoCard">
+      <div class="numero">
+        R$ {{ somaDespesa | number : "1.2-2" }}
+      </div>
+
+      <div class="icone">
+        <p-button icon="pi pi-arrow-down" [rounded]="true" severity="danger"></p-button>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card header="Saldo Previsto">
+    <div class="conteudoCard">
+      <div class="numero">
+        R$ {{ saldoPrevisto | number : "1.2-2" }}
+      </div>
+
+      <div class="icone">
+        <p-button icon="pi pi-calendar-minus" [rounded]="true" severity="warning"></p-button>
+      </div>
+    </div>
+  </p-card>
+
 </div>
