@@ -1,52 +1,80 @@
-<div class="transacoes">
-  <p-card header="{{ getNomeMes(valorSelecionado) }}" align="center">
+<div class="body">
+  <div class="botaoMenu">
+    <!-- <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button> -->
+  </div>
+  <div class="transacoes">
     <div class="transacoes">
       <form [formGroup]="form" class="form">
-        <p-calendar
-          view="month"
-          formControlName="mes"
-          dateFormat="mm"
-          dataType="string"
-          [readonlyInput]="true"
-          (onSelect)="onDateSelect($event)"
-        ></p-calendar>
+        <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
+          (onSelect)="onDateSelect($event)"></p-calendar>
       </form>
     </div>
-  </p-card>
+  </div>
+
+  <div class="transacoes">
+    <app-saldo [mes]="valorSelecionado" (somaReceitaChanged)="onSomaReceitaChanged($event)"
+      (somaDespesaChanged)="onSomaDespesaChanged($event)"></app-saldo>
+  </div>
+
+  <div class="card">
+    <div class="transacoes">
+      <p-card header="Despesas">
+        <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'despesa'"
+          [somaDespesa]="somaDespesa"></app-transacoes-lista>
+      </p-card>
+
+      <p-card header="Receitas">
+        <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'receita'"
+          [somaReceita]="somaReceita"></app-transacoes-lista>
+      </p-card>
+      <p-card header="Balanço Mensal">
+        <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''"></app-transacoes-lista>
+      </p-card>
+    </div>
+  </div>
+
+  <div class="transacoes">
+    <p-card>
+      <p-tabView (onChange)="switchHeaders($event)" [(activeIndex)]="tabIndex">
+        <p-tabPanel header="Transações">
+          <p *ngIf="activeTab == 0">
+            <app-tabela (remove)="onRemove($event)" (open)="showModal($event)" [valorSelecionado]="valorSelecionado"
+              [filtro]="''">
+            </app-tabela>
+          </p>
+        </p-tabPanel>
+        <p-tabPanel header="Despesas">
+          <p *ngIf="activeTab == 1">
+            <app-tabela (remove)="onRemove($event)" (open)="showModal($event)" [valorSelecionado]="valorSelecionado"
+              [filtro]="'despesa'">
+            </app-tabela>
+          </p>
+        </p-tabPanel>
+        <p-tabPanel header="Receitas">
+          <p *ngIf="activeTab == 2">
+            <app-tabela (remove)="onRemove($event)" (open)="showModal($event)" [valorSelecionado]="valorSelecionado"
+              [filtro]="'receita'">
+            </app-tabela>
+          </p>
+        </p-tabPanel>
+      </p-tabView>
+    </p-card>
+  </div>
+
+  <p-sidebar [(visible)]="sidebarVisible">
+    <ng-template pTemplate="header">Header Content</ng-template>
+    <ng-template pTemplate="content">Body Content</ng-template>
+    <ng-template pTemplate="footer">Footer Content</ng-template>
+  </p-sidebar>
+
+  <div class="absolute">
+    <div class="botaoAdd">
+      <app-botaoAdd (openAdd)="showModalAdd($event)"></app-botaoAdd>
+    </div>
+  </div>
 </div>
 
-<div class="transacoes">
-  <p-card>
-    <app-saldo [mes]="valorSelecionado"></app-saldo>
-  </p-card>
-</div>
-<div class="transacoes">
-  <p-card>
-    <p-tabView (onChange)="switchHeaders($event)" [(activeIndex)]="tabIndex">
-      <p-tabPanel header="Transações">
-        <p *ngIf="activeTab == 0">
-          <app-transacoes-lista
-            [valorSelecionado]="valorSelecionado"
-            [filtro]="''"
-          ></app-transacoes-lista>
-        </p>
-      </p-tabPanel>
-      <p-tabPanel header="Despesas">
-        <p *ngIf="activeTab == 1">
-          <app-transacoes-lista
-            [valorSelecionado]="valorSelecionado"
-            [filtro]="'despesa'"
-          ></app-transacoes-lista>
-        </p>
-      </p-tabPanel>
-      <p-tabPanel header="Receitas">
-        <p *ngIf="activeTab == 2">
-          <app-transacoes-lista
-            [valorSelecionado]="valorSelecionado"
-            [filtro]="'receita'"
-          ></app-transacoes-lista>
-        </p>
-      </p-tabPanel>
-    </p-tabView>
-  </p-card>
-</div>
+<p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
+  [modal]="true">
+  <app-form-modal [formData]="formData" (close)="closeModal()" [tipo]="tipo"></app-form-modal>
+</p-dialog>

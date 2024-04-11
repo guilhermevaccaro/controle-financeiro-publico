@@ -1,0 +1,11 @@
+<p-button icon="pi pi-plus" [matMenuTriggerFor]="menu" [rounded]="true"></p-button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="abrindoModal('despesa')">
+    <mat-icon>add</mat-icon>
+    <span>Adicionar Despesa</span>
+  </button>
+  <button mat-menu-item (click)="abrindoModal('receita')">
+    <mat-icon>add</mat-icon>
+    <span>Adicionar Receita</span>
+  </button>
+</mat-menu>

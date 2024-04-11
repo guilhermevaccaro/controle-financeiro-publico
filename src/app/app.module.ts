@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase/app';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { CarouselModule } from 'primeng/carousel';
 import { ChartModule } from 'primeng/chart';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
@@ -25,6 +26,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { SidebarModule } from 'primeng/sidebar';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
@@ -35,13 +37,11 @@ import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormModalComponent } from './componentes/form-modal/form-modal.component';
+import { BotaoAddComponent } from './componentes/botaoAdd/botaoAdd.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
-
-
-
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -56,9 +56,12 @@ registerLocaleData(localePt);
     TabelaComponent,
     SaldoComponent,
     FormModalComponent,
+    BotaoAddComponent,
   ],
   imports: [
     IconFieldModule,
+    CarouselModule,
+    SidebarModule,
     ChartModule,
     ToastModule,
     ConfirmDialogModule,
@@ -89,7 +92,11 @@ registerLocaleData(localePt);
 
     AngularFireModule.initializeApp(firebaseConfig),
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }, ConfirmationService, MessageService],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    ConfirmationService,
+    MessageService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

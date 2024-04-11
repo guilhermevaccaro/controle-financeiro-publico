@@ -1,8 +1,11 @@
-p-card {
-  width: 80%;
+.body {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  width: 98%;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .transacoes {
@@ -10,12 +13,13 @@ p-card {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  gap: 20px;
 }
+
 
 .red {
   color: red;
   background-color: red;
-
 }
 
 .form {
@@ -25,7 +29,6 @@ p-card {
   align-items: center;
 }
 
-
 .mat-mdc-card-content.meses {
   display: flex;
   justify-content: space-around;
@@ -34,10 +37,22 @@ p-card {
 
 }
 
-
-
 @media only screen and (max-width: 1080px) {
   p-card {
-    width: 90%; /* ou qualquer valor que você preferir */
+    width: 90%;
+    /* ou qualquer valor que você preferir */
   }
 }
+
+.botaoAdd {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.botaoMenu {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+

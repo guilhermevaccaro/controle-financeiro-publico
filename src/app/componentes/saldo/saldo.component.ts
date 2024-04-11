@@ -1,5 +1,11 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, Input, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -19,6 +25,12 @@ export class SaldoComponent {
   somaReceita = 0;
   somaDespesa = 0;
 
+  @Output() somaReceitaChanged: EventEmitter<number> =
+    new EventEmitter<number>();
+
+  @Output() somaDespesaChanged: EventEmitter<number> =
+    new EventEmitter<number>();
+
   constructor(private serviceContato: ContatoService) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -35,19 +47,24 @@ export class SaldoComponent {
       });
       this.dados = dataFiltradaPendente;
 
-      this.saldoPrevisto =
-        this.dados
-          .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0) -
-        this.dados
-          .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0);
-
       const dadosEfetivados = dataFiltradaPendente.filter(
         (item) => item.situacao === true
       );
+
+      this.somaReceita = this.dados
+        .filter((item) => item.tipo === 'receita')
+        .map((item) => item.valor)
+        .reduce((total, valor) => total + valor, 0);
+
+      this.somaReceitaChanged.emit(this.somaReceita);
+
+      this.somaDespesa = this.dados
+        .filter((item) => item.tipo === 'despesa')
+        .map((item) => item.valor)
+        .reduce((total, valor) => total + valor, 0);
+        this.somaDespesaChanged.emit(this.somaDespesa);
+
+      this.saldoPrevisto = this.somaReceita - this.somaDespesa;
 
       this.saldoMes =
         dadosEfetivados
