@@ -47,6 +47,10 @@ import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
+import { ReceitasComponent } from './pages/receitas/receitas.component';
+import { DespesasComponent } from './pages/despesas/despesas.component';
+import { PendentesComponent } from './pages/pendentes/pendentes.component';
+import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -61,6 +65,10 @@ registerLocaleData(localePt);
     TabelaComponent,
     SaldoComponent,
     FormModalComponent,
+    ReceitasComponent,
+    DespesasComponent,
+    PendentesComponent,
+    TransacoesComponent,
   ],
   imports: [
     IconFieldModule,

@@ -7,9 +7,39 @@
         (onClick)="toggleMenu()"></p-button>
     </div>
     <mat-nav-list>
-      <a mat-list-item>
-        <span class="entry"> <i class="pi pi-home"></i>
+      <a mat-list-item [routerLink]="'dashboard'">
+        <span class="entry"><span class="material-icons-outlined blue">
+            home
+          </span>
           <span *ngIf="!isCollapsed">Dashboard</span>
+        </span>
+      </a>
+      <a mat-list-item [routerLink]="'transacoes'">
+        <span class="entry"> <span class="material-icons-outlined ">
+            format_list_bulleted
+          </span>
+          <span *ngIf="!isCollapsed">Transações</span>
+        </span>
+      </a>
+      <a mat-list-item [routerLink]="'receitas'">
+        <span class="entry"> <span class="material-icons-outlined green">
+            trending_up
+          </span>
+          <span *ngIf="!isCollapsed">Receitas</span>
+        </span>
+      </a>
+      <a mat-list-item [routerLink]="'despesas'">
+        <span class="entry"> <span class="material-icons-outlined red">
+            trending_down
+          </span>
+          <span *ngIf="!isCollapsed">Despesas</span>
+        </span>
+      </a>
+      <a mat-list-item [routerLink]="'pendentes'">
+        <span class="entry"> <span class="material-icons-outlined orange">
+            watch_later
+          </span>
+          <span *ngIf="!isCollapsed">Contas Pendentes</span>
         </span>
       </a>
     </mat-nav-list>
@@ -20,13 +50,13 @@
       <button mat-fab [matMenuTriggerFor]="menu" color="primary">
         <mat-icon>add</mat-icon>
       </button> <mat-menu #menu="matMenu" xPosition="before" yPosition="below" overlapTrigger="false">
-        <button mat-menu-item (click)="showModalAdd('despesa')">
-          <mat-icon>add</mat-icon>
-          <span>Adicionar Despesa</span>
+        <button mat-menu-item (click)="showModalAdd('despesa')" class="red">
+          <mat-icon color="accent">trending_down</mat-icon>
+          <span class="red">Adicionar Despesa</span>
         </button>
         <button mat-menu-item (click)="showModalAdd('receita')">
-          <mat-icon>add</mat-icon>
-          <span>Adicionar Receita</span>
+          <mat-icon color="warn">trending_up</mat-icon>
+          <span class="green">Adicionar Receita</span>
         </button>
       </mat-menu>
     </div>

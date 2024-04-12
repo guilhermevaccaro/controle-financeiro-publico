@@ -13,6 +13,26 @@ h2 {
 
 }
 
+.mat-warn {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.orange {
+  color: orange;
+}
+
+.blue {
+  color: rgb(20, 20, 165);
+}
+
 mat-sidenav-container {
   height: 100%;
 }
@@ -23,4 +43,12 @@ mat-sidenav {
     align-items: center;
     gap: 1rem;
   }
+}
+
+a {
+  height: 60px !important;
+}
+
+span {
+  color: grey;
 }
