@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 import { MatSidenav } from '@angular/material/sidenav';
+import { ContatoService } from './services/contato.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,14 @@ export class AppComponent {
   isMobile = true;
   isCollapsed = true;
 
-  constructor(private observer: BreakpointObserver) {}
+  formData: any;
+  visible: boolean = false;
+  public tipo: string = '';
+
+  constructor(
+    private observer: BreakpointObserver,
+    private serviceContato: ContatoService
+  ) {}
 
   ngOnInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
@@ -35,5 +43,17 @@ export class AppComponent {
       this.sidenav.open();
       this.isCollapsed = !this.isCollapsed;
     }
+  }
+  showModalAdd(tipo: string) {
+    this.tipo = tipo;
+    this.formData = null;
+    this.visible = true;
+  }
+  closeModal() {
+    this.visible = false;
+  }
+
+  onRemove(key: string) {
+    this.serviceContato.deleteDocument('transacoes', key);
   }
 }

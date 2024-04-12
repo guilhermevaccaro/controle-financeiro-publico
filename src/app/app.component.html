@@ -16,5 +16,23 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <router-outlet></router-outlet>
+    <div class="botaoAdd">
+      <button mat-fab [matMenuTriggerFor]="menu" color="primary">
+        <mat-icon>add</mat-icon>
+      </button> <mat-menu #menu="matMenu" xPosition="before" yPosition="below" overlapTrigger="false">
+        <button mat-menu-item (click)="showModalAdd('despesa')">
+          <mat-icon>add</mat-icon>
+          <span>Adicionar Despesa</span>
+        </button>
+        <button mat-menu-item (click)="showModalAdd('receita')">
+          <mat-icon>add</mat-icon>
+          <span>Adicionar Receita</span>
+        </button>
+      </mat-menu>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
+  [modal]="true">
+  <app-form-modal [formData]="formData" (close)="closeModal()" [tipo]="tipo"></app-form-modal>
+</p-dialog>

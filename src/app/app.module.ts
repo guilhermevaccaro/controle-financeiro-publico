@@ -4,6 +4,7 @@ import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -29,25 +30,23 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
 import { SidebarModule } from 'primeng/sidebar';
+import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
-import { SpeedDialModule } from 'primeng/speeddial';
 
 import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BotaoAddComponent } from './componentes/botaoAdd/botaoAdd.component';
 import { FormModalComponent } from './componentes/form-modal/form-modal.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
-import { MenuModule } from 'primeng/menu';
-import { MatButtonModule } from '@angular/material/button';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -62,7 +61,6 @@ registerLocaleData(localePt);
     TabelaComponent,
     SaldoComponent,
     FormModalComponent,
-    BotaoAddComponent,
   ],
   imports: [
     IconFieldModule,

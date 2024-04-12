@@ -3,12 +3,6 @@
   margin: 0px 3%;
 }
 
-.botaoAdd {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-
-}
 
 .header {
   padding: 15px;
@@ -53,27 +47,22 @@
 
 }
 
-.card-grafico-barra {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-
-  .grafico {
-    width: 98%;
+@media screen and (max-width: 1370px) {
+  .linha {
+    display: block;
+    justify-content: space-between;
   }
 
-  .conteudo-card {
-    display: flex !important;
-  }
-
-  .texto {
+  .card-grafico-rosca {
+    border: 1px solid;
     display: flex;
     justify-content: space-between;
-    width: 50%;
+    width: 100%;
+    gap: 10px;
 
-    p {
-      padding: 5px 20px;
-      width: 100%;
+    .grafico {
+      width: 98%;
     }
+
   }
 }

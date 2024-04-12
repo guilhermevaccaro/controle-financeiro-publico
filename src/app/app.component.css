@@ -6,6 +6,12 @@ h2 {
   padding: 1rem;
 }
 
+.botaoAdd {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+
+}
 
 mat-sidenav-container {
   height: 100%;

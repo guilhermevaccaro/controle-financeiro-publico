@@ -47,39 +47,21 @@
     </div>
 
     <div class="linha">
-      <div class="card-grafico-barra">
+
+      <div class="card-grafico-rosca">
         <p-card header="Balanço Mensal" class="grafico">
           <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''" [somaDespesa]="somaDespesa"
             [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"></app-transacoes-lista>
         </p-card>
       </div>
-      <div class="card-grafico-barra">
+
+      <div class="card-grafico-rosca">
         <p-card header="Balanço Mensal" class="grafico">
           <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''" [somaDespesa]="somaDespesa"
             [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"></app-transacoes-lista>
         </p-card>
       </div>
-    </div>
 
-    <div class="botaoAdd">
-      <button mat-fab [matMenuTriggerFor]="menu" color="primary">
-        <mat-icon>add</mat-icon>
-      </button> <mat-menu #menu="matMenu" xPosition="before" yPosition="below" overlapTrigger="false">
-        <button mat-menu-item (click)="showModalAdd('despesa')">
-          <mat-icon>add</mat-icon>
-          <span>Adicionar Despesa</span>
-        </button>
-        <button mat-menu-item (click)="showModalAdd('receita')">
-          <mat-icon>add</mat-icon>
-          <span>Adicionar Receita</span>
-        </button>
-      </mat-menu>
     </div>
-
-    <p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
-      [modal]="true">
-      <app-form-modal [formData]="formData" (close)="closeModal()" [tipo]="tipo"></app-form-modal>
-    </p-dialog>
   </div>
-
 </div>

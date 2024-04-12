@@ -1,13 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { Transacao } from 'src/app/models/Transacao';
-import { ContatoService } from 'src/app/services/contato.service';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-saldo',
