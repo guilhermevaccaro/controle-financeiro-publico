@@ -15,14 +15,17 @@ export class TransacoesListaComponent {
   @Input() filtro!: string;
   @Input() somaReceita!: number;
   @Input() somaDespesa!: number;
+  @Input() saldoPrevisto!: number;
   data: any;
   data2: any;
   options: any;
+  dados = true;
 
   constructor(private serviceContato: ContatoService) {}
 
   ngOnInit(): void {
     this.carregar();
+    console.log(this.dados);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -46,6 +49,7 @@ export class TransacoesListaComponent {
 
   atualizarDadosGrafico() {
     if (this.contatos && this.contatos.length > 0) {
+      console.log(this.contatos);
       const contagemCategorias: { [categoria: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
@@ -87,17 +91,20 @@ export class TransacoesListaComponent {
         datasets: [
           {
             data: data2,
-            backgroundColor: ['blue', 'yellow', 'green'],
+            backgroundColor: ['green', 'red'],
             hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen'],
           },
         ],
       };
+      this.dados = true;
     } else {
-      console.log('Nenhum contato encontrado para contar categorias.');
+      this.dados = false;
     }
     this.options = {
+      responsive: false,
+      maintainAspectRatio: false,
       barPercentage: 0.2,
-      cutout: '80%',
+      cutout: '70%',
       borderWidth: 0,
       plugins: {
         legend: {
@@ -106,23 +113,4 @@ export class TransacoesListaComponent {
       },
     };
   }
-
-  // showModal(formData: any) {
-  //   this.formData = formData;
-  //   this.visible = true;
-  // }
-
-  // showModalAdd(tipo: string) {
-  //   this.tipo = tipo;
-  //   this.formData = null;
-  //   this.visible = true;
-  // }
-
-  // onRemove(key: string) {
-  //   this.serviceContato.deleteDocument('transacoes', key);
-  // }
-
-  // public closeModal() {
-  //   this.visible = false;
-  // }
 }

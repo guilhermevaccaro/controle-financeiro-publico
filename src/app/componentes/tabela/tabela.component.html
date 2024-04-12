@@ -1,15 +1,13 @@
 <div class="card">
   <p-table [value]="contatos" [tableStyle]="{ 'min-width': '50rem' }" class="responsive-table">
     <ng-template pTemplate="header">
-      <tr>
-        <th style="width: 20%">Situação</th>
-        <th style="width: 20%">Categoria</th>
-        <th style="width: 20%">Valor</th>
-        <th style="width: 20%">Data</th>
-        <!-- <th pSortableColumn="quantity" style="width:20%">Tipo <p-sortIcon field="quantity"></th> -->
-        <th style="width: 20%">
-        </th>
-      </tr>
+      <!-- <tr>
+        <th>Situação</th>
+        <th>Categoria</th>
+        <th>Valor</th>
+        <th>Data</th>
+        <th>Ações </th>
+      </tr> -->
     </ng-template>
     <ng-template pTemplate="body" let-product>
       <tr>

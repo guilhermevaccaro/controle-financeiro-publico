@@ -6,11 +6,11 @@
   color: rgb(0, 171, 0);
 }
 
-.orange{
+.orange {
   color: orange;
 }
 
-.categoria{
+.categoria {
   display: flex;
   flex-direction: column;
 }
@@ -22,11 +22,14 @@
 .responsive-table th,
 .responsive-table td {
   width: auto;
+  height: auto !important;
+
 }
+
+td {}
 
 @media only screen and (max-width: 1300px) {
   .responsive-table {
     max-width: 90%;
   }
 }
-

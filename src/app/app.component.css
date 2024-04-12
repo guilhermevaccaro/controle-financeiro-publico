@@ -1,8 +1,21 @@
-.body {
-  display: block
+h1 {
+  padding: 0 1rem;
 }
 
-.menu {
+h2 {
+  padding: 1rem;
+}
+
+
+mat-sidenav-container {
   height: 100%;
-  border: 1px solid;
+}
+
+mat-sidenav {
+  transform:matrix(absolute) !important;
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }

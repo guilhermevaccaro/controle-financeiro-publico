@@ -5,7 +5,10 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp } from 'firebase/app';
@@ -32,16 +35,19 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
+import { SpeedDialModule } from 'primeng/speeddial';
 
 import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormModalComponent } from './componentes/form-modal/form-modal.component';
 import { BotaoAddComponent } from './componentes/botaoAdd/botaoAdd.component';
+import { FormModalComponent } from './componentes/form-modal/form-modal.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
+import { MenuModule } from 'primeng/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -60,6 +66,12 @@ registerLocaleData(localePt);
   ],
   imports: [
     IconFieldModule,
+    MatButtonModule,
+    MatListModule,
+    MenuModule,
+    SpeedDialModule,
+    MatSidenavModule,
+    MatToolbarModule,
     CarouselModule,
     SidebarModule,
     ChartModule,

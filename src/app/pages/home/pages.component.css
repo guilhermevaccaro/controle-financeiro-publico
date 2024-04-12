@@ -1,58 +1,79 @@
 .body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 98%;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.transacoes {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-
-.red {
-  color: red;
-  background-color: red;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.mat-mdc-card-content.meses {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 20px;
-
-}
-
-@media only screen and (max-width: 1080px) {
-  p-card {
-    width: 90%;
-    /* ou qualquer valor que você preferir */
-  }
+  position: relative;
+  margin: 0px 3%;
 }
 
 .botaoAdd {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  right: 25px;
+  bottom: 25px;
+
 }
 
-.botaoMenu {
-  position: fixed;
-  top: 20px;
-  left: 20px;
+.header {
+  padding: 15px;
+  display: flex;
+  justify-content: center;
 }
 
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 20px;
+}
+
+.conteudo-saldo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-saldo {
+  width: 25%;
+
+  .p-card {
+    width: 100%;
+  }
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-grafico-rosca {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  gap: 10px;
+
+  .grafico {
+    width: 98%;
+  }
+
+}
+
+.card-grafico-barra {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+  .grafico {
+    width: 98%;
+  }
+
+  .conteudo-card {
+    display: flex !important;
+  }
+
+  .texto {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+
+    p {
+      padding: 5px 20px;
+      width: 100%;
+    }
+  }
+}
