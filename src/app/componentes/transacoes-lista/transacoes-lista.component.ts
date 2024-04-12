@@ -25,7 +25,6 @@ export class TransacoesListaComponent {
 
   ngOnInit(): void {
     this.carregar();
-    console.log(this.dados);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -49,7 +48,6 @@ export class TransacoesListaComponent {
 
   atualizarDadosGrafico() {
     if (this.contatos && this.contatos.length > 0) {
-      console.log(this.contatos);
       const contagemCategorias: { [categoria: string]: number } = {};
 
       this.contatos.forEach((objeto) => {

@@ -5,7 +5,6 @@ import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
-
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
@@ -47,38 +46,6 @@ export class PagesComponent {
   }
 
   ngOnInit(): void {
-    this.items = [
-      {
-        label: 'Options',
-        items: [
-          {
-            label: 'Update',
-            icon: 'pi pi-refresh',
-            command: () => {},
-          },
-          {
-            label: 'Delete',
-            icon: 'pi pi-times',
-            command: () => {},
-          },
-        ],
-      },
-      {
-        label: 'Navigate',
-        items: [
-          {
-            label: 'Angular',
-            icon: 'pi pi-external-link',
-            url: 'http://angular.io',
-          },
-          {
-            label: 'Router',
-            icon: 'pi pi-upload',
-            routerLink: '/fileupload',
-          },
-        ],
-      },
-    ];
     this.calculaSaldos();
     this.config.setTranslation({
       apply: 'Aplicar',
@@ -135,14 +102,6 @@ export class PagesComponent {
     this.calculaSaldos();
   }
 
-  showModal(formData: any) {
-    this.formData = formData;
-    this.visible = true;
-  }
-  abrindoModal(tipo: string, transacao?: Transacao) {
-    this.visible;
-  }
-
   showModalAdd(tipo: string) {
     this.tipo = tipo;
     this.formData = null;
@@ -157,15 +116,12 @@ export class PagesComponent {
   }
 
   calculaSaldos() {
-    console.log('calculasaldo');
     this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltradaPendente = items.filter((item) => {
         const mes = parseInt(item.data.split('/')[1], 10);
         return mes === parseInt(this.valorSelecionado);
       });
       this.dados = dataFiltradaPendente;
-
-      console.log(dataFiltradaPendente);
 
       const dadosEfetivados = dataFiltradaPendente.filter(
         (item) => item.situacao === true
@@ -196,7 +152,6 @@ export class PagesComponent {
       const dadosPendentes = dataFiltradaPendente.filter(
         (item) => item.situacao !== true
       );
-      console.log(this.saldoMes);
 
       this.saldoPendente =
         dadosPendentes

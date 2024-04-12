@@ -12,7 +12,6 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-  transform:matrix(absolute) !important;
   .entry {
     display: flex;
     align-items: center;
