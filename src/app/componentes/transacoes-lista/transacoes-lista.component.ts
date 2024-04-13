@@ -64,8 +64,21 @@ export class TransacoesListaComponent {
         }
       });
 
+      let total = 0;
+      for (let categoria in contagemCategorias) {
+        total += contagemCategorias[categoria];
+      }
+
+      let porcentagens: { [categoria: string]: string } = {};
+      for (let categoria in contagemCategorias) {
+        let porcentagem = (contagemCategorias[categoria] / total) * 100;
+        porcentagens[categoria] = porcentagem.toFixed(1);
+      }
+
+      console.log(porcentagens);
+
       const labels1 = Object.keys(contagemCategorias);
-      const data1 = Object.values(contagemCategorias);
+      const data1 = Object.values(porcentagens);
 
       const labels2 = Object.keys(contagemTipos);
       const data2 = Object.values(contagemTipos);

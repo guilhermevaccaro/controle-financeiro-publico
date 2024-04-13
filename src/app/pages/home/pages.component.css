@@ -3,11 +3,25 @@
   margin: 0px 3%;
 }
 
-
 .header {
   padding: 15px;
   display: flex;
   justify-content: center;
+}
+
+:host ::ng-deep {
+  .date {
+    .p-inputtext {
+      cursor: pointer !important;
+      text-align: center;
+      border-radius: 25px !important;
+    }
+
+    .p-inputtext:hover {
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+    }
+  }
 }
 
 .conteudo {

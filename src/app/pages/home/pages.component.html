@@ -1,8 +1,14 @@
 <div class="body">
   <div class="header">
+
     <form [formGroup]="form" class="form">
-      <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-        (onSelect)="onDateSelect($event)"></p-calendar>
+      <p-iconField iconPosition="right">
+        <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
+          (onSelect)="onDateSelect($event)" class="date">
+        </p-calendar>
+        <p-inputIcon styleClass="pi pi-angle-down"/>
+      </p-iconField>
+
     </form>
   </div>
 
