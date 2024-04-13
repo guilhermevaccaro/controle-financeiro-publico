@@ -33,15 +33,15 @@
 
       <div class="card-grafico-rosca">
         <p-card header="Despesas por Categoria" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'despesa'"
-            [somaDespesa]="somaDespesa"></app-transacoes-lista>
+          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'despesa'" [somaDespesa]="somaDespesa"
+            [dados1]="dados"></app-transacoes-lista>
         </p-card>
       </div>
 
       <div class="card-grafico-rosca">
         <p-card header="Receitas por Categoria" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'receita'"
-            [somaReceita]="somaReceita"></app-transacoes-lista>
+          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'receita'" [somaReceita]="somaReceita"
+            [dados1]="dados"></app-transacoes-lista>
         </p-card>
       </div>
     </div>
@@ -51,14 +51,15 @@
       <div class="card-grafico-rosca">
         <p-card header="Balanço Mensal" class="grafico">
           <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''" [somaDespesa]="somaDespesa"
-            [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"></app-transacoes-lista>
+            [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto" [dados1]="dados"></app-transacoes-lista>
         </p-card>
       </div>
 
       <div class="card-grafico-rosca">
         <p-card header="Não há Dados!" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="'Forçando noData template'" [filtro]="''" [somaDespesa]="somaDespesa"
-            [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"></app-transacoes-lista>
+          <app-transacoes-lista [valorSelecionado]="'Forçando noData template'" [filtro]="''"
+            [somaDespesa]="somaDespesa" [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"
+            [dados1]="dados"></app-transacoes-lista>
         </p-card>
       </div>
 

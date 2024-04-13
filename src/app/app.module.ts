@@ -32,6 +32,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
 import { SidebarModule } from 'primeng/sidebar';
+import { SkeletonModule } from 'primeng/skeleton';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
@@ -46,10 +47,10 @@ import { FormModalComponent } from './componentes/form-modal/form-modal.componen
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
-import { PagesComponent } from './pages/home/pages.component';
-import { ReceitasComponent } from './pages/receitas/receitas.component';
 import { DespesasComponent } from './pages/despesas/despesas.component';
+import { PagesComponent } from './pages/home/pages.component';
 import { PendentesComponent } from './pages/pendentes/pendentes.component';
+import { ReceitasComponent } from './pages/receitas/receitas.component';
 import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 
 const firebaseConfig = environment.firebaseConfig;
@@ -72,6 +73,7 @@ registerLocaleData(localePt);
   ],
   imports: [
     IconFieldModule,
+    SkeletonModule,
     MatButtonModule,
     MatListModule,
     MenuModule,

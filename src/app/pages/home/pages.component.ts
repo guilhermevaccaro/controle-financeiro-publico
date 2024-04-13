@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
 import { Transacao } from 'src/app/models/Transacao';
@@ -7,17 +7,17 @@ import { ContatoService } from 'src/app/services/contato.service';
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.css']
+  styleUrls: ['./pages.component.css'],
 })
 export class PagesComponent {
+  dados!: Transacao[];
   form!: FormGroup;
-  @Input() valorSelecionado!: any;
+  saldoMes = 0;
   saldoPrevisto = 0;
   saldoPendente = 0;
-  saldoMes = 0;
-  dados!: Transacao[];
-  somaReceita = 0;
   somaDespesa = 0;
+  somaReceita = 0;
+  valorSelecionado!: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,6 +94,7 @@ export class PagesComponent {
         return mes === parseInt(this.valorSelecionado);
       });
       this.dados = dataFiltradaPendente;
+      console.log(this.dados);
 
       const dadosEfetivados = dataFiltradaPendente.filter(
         (item) => item.situacao === true

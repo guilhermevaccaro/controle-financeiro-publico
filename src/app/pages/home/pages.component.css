@@ -54,7 +54,6 @@
   }
 
   .card-grafico-rosca {
-    border: 1px solid;
     display: flex;
     justify-content: space-between;
     width: 100%;
