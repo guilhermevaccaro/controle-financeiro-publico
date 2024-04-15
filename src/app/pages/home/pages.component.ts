@@ -94,7 +94,6 @@ export class PagesComponent {
         return mes === parseInt(this.valorSelecionado);
       });
       this.dados = dataFiltradaPendente;
-      console.log(this.dados);
 
       const dadosEfetivados = dataFiltradaPendente.filter(
         (item) => item.situacao === true

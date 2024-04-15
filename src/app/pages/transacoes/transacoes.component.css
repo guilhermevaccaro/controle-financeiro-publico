@@ -1,0 +1,171 @@
+.body {
+  position: relative;
+  margin: 0px 3%;
+}
+
+.header {
+  display: flex;
+  height: 100px;
+  align-items: end;
+}
+
+.header-tabela {
+  display: flex;
+  justify-content: center;
+}
+
+:host ::ng-deep {
+  .date {
+    .p-inputtext {
+      cursor: pointer !important;
+      text-align: center;
+      border-radius: 25px !important;
+    }
+
+    .p-inputtext:hover {
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+  }
+
+  .p-dropdown {
+    border-radius: 25px;
+    background-color: rgb(123, 204, 130) !important;
+    color: wheat;
+  }
+
+  .p-dropdown-label {
+    color: white;
+  }
+
+  .p-dropdown-trigger {
+    color: white;
+  }
+  .p-dropdown:not(.p-disabled).p-focus {
+    /* border-color: red !important; */
+  }
+
+  .p-dropdown-panel {
+    border-radius: 10px;
+  }
+
+  .p-dropdown-items {
+    padding: 0px !important;
+    width: 190px;
+  }
+
+  .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+    background: none;
+
+  }
+}
+
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.cards-saldo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+p-card {}
+
+.linha {
+  display: flex;
+}
+
+.grafico {
+  .p-card-body {
+    padding: 0px 1.25rem;
+
+
+  }
+}
+
+.card-grafico-rosca1 {
+  flex-grow: 2;
+
+  .grafico {
+    width: 95%;
+  }
+}
+
+.grafico {
+
+  .p-datatable .p-datatable-thead>tr>th {
+    background-color: white;
+    text-align: center;
+  }
+
+  .p-datatable .p-datatable-tbody>tr>td {
+    padding-left: 60px;
+  }
+}
+
+
+.card-grafico-rosca2 {
+  display: flex;
+  flex-grow: 1.8;
+
+}
+
+@media screen and (max-width: 1370px) {
+  .linha {
+    display: block;
+    justify-content: space-between;
+  }
+
+  .card-grafico-rosca {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+
+    .grafico {
+      width: 98%;
+    }
+
+  }
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: rgb(0, 171, 0);
+}
+
+.orange {
+  color: orange;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+}
+
+.responsive-table {
+  width: 100%;
+}
+
+.responsive-table th,
+.responsive-table td {
+  width: auto;
+  height: auto !important;
+
+}
+
+td {}
+
+@media only screen and (max-width: 1300px) {
+  .responsive-table {
+    max-width: 90%;
+  }
+}

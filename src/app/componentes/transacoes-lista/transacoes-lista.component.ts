@@ -32,7 +32,6 @@ export class TransacoesListaComponent {
   }
 
   private processarDados(dados: Transacao[]): void {
-    console.log('Dados recebidos:', dados);
     const dataFiltrada = dados.filter((dado) => {
       const mes = parseInt(dado.data.split('/')[1], 10);
       return (
@@ -74,8 +73,6 @@ export class TransacoesListaComponent {
         let porcentagem = (contagemCategorias[categoria] / total) * 100;
         porcentagens[categoria] = porcentagem.toFixed(1);
       }
-
-      console.log(porcentagens);
 
       const labels1 = Object.keys(contagemCategorias);
       const data1 = Object.values(porcentagens);

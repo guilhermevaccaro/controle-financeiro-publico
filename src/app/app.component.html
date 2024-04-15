@@ -7,6 +7,10 @@
         (onClick)="toggleMenu()"></p-button>
     </div>
     <mat-nav-list>
+      <button *ngIf="isCollapsed" class="btn-collapsed" [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon>
+      </button>
+      <button *ngIf="!isCollapsed" class="btn" [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon>
+        Novo </button>
       <a mat-list-item [routerLink]="'dashboard'">
         <span class="entry"><span class="material-icons-outlined blue">
             home
@@ -46,20 +50,16 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <router-outlet></router-outlet>
-    <div class="botaoAdd">
-      <button mat-fab [matMenuTriggerFor]="menu" color="primary">
-        <mat-icon>add</mat-icon>
-      </button> <mat-menu #menu="matMenu" xPosition="before" yPosition="below" overlapTrigger="false">
-        <button mat-menu-item (click)="showModalAdd('despesa')" class="red">
-          <mat-icon color="accent">trending_down</mat-icon>
-          <span class="red">Adicionar Despesa</span>
-        </button>
-        <button mat-menu-item (click)="showModalAdd('receita')">
-          <mat-icon color="warn">trending_up</mat-icon>
-          <span class="green">Adicionar Receita</span>
-        </button>
-      </mat-menu>
-    </div>
+    <mat-menu #menu="matMenu" xPosition="before" yPosition="below" overlapTrigger="false">
+      <button mat-menu-item (click)="showModalAdd('despesa')" class="red">
+        <mat-icon color="accent">trending_down</mat-icon>
+        <span class="red">Adicionar Despesa</span>
+      </button>
+      <button mat-menu-item (click)="showModalAdd('receita')">
+        <mat-icon color="warn">trending_up</mat-icon>
+        <span class="green">Adicionar Receita</span>
+      </button>
+    </mat-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>
 <p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
