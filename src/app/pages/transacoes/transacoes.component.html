@@ -1,106 +1,144 @@
 <div class="body">
 
-
-  <div class="conteudo">
-
-    <div class="linha">
-
-      <div class="header">
-        <p-dropdown [options]="opcoes" optionLabel="name"></p-dropdown>
-
-      </div>
-
-
-    </div>
-
-    <div class="linha">
-
-      <div class="card-grafico-rosca1">
-
-        <p-card class="grafico" styleClass="grafico">
-          <div class="header-tabela">
-            <form class="form">
-              <p-iconField iconPosition="right">
-                <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-                  class="date">
-                </p-calendar>
-                <p-inputIcon styleClass="pi pi-angle-down" />
-              </p-iconField>
-
-            </form>
-          </div>
-          <p-table [value]="contatos" [tableStyle]="{ 'min-width': '50rem' }" class="responsive-table">
-            <ng-template pTemplate="header">
-              <tr>
-                <th>Situação</th>
-                <th>Categoria</th>
-                <th>Valor</th>
-                <th>Data</th>
-                <th>Ações </th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-product>
-              <tr>
-                <td style="padding-left: 40px;">
-                  <ng-container *ngIf="product.situacao === true; else pendente">
-                    <i class="pi pi-check-circle green" style="font-size: 1.2rem" pTooltip="Efetivado"></i>
-                  </ng-container>
-                  <ng-template #pendente>
-                    <i class="pi pi-clock orange" style="font-size: 1.2rem" pTooltip="Pendente"></i>
-                  </ng-template>
-                </td>
-                <td>
-                  <p> {{ product.categoria }} </p>
-                  {{ product.descricao }}
-                </td>
-                <td>
-                  <ng-container *ngIf="product.tipo === 'despesa'; else receita">
-                    <div class="red">R$ -{{ product.valor | number : "0.2" }}</div>
-                  </ng-container>
-                  <ng-template #receita>
-                    <div class="green">R$ +{{ product.valor | number : "0.2" }}</div>
-                  </ng-template>
-                </td>
-                <td>{{ product.data }}</td>
-                <td style="">
-                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="abrindoModal('', product)">
-                  </p-button>
-                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger "
-                    (click)="confirm($event, product.id)">
-                  </p-button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </p-card>
-      </div>
-
-      <div class="card-grafico-rosca2">
-        <div class="cards-saldo">
-
-          <div class="card-saldo">
-            <app-saldo [titulo]="'Saldo Atual'" [soma]="0" [icone]="'pi pi-wallet'"></app-saldo>
-          </div>
-
-          <div class="card-saldo">
-            <app-saldo [titulo]="'Receitas'" [soma]="0" [icone]="'pi pi-arrow-up'" [color]="'success'"></app-saldo>
-          </div>
-
-          <div class="card-saldo">
-            <app-saldo [titulo]="'Despesas'" [soma]="0" [icone]="'pi pi-arrow-down'" [color]="'danger'"></app-saldo>
-          </div>
-
-
-          <div class="card-saldo">
-            <app-saldo [titulo]="'Balanço Mensal'" [soma]="0" [icone]="'pi pi-wallet'" [color]="'warning'"></app-saldo>
-          </div>
-        </div>
-      </div>
+  <div class="linha">
+    <div class="header">
+      <h1
+        [ngClass]="{'opcoes-selecionadas': true, 'transacoes': opcoesSelecionadas === 'transacoes', 'receita': opcoesSelecionadas === 'receita', 'despesa': opcoesSelecionadas === 'despesa'}">
+        {{ opcoesSelecionadas | titlecase }}</h1>
 
     </div>
   </div>
+
+  <div class="linha" *ngIf="opcoesSelecionadas === 'transacoes'">
+    <div class="card-grafico-rosca1">
+      <p-card class="grafico" styleClass="grafico">
+        <div class="header-tabela">
+          <form [formGroup]="form" class="form">
+            <p-iconField iconPosition="right">
+              <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
+                class="date" (onSelect)="onDateSelect($event)">
+              </p-calendar>
+              <p-inputIcon styleClass="pi pi-angle-down" />
+            </p-iconField>
+
+          </form>
+        </div>
+        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" filtro="" (remove)="onRemove($event)"
+          (open)="showModal($event)"></app-tabela>
+      </p-card>
+    </div>
+
+    <div class="card-grafico-rosca2">
+      <div class="cards-saldo">
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Saldo Atual'" [soma]="saldoMes" [icone]="'pi pi-wallet'"></app-saldo>
+        </div>
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Receitas'" [soma]="somaReceita" [icone]="'pi pi-arrow-up'"
+            [color]="'success'"></app-saldo>
+        </div>
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Despesas'" [soma]="somaDespesa" [icone]="'pi pi-arrow-down'"
+            [color]="'danger'"></app-saldo>
+        </div>
+
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Balanço Mensal'" [soma]="saldoPrevisto" [icone]="'pi pi-wallet'"
+            [color]="'warning'"></app-saldo>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="linha" *ngIf="opcoesSelecionadas === 'receita'">
+    <div class="card-grafico-rosca1">
+      <p-card class="grafico" styleClass="grafico">
+        <div class="header-tabela">
+          <form [formGroup]="form" class="form">
+            <p-iconField iconPosition="right">
+              <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
+                class="date" (onSelect)="onDateSelect($event)">
+              </p-calendar>
+              <p-inputIcon styleClass="pi pi-angle-down" />
+            </p-iconField>
+
+          </form>
+        </div>
+        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" [filtro]="'receitas'"
+          (remove)="onRemove($event)" (open)="showModal($event)"></app-tabela>
+      </p-card>
+    </div>
+
+    <div class="card-grafico-rosca2">
+      <div class="cards-saldo">
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Receitas Recebidas'" [soma]="receitaRecebidas" [icone]="'pi pi-arrow-up'"
+            [color]="'success'"></app-saldo>
+        </div>
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Receitas Pendentes'" [soma]="receitaPendente" [icone]="'pi pi-arrow-down'"
+            [color]="'success'"></app-saldo>
+        </div>
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Total'" [soma]="somaReceita" [icone]="'pi pi-wallet'" [color]="'success'"></app-saldo>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="linha" *ngIf="opcoesSelecionadas === 'despesa'">
+    <div class="card-grafico-rosca1">
+      <p-card class="grafico" styleClass="grafico">
+        <div class="header-tabela">
+          <form [formGroup]="form" class="form">
+            <p-iconField iconPosition="right">
+              <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
+                class="date" (onSelect)="onDateSelect($event)">
+              </p-calendar>
+              <p-inputIcon styleClass="pi pi-angle-down" />
+            </p-iconField>
+
+          </form>
+        </div>
+        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" filtro="" (remove)="onRemove($event)"
+          (open)="showModal($event)"></app-tabela>
+      </p-card>
+    </div>
+
+    <div class="card-grafico-rosca2">
+      <div class="cards-saldo">
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Despesas Pagas'" [soma]="despesaPagas" [icone]="'pi pi-arrow-up'"
+            [color]="'danger'"></app-saldo>
+        </div>
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Despesas Pendentes'" [soma]="despesaPendente" [icone]="'pi pi-arrow-down'"
+            [color]="'danger'"></app-saldo>
+        </div>
+
+        <div class="card-saldo">
+          <app-saldo [titulo]="'Total'" [soma]="somaDespesa" [icone]="'pi pi-wallet'" [color]="'danger'"></app-saldo>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 
-<!-- <p-toast></p-toast>
-<p-confirmDialog></p-confirmDialog> -->
+<p-dialog [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo" [(visible)]="visible"
+  [modal]="true">
+  <app-form-modal [formData]="formData" (close)="closeModal()" [tipo]="tipo"></app-form-modal>
+</p-dialog>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
