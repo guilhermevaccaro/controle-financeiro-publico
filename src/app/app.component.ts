@@ -3,6 +3,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 
 import { MatSidenav } from '@angular/material/sidenav';
 import { ContatoService } from './services/contato.service';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ export class AppComponent {
 
   constructor(
     private observer: BreakpointObserver,
-    private serviceContato: ContatoService
+    private serviceContato: ContatoService,
+    private config: PrimeNGConfig
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,53 @@ export class AppComponent {
       } else {
         this.isMobile = false;
       }
+    });
+    this.config.setTranslation({
+      apply: 'Aplicar',
+      clear: 'Limpar',
+      accept: 'Sim',
+      reject: 'Não',
+      firstDayOfWeek: 0,
+      dayNames: [
+        'Domingo',
+        'Segunda',
+        'Terça',
+        'Quarta',
+        'Quinta',
+        'Sexta',
+        'Sábado',
+      ],
+      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
+      monthNames: [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro',
+      ],
+      monthNamesShort: [
+        'Jan',
+        'Fev',
+        'Mar',
+        'Abr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Set',
+        'Out',
+        'Nov',
+        'Dez',
+      ],
+      today: 'Hoje',
     });
   }
 

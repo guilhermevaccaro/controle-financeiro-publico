@@ -6,7 +6,7 @@
 .header {
   display: flex;
   height: 150px;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .opcoes-selecionadas {

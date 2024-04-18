@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, NumberValueAccessor } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -36,13 +35,11 @@ export class TransacoesComponent {
   public tipo: string = '';
 
   constructor(
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService,
     private formBuilder: FormBuilder,
     private serviceContato: ContatoService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
+
   @Output() open = new EventEmitter(false);
   @Output() openAdd = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
@@ -82,11 +79,6 @@ export class TransacoesComponent {
     this.visible = true;
   }
 
-  showModalAdd(tipo: string) {
-    this.tipo = tipo;
-    this.formData = null;
-    this.visible = true;
-  }
   public closeModal() {
     this.visible = false;
   }
