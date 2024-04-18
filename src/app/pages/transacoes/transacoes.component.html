@@ -11,21 +11,21 @@
 
   <div class="linha" *ngIf="opcoesSelecionadas === 'transacoes'">
     <div class="card-grafico-rosca1">
-      <p-card class="grafico" styleClass="grafico">
-        <div class="header-tabela">
+      <mat-card>
+        <mat-card-header>
           <form [formGroup]="form" class="form">
             <p-iconField iconPosition="right">
               <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-                class="date" (onSelect)="onDateSelect($event)">
+                class="date" (onSelect)="onDateSelect($event)" [inputStyle]="customInputStyle">
               </p-calendar>
               <p-inputIcon styleClass="pi pi-angle-down" />
             </p-iconField>
 
           </form>
-        </div>
+        </mat-card-header>
         <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" filtro="" (remove)="onRemove($event)"
           (open)="showModal($event)"></app-tabela>
-      </p-card>
+      </mat-card>
     </div>
 
     <div class="card-grafico-rosca2">
@@ -52,25 +52,25 @@
         </div>
       </div>
     </div>
-
   </div>
+
   <div class="linha" *ngIf="opcoesSelecionadas === 'receita'">
     <div class="card-grafico-rosca1">
-      <p-card class="grafico" styleClass="grafico">
-        <div class="header-tabela">
+      <mat-card>
+        <mat-card-header>
           <form [formGroup]="form" class="form">
             <p-iconField iconPosition="right">
               <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-                class="date" (onSelect)="onDateSelect($event)">
+                class="date" (onSelect)="onDateSelect($event)" [inputStyle]="customInputStyle">
               </p-calendar>
               <p-inputIcon styleClass="pi pi-angle-down" />
             </p-iconField>
 
           </form>
-        </div>
-        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" [filtro]="'receitas'"
-          (remove)="onRemove($event)" (open)="showModal($event)"></app-tabela>
-      </p-card>
+        </mat-card-header>
+        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" filtro="receita" (remove)="onRemove($event)"
+          (open)="showModal($event)"></app-tabela>
+      </mat-card>
     </div>
 
     <div class="card-grafico-rosca2">
@@ -92,31 +92,31 @@
 
       </div>
     </div>
-
   </div>
+
   <div class="linha" *ngIf="opcoesSelecionadas === 'despesa'">
     <div class="card-grafico-rosca1">
-      <p-card class="grafico" styleClass="grafico">
-        <div class="header-tabela">
+      <mat-card>
+        <mat-card-header>
           <form [formGroup]="form" class="form">
             <p-iconField iconPosition="right">
               <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-                class="date" (onSelect)="onDateSelect($event)">
+                class="date" (onSelect)="onDateSelect($event)" [inputStyle]="customInputStyle">
               </p-calendar>
               <p-inputIcon styleClass="pi pi-angle-down" />
             </p-iconField>
 
           </form>
-        </div>
-        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" filtro="" (remove)="onRemove($event)"
+        </mat-card-header>
+        <app-tabela [contatos]="contatos" [valorSelecionado]="valorSelecionado" filtro="despesa" (remove)="onRemove($event)"
           (open)="showModal($event)"></app-tabela>
-      </p-card>
+      </mat-card>
     </div>
 
     <div class="card-grafico-rosca2">
       <div class="cards-saldo">
 
-        <div class="card-saldo">
+        <div class="card-salado">
           <app-saldo [titulo]="'Despesas Pagas'" [soma]="despesaPagas" [icone]="'pi pi-arrow-up'"
             [color]="'danger'"></app-saldo>
         </div>

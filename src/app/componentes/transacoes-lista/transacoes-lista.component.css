@@ -17,33 +17,22 @@
   width: 100%;
   justify-content: space-between;
 
-  .grafico {
-    width: 98%;
-  }
-
-  .conteudo-card {
-    display: flex !important;
-  }
 }
 
 .texto {
   display: flex;
-
-  is:p {
-    padding: 2px 20px;
-
-  }
 }
 
 .red {
-  color: red;
+  color: #ef4444;
 }
 
 .green {
-  color: rgb(0, 171, 0);
+  color: #22c55e;
 }
 
 p {
+  padding-right: 50px;
   font-weight: 700;
 }
 

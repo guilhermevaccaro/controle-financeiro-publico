@@ -5,6 +5,7 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -15,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp } from 'firebase/app';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
-import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
 import { ChartModule } from 'primeng/chart';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -67,6 +67,7 @@ registerLocaleData(localePt);
   ],
   imports: [
     IconFieldModule,
+    MatCardModule,
     SkeletonModule,
     MatButtonModule,
     MatListModule,
@@ -88,7 +89,6 @@ registerLocaleData(localePt);
     DropdownModule,
     InputNumberModule,
     DividerModule,
-    CardModule,
     InputGroupAddonModule,
     InputGroupModule,
     BrowserModule,

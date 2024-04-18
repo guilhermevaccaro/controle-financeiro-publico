@@ -1,15 +1,23 @@
 <mat-sidenav-container autosize="">
   <mat-sidenav [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'" class="sidenav-transition">
-    <p-button *ngIf="isCollapsed" icon="pi pi-angle-double-right" [rounded]="true" [text]="true"
-      (onClick)="toggleMenu()"></p-button>
     <div style="display: flex; justify-content: flex-end;">
+      <p-button *ngIf="isCollapsed" icon="pi pi-angle-double-right" [rounded]="true" [text]="true"
+        (onClick)="toggleMenu()"></p-button>
       <p-button *ngIf="!isCollapsed" icon="pi pi-angle-double-left" [rounded]="true" [text]="true"
         (onClick)="toggleMenu()"></p-button>
     </div>
     <mat-nav-list>
-      <button *ngIf="isCollapsed" class="btn-collapsed" [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon>
+      <button *ngIf="isCollapsed" [ngClass]="{'btn-collapsed': true,
+        'background-purple': router.url === '/transacoes' || router.url === '/dashboard',
+        'background-blue':  router.url === '/dashboard',
+        'background-green': router.url === '/transacoes/receita',
+        'background-red': router.url === '/transacoes/despesa'}" [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon>
       </button>
-      <button *ngIf="!isCollapsed" class="btn" [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon>
+      <button *ngIf="!isCollapsed" [ngClass]="{'btn': true,
+        'background-purple': router.url === '/transacoes' || router.url === '/dashboard',
+        'background-blue':  router.url === '/dashboard',
+      'background-green': router.url === '/transacoes/receita',
+      'background-red': router.url === '/transacoes/despesa'}" [matMenuTriggerFor]="menu"> <mat-icon>add</mat-icon>
         Novo </button>
       <a mat-list-item [routerLink]="'dashboard'">
         <span class="entry"><span class="material-icons-outlined blue">
@@ -19,7 +27,8 @@
         </span>
       </a>
       <a mat-list-item [routerLink]="'transacoes'">
-        <span class="entry"> <span class="material-icons-outlined ">
+        <span class="entry">
+          <span class="material-icons-outlined purple">
             format_list_bulleted
           </span>
           <span *ngIf="!isCollapsed">Transações</span>

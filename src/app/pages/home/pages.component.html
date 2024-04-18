@@ -4,9 +4,9 @@
     <form [formGroup]="form" class="form">
       <p-iconField iconPosition="right">
         <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-          (onSelect)="onDateSelect($event)" class="date">
+          (onSelect)="onDateSelect($event)" class="date" [inputStyle]="customInputStyle">
         </p-calendar>
-        <p-inputIcon styleClass="pi pi-angle-down"/>
+        <p-inputIcon styleClass="pi pi-angle-down" />
       </p-iconField>
 
     </form>
@@ -38,35 +38,56 @@
     <div class="linha">
 
       <div class="card-grafico-rosca">
-        <p-card header="Despesas por Categoria" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'despesa'" [somaDespesa]="somaDespesa"
-            [dados1]="dados"></app-transacoes-lista>
-        </p-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Despesa por Categoria</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'despesa'" [somaDespesa]="somaDespesa"
+              [dados1]="dados"></app-transacoes-lista></mat-card-content>
+        </mat-card>
       </div>
 
       <div class="card-grafico-rosca">
-        <p-card header="Receitas por Categoria" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'receita'" [somaReceita]="somaReceita"
-            [dados1]="dados"></app-transacoes-lista>
-        </p-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Receita por Categoria</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'receita'" [somaReceita]="somaReceita"
+              [dados1]="dados"></app-transacoes-lista>
+          </mat-card-content>
+
+        </mat-card>
       </div>
     </div>
 
     <div class="linha">
 
       <div class="card-grafico-rosca">
-        <p-card header="Balanço Mensal" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''" [somaDespesa]="somaDespesa"
-            [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto" [dados1]="dados"></app-transacoes-lista>
-        </p-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Balanço Mensal</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''" [somaDespesa]="somaDespesa"
+              [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto" [dados1]="dados"></app-transacoes-lista>
+          </mat-card-content>
+        </mat-card>
       </div>
 
       <div class="card-grafico-rosca">
-        <p-card header="Não há Dados!" class="grafico">
-          <app-transacoes-lista [valorSelecionado]="'Forçando noData template'" [filtro]="''"
-            [somaDespesa]="somaDespesa" [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"
-            [dados1]="dados"></app-transacoes-lista>
-        </p-card>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Sem dados!</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-transacoes-lista [valorSelecionado]="'Forçando noData template'" [filtro]="''"
+              [somaDespesa]="somaDespesa" [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"
+              [dados1]="dados"></app-transacoes-lista>
+          </mat-card-content>
+
+        </mat-card>
       </div>
 
     </div>

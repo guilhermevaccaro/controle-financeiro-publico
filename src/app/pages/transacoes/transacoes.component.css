@@ -30,34 +30,6 @@
   background-color: #ef4444;
 }
 
-
-.header-tabela {
-  display: flex;
-  justify-content: center;
-}
-
-:host ::ng-deep {
-  .date {
-    .p-inputtext {
-      cursor: pointer !important;
-      text-align: center;
-      border-radius: 25px !important;
-    }
-
-    .p-inputtext:hover {
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    }
-  }
-}
-
-
-.conteudo {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-
 .cards-saldo {
   display: flex;
   flex-direction: column;
@@ -69,34 +41,20 @@
   display: flex;
 }
 
-.grafico {
-  .p-card-body {
-    padding: 0px 1.25rem;
-
-
-  }
-}
-
 .card-grafico-rosca1 {
   flex-grow: 2;
-
-  .grafico {
-    width: 95%;
-  }
 }
 
-.grafico {
-
-  .p-datatable .p-datatable-thead>tr>th {
-    background-color: white;
-    text-align: center;
-  }
-
-  .p-datatable .p-datatable-tbody>tr>td {
-    padding-left: 60px;
-  }
+mat-card {
+  display: block;
+  width: 95% !important;
 }
 
+mat-card-header {
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
 
 .card-grafico-rosca2 {
   display: flex;
@@ -133,21 +91,6 @@
   color: orange;
 }
 
-.categoria {
-  display: flex;
-  flex-direction: column;
-}
-
-.responsive-table {
-  width: 100%;
-}
-
-.responsive-table th,
-.responsive-table td {
-  width: auto;
-  height: auto !important;
-
-}
 
 @media only screen and (max-width: 1300px) {
   .responsive-table {

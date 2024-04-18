@@ -53,6 +53,11 @@ export class TransacoesComponent {
     this.valorSelecionado = new Date().getMonth() + 1;
     this.carregar();
   }
+  customInputStyle = {
+    cursor: 'pointer',
+    'text-align': 'center',
+    'border-radius': '25px',
+  };
 
   onOpcaoSelecionada(event: { value: any }) {
     this.pegaTipoUrl();

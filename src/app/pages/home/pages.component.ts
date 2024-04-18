@@ -33,6 +33,12 @@ export class PagesComponent {
     this.calculaSaldos();
   }
 
+  customInputStyle = {
+    cursor: 'pointer',
+    'text-align': 'center',
+    'border-radius': '25px',
+  };
+
   onDateSelect(event: any) {
     const selectedDate: Date = event;
     this.valorSelecionado = selectedDate.getMonth() + 1;

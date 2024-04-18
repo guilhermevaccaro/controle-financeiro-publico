@@ -4,6 +4,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ContatoService } from './services/contato.service';
 import { PrimeNGConfig } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,8 @@ export class AppComponent {
   constructor(
     private observer: BreakpointObserver,
     private serviceContato: ContatoService,
-    private config: PrimeNGConfig
+    private config: PrimeNGConfig,
+    public router: Router
   ) {}
 
   ngOnInit() {

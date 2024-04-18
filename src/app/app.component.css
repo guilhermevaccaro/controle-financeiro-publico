@@ -6,29 +6,56 @@ h2 {
   padding: 1rem;
 }
 
-.botaoAdd {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-
-}
-
-
-
 .mat-warn {
-  color: green;
+  color: #22c55e;
 }
 
 .red {
-  color: red;
+  color: #ef4444;
 }
 
 .green {
-  color: green;
+  color: #22c55e;
 }
 
 .orange {
   color: orange;
+}
+
+.purple {
+  color: purple;
+}
+
+.background-purple {
+  background-color: purple;
+  color: white;
+  border: solid purple 2px;
+
+}
+
+.background-green {
+  background-color: #22c55e;
+  color: white;
+  border: solid #22c55e 2px;
+}
+
+.background-green :hover {
+  background-color: pink;
+  color: white;
+  border: solid #22c55e 2px;
+}
+
+.background-red {
+  background-color: #ef4444;
+  color: white;
+  border: solid #ef4444 2px;
+
+}
+
+.background-blue {
+  background-color: rgb(20, 20, 165);
+  color: white;
+  border: solid rgb(20, 20, 165) 2px;
 }
 
 .blue {
@@ -42,11 +69,12 @@ mat-sidenav-container {
 mat-sidenav {
   min-width: 65px;
 
-  .entry {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 a {
@@ -65,22 +93,14 @@ span {
   font-weight: 200;
   font-size: 20px;
   color: #fff;
-  background-color: #0066CC;
   padding: 15px 36px;
   margin-left: 10px;
-
-  border: solid #0066cc 2px;
   box-shadow: none;
   border-radius: 50px;
   transition: 288ms;
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  is:mat-icon {
-    padding-right: 30px;
-  }
-
 }
 
 .btn:hover {
@@ -97,11 +117,11 @@ span {
   font-family: Roboto, sans-serif;
   font-weight: 200;
   font-size: 20px;
-  color: #fff;
-  background-color: #0066CC;
+  /* color: #fff;
+  background-color: #0066CC; */
   padding: 15px;
   margin-left: 10px;
-  border: solid #0066cc 2px;
+  /* border: solid #0066cc 2px; */
   box-shadow: none;
   border-radius: 50px;
   transition: 288ms;

@@ -9,20 +9,6 @@
   justify-content: center;
 }
 
-:host ::ng-deep {
-  .date {
-    .p-inputtext {
-      cursor: pointer !important;
-      text-align: center;
-      border-radius: 25px !important;
-    }
-
-    .p-inputtext:hover {
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
-    }
-  }
-}
 
 .conteudo {
   display: flex;
@@ -33,15 +19,26 @@
 
 .conteudo-saldo {
   display: flex;
-  justify-content: space-between;
 }
 
 .card-saldo {
   width: 25%;
 
-  .p-card {
-    width: 100%;
-  }
+}
+
+mat-card {
+  width: 98%;
+  border-radius: 20px;
+}
+
+mat-card-content {
+  padding: 20px !important
+}
+
+mat-card-title {
+  font-size: 2em;
+  font-weight: 500;
+  color: rgb(63, 63, 63);
 }
 
 .linha {
@@ -51,14 +48,7 @@
 
 .card-grafico-rosca {
   display: flex;
-  justify-content: space-between;
   width: 50%;
-  gap: 10px;
-
-  .grafico {
-    width: 98%;
-  }
-
 }
 
 @media screen and (max-width: 1370px) {
@@ -72,10 +62,5 @@
     justify-content: space-between;
     width: 100%;
     gap: 10px;
-
-    .grafico {
-      width: 98%;
-    }
-
   }
 }

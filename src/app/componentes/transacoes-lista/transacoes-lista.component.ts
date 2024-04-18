@@ -77,8 +77,7 @@ export class TransacoesListaComponent {
       const labels1 = Object.keys(contagemCategorias);
       const data1 = Object.values(porcentagens);
 
-      const labels2 = Object.keys(contagemTipos);
-      const data2 = Object.values(contagemTipos);
+      const data2 = [contagemTipos['receita'] || 0, contagemTipos['despesa'] || 0];
 
       this.data = {
         labels: labels1,
@@ -92,12 +91,12 @@ export class TransacoesListaComponent {
       };
 
       this.data2 = {
-        labels: labels2,
+        labels: ['Receita', 'Despesa'],
         datasets: [
           {
             data: data2,
             backgroundColor: ['green', 'red'],
-            hoverBackgroundColor: ['lightblue', 'lightyellow'],
+            hoverBackgroundColor: ['lightgreen', 'pink'],
           },
         ],
       };
