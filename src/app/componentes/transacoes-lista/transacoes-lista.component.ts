@@ -1,8 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { Categoria } from 'src/app/models/Categoria';
 import { Transacao } from 'src/app/models/Transacao';
-import { ContatoService } from 'src/app/services/contato.service';
-import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-transacoes-lista',
@@ -15,38 +12,42 @@ export class TransacoesListaComponent {
   @Input() filtro!: string;
   @Input() somaReceita!: number;
   @Input() somaDespesa!: number;
+  @Input() saldoPrevisto!: number;
+  @Input() dados1!: any;
   data: any;
   data2: any;
   options: any;
+  dados = true;
 
-  constructor(private serviceContato: ContatoService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.carregar();
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('valorSelecionado' in changes) {
-      this.carregar();
+    }
+    if (changes['dados1'] && changes['dados1'].currentValue) {
+      this.processarDados(this.dados1);
     }
   }
-  carregar() {
-    this.serviceContato.getCollection('transacoes').subscribe((items) => {
-      const dataFiltrada = items.filter((item) => {
-        const mes = parseInt(item.data.split('/')[1], 10);
-        return (
-          mes === parseInt(this.valorSelecionado) &&
-          (this.filtro != '' ? item.tipo === this.filtro : true)
-        );
-      });
-      this.contatos = dataFiltrada;
-      this.atualizarDadosGrafico();
+
+  private processarDados(dados: Transacao[]): void {
+    const dataFiltrada = dados.filter((dado) => {
+      const mes = parseInt(dado.data.split('/')[1], 10);
+      return (
+        mes === parseInt(this.valorSelecionado) &&
+        (this.filtro != '' ? dado.tipo === this.filtro : true)
+      );
     });
+    this.contatos = dataFiltrada;
+
+    this.atualizarDadosGrafico();
   }
 
   atualizarDadosGrafico() {
     if (this.contatos && this.contatos.length > 0) {
       const contagemCategorias: { [categoria: string]: number } = {};
+      const contagemTipos: { [tipo: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
         if (contagemCategorias[objeto.categoria]) {
@@ -54,24 +55,7 @@ export class TransacoesListaComponent {
         } else {
           contagemCategorias[objeto.categoria] = objeto.valor;
         }
-      });
 
-      const labels = Object.keys(contagemCategorias);
-      const data = Object.values(contagemCategorias);
-
-      this.data = {
-        labels: labels,
-        datasets: [
-          {
-            data: data,
-            backgroundColor: ['blue', 'yellow', 'green'],
-            hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen'],
-          },
-        ],
-      };
-      const contagemTipos: { [tipo: string]: number } = {};
-
-      this.contatos.forEach((objeto) => {
         if (contagemTipos[objeto.tipo]) {
           contagemTipos[objeto.tipo] += objeto.valor;
         } else {
@@ -79,25 +63,55 @@ export class TransacoesListaComponent {
         }
       });
 
-      const labels1 = Object.keys(contagemTipos);
+      let total = 0;
+      for (let categoria in contagemCategorias) {
+        total += contagemCategorias[categoria];
+      }
+
+      let porcentagens: { [categoria: string]: string } = {};
+      for (let categoria in contagemCategorias) {
+        let porcentagem = (contagemCategorias[categoria] / total) * 100;
+        porcentagens[categoria] = porcentagem.toFixed(1);
+      }
+
+      const labels1 = Object.keys(contagemCategorias);
+      const data1 = Object.values(porcentagens);
+
+      const labels2 = Object.keys(contagemTipos);
       const data2 = Object.values(contagemTipos);
 
-      this.data2 = {
+      this.data = {
         labels: labels1,
         datasets: [
           {
-            data: data2,
+            data: data1,
             backgroundColor: ['blue', 'yellow', 'green'],
             hoverBackgroundColor: ['lightblue', 'lightyellow', 'lightgreen'],
           },
         ],
       };
+
+      this.data2 = {
+        labels: labels2,
+        datasets: [
+          {
+            data: data2,
+            backgroundColor: ['green', 'red'],
+            hoverBackgroundColor: ['lightblue', 'lightyellow'],
+          },
+        ],
+      };
+
+      this.dados = true;
     } else {
-      console.log('Nenhum contato encontrado para contar categorias.');
+      this.dados = false;
     }
+
     this.options = {
+      responsive: false,
+      maintainAspectRatio: false,
       barPercentage: 0.2,
-      cutout: '80%',
+      cutout: '70%',
       borderWidth: 0,
       plugins: {
         legend: {
@@ -106,23 +120,4 @@ export class TransacoesListaComponent {
       },
     };
   }
-
-  // showModal(formData: any) {
-  //   this.formData = formData;
-  //   this.visible = true;
-  // }
-
-  // showModalAdd(tipo: string) {
-  //   this.tipo = tipo;
-  //   this.formData = null;
-  //   this.visible = true;
-  // }
-
-  // onRemove(key: string) {
-  //   this.serviceContato.deleteDocument('transacoes', key);
-  // }
-
-  // public closeModal() {
-  //   this.visible = false;
-  // }
 }

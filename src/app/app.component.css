@@ -1,8 +1,119 @@
-.body {
-  display: block
+h1 {
+  padding: 0 1rem;
 }
 
-.menu {
+h2 {
+  padding: 1rem;
+}
+
+.botaoAdd {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+
+}
+
+
+
+.mat-warn {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.orange {
+  color: orange;
+}
+
+.blue {
+  color: rgb(20, 20, 165);
+}
+
+mat-sidenav-container {
   height: 100%;
-  border: 1px solid;
+}
+
+mat-sidenav {
+  min-width: 65px;
+
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+a {
+  height: 60px !important;
+
+}
+
+span {
+  color: grey;
+  padding: 5px;
+
+}
+
+.btn {
+  font-family: Roboto, sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: #fff;
+  background-color: #0066CC;
+  padding: 15px 36px;
+  margin-left: 10px;
+
+  border: solid #0066cc 2px;
+  box-shadow: none;
+  border-radius: 50px;
+  transition: 288ms;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  mat-icon {
+    padding-right: 30px;
+  }
+
+}
+
+.btn:hover {
+
+  transition: 288ms;
+  transform: translateY(-0px);
+  background-color: #fff;
+  color: #0066cc;
+  border: solid 2px #0066cc;
+}
+
+.btn-collapsed {
+
+  font-family: Roboto, sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  color: #fff;
+  background-color: #0066CC;
+  padding: 15px;
+  margin-left: 10px;
+  border: solid #0066cc 2px;
+  box-shadow: none;
+  border-radius: 50px;
+  transition: 288ms;
+  display: flex;
+  cursor: pointer;
+}
+
+.btn-collapsed:hover {
+
+  transition: 288ms;
+  transform: translateY(-0px);
+  background-color: #fff;
+  color: #0066cc;
+  border: solid 2px #0066cc;
 }

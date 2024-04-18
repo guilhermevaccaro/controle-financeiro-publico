@@ -1,58 +1,81 @@
 .body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 98%;
-  margin-left: 20px;
-  margin-right: 20px;
+  position: relative;
+  margin: 0px 3%;
 }
 
-.transacoes {
+.header {
+  padding: 15px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  gap: 20px;
 }
 
+:host ::ng-deep {
+  .date {
+    .p-inputtext {
+      cursor: pointer !important;
+      text-align: center;
+      border-radius: 25px !important;
+    }
 
-.red {
-  color: red;
-  background-color: red;
-}
+    .p-inputtext:hover {
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
-.form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.mat-mdc-card-content.meses {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 20px;
-
-}
-
-@media only screen and (max-width: 1080px) {
-  p-card {
-    width: 90%;
-    /* ou qualquer valor que você preferir */
+    }
   }
 }
 
-.botaoAdd {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 20px;
 }
 
-.botaoMenu {
-  position: fixed;
-  top: 20px;
-  left: 20px;
+.conteudo-saldo {
+  display: flex;
+  justify-content: space-between;
 }
 
+.card-saldo {
+  width: 25%;
+
+  .p-card {
+    width: 100%;
+  }
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-grafico-rosca {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  gap: 10px;
+
+  .grafico {
+    width: 98%;
+  }
+
+}
+
+@media screen and (max-width: 1370px) {
+  .linha {
+    display: block;
+    justify-content: space-between;
+  }
+
+  .card-grafico-rosca {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+
+    .grafico {
+      width: 98%;
+    }
+
+  }
+}

@@ -1,8 +1,6 @@
-import { trigger } from '@angular/animations';
-import { Component, SimpleChanges, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { PrimeNGConfig } from 'primeng/api';
-import { Sidebar } from 'primeng/sidebar';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -10,129 +8,84 @@ import { ContatoService } from 'src/app/services/contato.service';
   selector: 'app-pages',
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.css'],
-  animations: [trigger('animSlider', [])],
 })
 export class PagesComponent {
+  dados!: Transacao[];
   form!: FormGroup;
+  saldoMes = 0;
+  saldoPrevisto = 0;
+  saldoPendente = 0;
+  somaDespesa = 0;
+  somaReceita = 0;
   valorSelecionado!: any;
-  responsiveOptions: any[] | undefined;
-  formData: any;
-  visible: boolean = false;
-  public tipo: string = '';
-  tabIndex = 0;
-  activeTab = 0;
-  products!: any[];
-
-  somaReceita: any;
-  somaDespesa: any;
-  contatos!: Transacao[];
-  filtro!: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private config: PrimeNGConfig,
     private serviceContato: ContatoService
   ) {
     this.form = this.formBuilder.group({
       mes: [new Date()],
     });
-
     this.valorSelecionado = new Date().getMonth() + 1;
   }
 
-  ngOnChanges(changes: SimpleChanges) {}
-  onSomaReceitaChanged(valor: number) {
-    this.somaReceita = valor;
-    // Faça o que for necessário com o valor, como atribuir a uma variável no componente pai
-  }
-  onSomaDespesaChanged(valor: number) {
-    this.somaDespesa = valor;
-    console.log(this.somaDespesa);
-    // Faça o que for necessário com o valor, como atribuir a uma variável no componente pai
-  }
-
-  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
-
-  closeCallback(e: Event): void {
-    this.sidebarRef.hide();
-  }
-
-  sidebarVisible: boolean = false;
-
   ngOnInit(): void {
-    this.config.setTranslation({
-      apply: 'Aplicar',
-      clear: 'Limpar',
-      accept: 'Sim',
-      reject: 'Não',
-      firstDayOfWeek: 0,
-      dayNames: [
-        'Domingo',
-        'Segunda',
-        'Terça',
-        'Quarta',
-        'Quinta',
-        'Sexta',
-        'Sábado',
-      ],
-      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-      dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
-      monthNames: [
-        'Janeiro',
-        'Fevereiro',
-        'Março',
-        'Abril',
-        'Maio',
-        'Junho',
-        'Julho',
-        'Agosto',
-        'Setembro',
-        'Outubro',
-        'Novembro',
-        'Dezembro',
-      ],
-      monthNamesShort: [
-        'Jan',
-        'Fev',
-        'Mar',
-        'Abr',
-        'Mai',
-        'Jun',
-        'Jul',
-        'Ago',
-        'Set',
-        'Out',
-        'Nov',
-        'Dez',
-      ],
-      today: 'Hoje',
-    });
+    this.calculaSaldos();
   }
 
   onDateSelect(event: any) {
     const selectedDate: Date = event;
     this.valorSelecionado = selectedDate.getMonth() + 1;
+    this.calculaSaldos();
   }
 
-  switchHeaders(tabNumber: any) {
-    this.activeTab = tabNumber.index;
-  }
+  calculaSaldos() {
+    this.serviceContato.getCollection('transacoes').subscribe((items) => {
+      const dataFiltradaPendente = items.filter((item) => {
+        const mes = parseInt(item.data.split('/')[1], 10);
+        return mes === parseInt(this.valorSelecionado);
+      });
+      this.dados = dataFiltradaPendente;
 
-  showModal(formData: any) {
-    this.formData = formData;
-    this.visible = true;
-  }
+      const dadosEfetivados = dataFiltradaPendente.filter(
+        (item) => item.situacao === true
+      );
 
-  showModalAdd(tipo: string) {
-    this.tipo = tipo;
-    this.formData = null;
-    this.visible = true;
-  }
-  public closeModal() {
-    this.visible = false;
-  }
+      this.somaReceita = this.dados
+        .filter((item) => item.tipo === 'receita')
+        .map((item) => item.valor)
+        .reduce((total, valor) => total + valor, 0);
 
-  onRemove(key: string) {
-    this.serviceContato.deleteDocument('transacoes', key);
+      this.somaDespesa = this.dados
+        .filter((item) => item.tipo === 'despesa')
+        .map((item) => item.valor)
+        .reduce((total, valor) => total + valor, 0);
+
+      this.saldoPrevisto = this.somaReceita - this.somaDespesa;
+
+      this.saldoMes =
+        dadosEfetivados
+          .filter((item) => item.tipo === 'receita')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0) -
+        dadosEfetivados
+          .filter((item) => item.tipo === 'despesa')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0);
+
+      const dadosPendentes = dataFiltradaPendente.filter(
+        (item) => item.situacao !== true
+      );
+
+      this.saldoPendente =
+        dadosPendentes
+          .filter((item) => item.tipo === 'receita')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0) -
+        dadosPendentes
+          .filter((item) => item.tipo === 'despesa')
+          .map((item) => item.valor)
+          .reduce((total, valor) => total + valor, 0);
+    });
   }
 }

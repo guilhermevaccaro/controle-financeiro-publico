@@ -3,7 +3,7 @@ export interface Transacao {
   categoria: string;
   data: string;
   descricao: string;
-  situacao: string;
+  situacao: boolean;
   tipo: string;
   valor: number;
 }

@@ -4,8 +4,12 @@ import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { initializeApp } from 'firebase/app';
@@ -26,7 +30,10 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
 import { SidebarModule } from 'primeng/sidebar';
+import { SkeletonModule } from 'primeng/skeleton';
+import { SpeedDialModule } from 'primeng/speeddial';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
@@ -37,11 +44,11 @@ import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormModalComponent } from './componentes/form-modal/form-modal.component';
-import { BotaoAddComponent } from './componentes/botaoAdd/botaoAdd.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
 import { PagesComponent } from './pages/home/pages.component';
+import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -56,10 +63,17 @@ registerLocaleData(localePt);
     TabelaComponent,
     SaldoComponent,
     FormModalComponent,
-    BotaoAddComponent,
+    TransacoesComponent,
   ],
   imports: [
     IconFieldModule,
+    SkeletonModule,
+    MatButtonModule,
+    MatListModule,
+    MenuModule,
+    SpeedDialModule,
+    MatSidenavModule,
+    MatToolbarModule,
     CarouselModule,
     SidebarModule,
     ChartModule,

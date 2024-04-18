@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { PagesComponent } from './pages/home/pages.component';
+import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 
 const routes: Routes = [
-  { path: 'home', component: PagesComponent },
+  { path: 'dashboard', component: PagesComponent },
+  { path: 'transacoes', component: TransacoesComponent },
+  { path: 'transacoes/receita', component: TransacoesComponent },
+  { path: 'transacoes/despesa', component: TransacoesComponent },
   // { path: 'login', component: LoginComponent },
 
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({

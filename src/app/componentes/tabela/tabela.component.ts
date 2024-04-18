@@ -25,10 +25,8 @@ export class TabelaComponent {
 
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private serviceContato: ContatoService
-  ) {
-  }
+    private messageService: MessageService
+  ) {}
 
   deletandoTransacao(key: Transacao) {
     this.remove.emit(key);
@@ -71,27 +69,5 @@ export class TabelaComponent {
     });
   }
 
-  ngOnInit() {
-    this.carregar()
-    console.log(this.valorSelecionado)
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if ('valorSelecionado' in changes) {
-      this.carregar();
-    }
-  }
-  carregar() {
-    this.serviceContato.getCollection('transacoes').subscribe((items) => {
-      const dataFiltrada = items.filter((item) => {
-        const mes = parseInt(item.data.split('/')[1], 10);
-        return (
-          mes === parseInt(this.valorSelecionado) &&
-          (this.filtro != '' ? item.tipo === this.filtro : true)
-        );
-      });
-      this.contatos = dataFiltrada;
-      console.log(this.contatos)
-    });
-  }
+  ngOnInit() {}
 }
