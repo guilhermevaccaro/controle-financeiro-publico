@@ -77,7 +77,7 @@ span {
   align-items: center;
   cursor: pointer;
 
-  mat-icon {
+  is:mat-icon {
     padding-right: 30px;
   }
 

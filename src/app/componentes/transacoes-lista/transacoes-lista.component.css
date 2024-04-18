@@ -29,7 +29,7 @@
 .texto {
   display: flex;
 
-  p {
+  is:p {
     padding: 2px 20px;
 
   }
