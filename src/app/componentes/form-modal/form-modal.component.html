@@ -1,45 +1,73 @@
-<form [formGroup]="form" class="min-width">
-  <p-iconField class="full-width">
-    <p-dropdown [options]="categorias" placeholder="Categoria" formControlName="categoria" [showClear]="false" class="full-width"></p-dropdown>
-
-  </p-iconField>
-  <small class="p-error block center" *ngIf="
+<form [formGroup]="form" class="display-flex">
+  <p-dropdown
+    [options]="categorias"
+    placeholder="Categoria"
+    formControlName="categoria"
+    [showClear]="false"
+    class="full-width"
+  ></p-dropdown>
+  <small
+    class="p-error block center"
+    *ngIf="
       (form.get('categoria')?.invalid && form.get('categoria')?.dirty) ||
       (form.get('categoria')?.invalid && form.get('categoria')?.touched)
-    ">
-    Categoria é obrigatória</small>
+    "
+  >
+    Categoria é obrigatória</small
+  >
 
-
-  <p-iconField iconPosition="right">
-    <p-inputIcon styleClass="pi pi-align-left" />
-    <input type="text" pInputText placeholder="Descrição" formControlName="descricao" />
-  </p-iconField>
-  <small class="p-error block center" *ngIf="
+  <input
+    type="text"
+    pInputText
+    placeholder="Descrição"
+    formControlName="descricao"
+  />
+  <small
+    class="p-error block center"
+    *ngIf="
       (form.get('descricao')?.invalid && form.get('descricao')?.dirty) ||
       (form.get('descricao')?.invalid && form.get('descricao')?.touched)
-      ">
-    Descrição é obrigatória</small>
+    "
+  >
+    Descrição é obrigatória</small
+  >
 
-  <p-iconField iconPosition="right" class="full-width">
-    <p-inputNumber placeholder="0,00" formControlName="valor" mode="currency" currency="BRL" class="full-width"
-      locale="pt-BR"></p-inputNumber>
-  </p-iconField>
+  <p-inputNumber
+    placeholder="0,00"
+    formControlName="valor"
+    mode="currency"
+    currency="BRL"
+    class="full-width"
+    locale="pt-BR"
+  ></p-inputNumber>
 
-  <p-iconField>
-    <p-calendar placeholder="dd/mm/yyyy" formControlName="data" dataType="string" dateFormat="dd/mm/yy" appendTo="body"
-      iconDisplay="input" [showIcon]="true"></p-calendar>
-  </p-iconField>
-  <small class="p-error block center" *ngIf="
+  <p-calendar
+    placeholder="dd/mm/yyyy"
+    formControlName="data"
+    dataType="string"
+    dateFormat="dd/mm/yy"
+    appendTo="body"
+    iconDisplay="input"
+    [showIcon]="true"
+  ></p-calendar>
+  <small
+    class="p-error block center"
+    *ngIf="
       (form.get('data')?.invalid && form.get('data')?.dirty) ||
       (form.get('data')?.invalid && form.get('data')?.touched)
-    ">
-    Data obrigatória</small>
+    "
+  >
+    Data obrigatória</small
+  >
 
-  <p-inputGroup>
+  <div class="switch">
     <p class="no-margin vertical-center">{{ situacaoLabel }}</p>
-    <p-inputSwitch class="space-switch vertical-center" formControlName="situacao"
-      (onChange)="atualizarLabel()"></p-inputSwitch>
-  </p-inputGroup>
+    <p-inputSwitch
+      class="space-switch vertical-center"
+      formControlName="situacao"
+      (onChange)="atualizarLabel()"
+    ></p-inputSwitch>
+  </div>
 </form>
 
 <p-divider></p-divider>

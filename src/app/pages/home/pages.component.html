@@ -1,50 +1,72 @@
 <div class="body">
   <div class="header">
-
     <form [formGroup]="form" class="form">
-      <p-iconField iconPosition="right">
-        <p-calendar view="month" formControlName="mes" dateFormat="MM" dataType="string" [readonlyInput]="true"
-          (onSelect)="onDateSelect($event)" class="date" [inputStyle]="customInputStyle">
-        </p-calendar>
-        <p-inputIcon styleClass="pi pi-angle-down" />
-      </p-iconField>
-
+      <p-calendar
+        view="month"
+        formControlName="mes"
+        dateFormat="MM"
+        dataType="string"
+        [readonlyInput]="true"
+        (onSelect)="onDateSelect($event)"
+        class="date"
+        [inputStyle]="customInputStyle"
+      >
+      </p-calendar>
     </form>
   </div>
 
   <div class="conteudo">
     <div class="conteudo-saldo">
-
       <div class="card-saldo">
-        <app-saldo [titulo]="'Saldo Atual'" [soma]="saldoMes" [icone]="'pi pi-wallet'"></app-saldo>
+        <app-saldo
+          [titulo]="'Saldo Atual'"
+          [soma]="saldoMes"
+          [icone]="'pi pi-wallet'"
+        ></app-saldo>
       </div>
 
       <div class="card-saldo">
-        <app-saldo [titulo]="'Receitas'" [soma]="somaReceita" [icone]="'pi pi-arrow-up'"
-          [color]="'success'"></app-saldo>
+        <app-saldo
+          [titulo]="'Receitas'"
+          [soma]="somaReceita"
+          [icone]="'pi pi-arrow-up'"
+          [color]="'success'"
+        ></app-saldo>
       </div>
 
       <div class="card-saldo">
-        <app-saldo [titulo]="'Despesas'" [soma]="somaDespesa" [icone]="'pi pi-arrow-down'"
-          [color]="'danger'"></app-saldo>
+        <app-saldo
+          [titulo]="'Despesas'"
+          [soma]="somaDespesa"
+          [icone]="'pi pi-arrow-down'"
+          [color]="'danger'"
+        ></app-saldo>
       </div>
 
       <div class="card-saldo">
-        <app-saldo [titulo]="'Saldo Previsto'" [soma]="saldoPrevisto" [icone]="'pi pi-wallet'"
-          [color]="'warning'"></app-saldo>
+        <app-saldo
+          [titulo]="'Saldo Previsto'"
+          [soma]="saldoPrevisto"
+          [icone]="'pi pi-wallet'"
+          [color]="'warning'"
+        ></app-saldo>
       </div>
     </div>
 
     <div class="linha">
-
       <div class="card-grafico-rosca">
         <mat-card>
           <mat-card-header>
             <mat-card-title>Despesa por Categoria</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'despesa'" [somaDespesa]="somaDespesa"
-              [dados1]="dados"></app-transacoes-lista></mat-card-content>
+            <app-transacoes-lista
+              [valorSelecionado]="valorSelecionado"
+              [filtro]="'despesa'"
+              [somaDespesa]="somaDespesa"
+              [dados1]="dados"
+            ></app-transacoes-lista
+          ></mat-card-content>
         </mat-card>
       </div>
 
@@ -54,24 +76,32 @@
             <mat-card-title>Receita por Categoria</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="'receita'" [somaReceita]="somaReceita"
-              [dados1]="dados"></app-transacoes-lista>
+            <app-transacoes-lista
+              [valorSelecionado]="valorSelecionado"
+              [filtro]="'receita'"
+              [somaReceita]="somaReceita"
+              [dados1]="dados"
+            ></app-transacoes-lista>
           </mat-card-content>
-
         </mat-card>
       </div>
     </div>
 
     <div class="linha">
-
       <div class="card-grafico-rosca">
         <mat-card>
           <mat-card-header>
             <mat-card-title>Balanço Mensal</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <app-transacoes-lista [valorSelecionado]="valorSelecionado" [filtro]="''" [somaDespesa]="somaDespesa"
-              [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto" [dados1]="dados"></app-transacoes-lista>
+            <app-transacoes-lista
+              [valorSelecionado]="valorSelecionado"
+              [filtro]="''"
+              [somaDespesa]="somaDespesa"
+              [somaReceita]="somaReceita"
+              [saldoPrevisto]="saldoPrevisto"
+              [dados1]="dados"
+            ></app-transacoes-lista>
           </mat-card-content>
         </mat-card>
       </div>
@@ -82,14 +112,17 @@
             <mat-card-title>Sem dados!</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <app-transacoes-lista [valorSelecionado]="'Forçando noData template'" [filtro]="''"
-              [somaDespesa]="somaDespesa" [somaReceita]="somaReceita" [saldoPrevisto]="saldoPrevisto"
-              [dados1]="dados"></app-transacoes-lista>
+            <app-transacoes-lista
+              [valorSelecionado]="'Forçando noData template'"
+              [filtro]="''"
+              [somaDespesa]="somaDespesa"
+              [somaReceita]="somaReceita"
+              [saldoPrevisto]="saldoPrevisto"
+              [dados1]="dados"
+            ></app-transacoes-lista>
           </mat-card-content>
-
         </mat-card>
       </div>
-
     </div>
   </div>
 </div>

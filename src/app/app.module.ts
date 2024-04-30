@@ -22,11 +22,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
-import { FloatLabelModule } from 'primeng/floatlabel';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputIconModule } from 'primeng/inputicon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
@@ -66,7 +61,6 @@ registerLocaleData(localePt);
     TransacoesComponent,
   ],
   imports: [
-    IconFieldModule,
     MatCardModule,
     SkeletonModule,
     MatButtonModule,
@@ -84,13 +78,10 @@ registerLocaleData(localePt);
     TabViewModule,
     TooltipModule,
     InputSwitchModule,
-    InputIconModule,
     ToolbarModule,
     DropdownModule,
     InputNumberModule,
     DividerModule,
-    InputGroupAddonModule,
-    InputGroupModule,
     BrowserModule,
     CommonModule,
     AppRoutingModule,
@@ -102,7 +93,6 @@ registerLocaleData(localePt);
     TableModule,
     CalendarModule,
     InputTextModule,
-    FloatLabelModule,
 
     AngularFireModule.initializeApp(firebaseConfig),
   ],
