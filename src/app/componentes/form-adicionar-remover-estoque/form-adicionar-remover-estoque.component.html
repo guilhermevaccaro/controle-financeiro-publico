@@ -1,0 +1,54 @@
+<form [formGroup]="form" class="display-flex">
+  <p-dropdown
+    [options]="produtos"
+    optionLabel="item"
+    placeholder="Produto"
+    formControlName="produto"
+    [showClear]="false"
+    class="full-width"
+    (onChange)="onProdutoChange($event)"
+  ></p-dropdown>
+  <p-calendar [showIcon]="true" formControlName="data" dataType="string">
+  </p-calendar>
+  <p-dropdown
+    [options]="categorias"
+    placeholder="Categoria"
+    formControlName="categoria"
+    [showClear]="false"
+    class="full-width"
+  ></p-dropdown>
+
+  <p-inputNumber
+    placeholder="0,00"
+    formControlName="preco"
+    mode="currency"
+    currency="BRL"
+    class="full-width"
+    locale="pt-BR"
+  ></p-inputNumber>
+
+  <div>
+    <label for=""> Quantidade Atual</label>
+    <p-inputNumber
+      [readonly]="true"
+      placeholder="quantidade"
+      formControlName="quantidade"
+      class="full-width"
+    ></p-inputNumber>
+  </div>
+  <div>
+    <label for=""> Adicionar</label>
+    <p-inputNumber
+      placeholder="quantidade"
+      formControlName="adicionar"
+      class="full-width"
+    ></p-inputNumber>
+  </div>
+</form>
+
+<p-divider></p-divider>
+
+<div class="space-between">
+  <p-button color="primary" (click)="onSubmit()"> Salvar </p-button>
+  <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>
+</div>

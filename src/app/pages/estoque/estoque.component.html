@@ -1,0 +1,224 @@
+<mat-card
+  ><p-table
+    [value]="contatos"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    class="responsive-table"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Código</th>
+        <th>Fornecedor</th>
+        <th>Item</th>
+        <th>Quantidade</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>
+          {{ product.codigo }}
+        </td>
+        <td>
+          {{ product.fornecedor }}
+        </td>
+        <td>
+          {{ product.item }}
+        </td>
+        <td>
+          {{ product.quantidade }}
+        </td>
+
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            (click)="showModalEdit(product)"
+          >
+          </p-button>
+          <p-button
+            icon="pi pi-trash"
+            [rounded]="true"
+            [text]="true"
+            severity="danger "
+            (click)="confirm($event, product.id, 'estoque')"
+          >
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-button
+    label="Adicionar Peça ao Estoque"
+    icon="pi pi-plus"
+    (click)="showModal()"
+  ></p-button>
+  <p-dialog
+    [header]="'Estoque'"
+    [(visible)]="visible"
+    [modal]="true"
+    [closable]="false"
+  >
+    <app-form-estoque
+      [formData]="formData"
+      (close)="closeModal()"
+    ></app-form-estoque>
+  </p-dialog>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Entradas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p-table
+      [value]="contatosEntrada"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      class="responsive-table"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Data</th>
+          <th>Código</th>
+          <th>Cliente</th>
+          <th>Item</th>
+          <th>Quantidade</th>
+          <th>Preço unitário</th>
+          <th>Preço Total</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>
+            {{ product.data }}
+          </td>
+          <td>
+            {{ product.codigo }}
+          </td>
+          <td>
+            {{ product.fornecedor }}
+          </td>
+          <td>
+            {{ product.produto }}
+          </td>
+          <td>
+            {{ product.adicionar }}
+          </td>
+          <td>
+            {{ product.preco }}
+          </td>
+          <td>
+            {{ product.preco * product.adicionar }}
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [text]="true"
+              (click)="showModalEdit(product)"
+            >
+            </p-button>
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger "
+              (click)="confirm($event, product.id, 'movimentacao')"
+            >
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </mat-card-content>
+
+  <p-dialog
+    [header]="'Estoque'"
+    [(visible)]="visible1"
+    [modal]="true"
+    [closable]="false"
+  >
+    <app-form-adicionar-remover-estoque
+      [contatos]="contatos"
+      (close)="closeModal()"
+    ></app-form-adicionar-remover-estoque>
+  </p-dialog>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Saidas</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p-table
+      [value]="contatosSaida"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      class="responsive-table"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Data</th>
+          <th>Código</th>
+          <th>Cliente</th>
+          <th>Item</th>
+          <th>Quantidade</th>
+          <th>Preço unitário</th>
+          <th>Preço Total</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>
+            {{ product.data }}
+          </td>
+          <td>
+            {{ product.codigo }}
+          </td>
+          <td>
+            {{ product.fornecedor }}
+          </td>
+          <td>
+            {{ product.produto }}
+          </td>
+          <td>
+            {{ product.adicionar }}
+          </td>
+          <td>
+            {{ product.preco }}
+          </td>
+          <td>
+            {{ product.preco * product.quantidade }}
+          </td>
+          <td>
+            <p-button
+              icon="pi pi-pencil"
+              [rounded]="true"
+              [text]="true"
+              (click)="showModalEdit(product)"
+            >
+            </p-button>
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger "
+              (click)="confirm($event, product.id, 'movimentacao')"
+            >
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </mat-card-content>
+</mat-card>
+<p-button
+  label="Adicionar Entrada ou Saida"
+  icon="pi pi-plus"
+  (click)="showModalAdd()"
+></p-button>
+
+<p-toast />
+<p-confirmDialog />
