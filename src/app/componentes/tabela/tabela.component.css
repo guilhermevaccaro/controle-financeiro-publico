@@ -26,8 +26,6 @@
 
 }
 
-td {}
-
 @media only screen and (max-width: 1300px) {
   .responsive-table {
     max-width: 90%;
