@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { PrimeNGConfig } from 'primeng/api';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -48,8 +47,8 @@ export class PagesComponent {
   calculaSaldos() {
     this.serviceContato.getCollection('transacoes').subscribe((items) => {
       const dataFiltradaPendente = items.filter((item) => {
-        const mes = parseInt(item.data.split('/')[1], 10);
-        return mes === parseInt(this.valorSelecionado);
+        const mes = Number(item.data.split('/')[1]);
+        return mes === Number(this.valorSelecionado);
       });
       this.dados = dataFiltradaPendente;
 

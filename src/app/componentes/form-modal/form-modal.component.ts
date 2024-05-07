@@ -19,6 +19,7 @@ export class FormModalComponent {
 
   @Input() formData!: Transacao;
   @Input() tipo: string = '';
+  @Input() categoria: string = '';
   @Output() close = new EventEmitter();
 
   constructor(
@@ -41,7 +42,7 @@ export class FormModalComponent {
   private criarForm() {
     return this.formBuilder.group({
       id: [''],
-      categoria: ['', Validators.required],
+      categoria: [this.categoria, Validators.required],
       data: ['', Validators.required],
       descricao: ['', Validators.required],
       situacao: [''],
@@ -68,7 +69,6 @@ export class FormModalComponent {
   }
 
   onSubmit() {
-    console.log(this.form.value);
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
       this.contatoService.addDocument('transacoes', formData);

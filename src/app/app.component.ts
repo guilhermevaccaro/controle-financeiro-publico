@@ -1,10 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-
+import { Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ContatoService } from './services/contato.service';
-import { PrimeNGConfig } from 'primeng/api';
 import { Router } from '@angular/router';
+import { PrimeNGConfig } from 'primeng/api';
+
+import { ContatoService } from './services/contato.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,9 @@ export class AppComponent {
 
   formData: any;
   visible: boolean = false;
+  visibleEstoque: boolean = false;
   public tipo: string = '';
+  public categoria: string = '';
 
   constructor(
     private observer: BreakpointObserver,
@@ -100,8 +102,16 @@ export class AppComponent {
     this.formData = null;
     this.visible = true;
   }
+
+  showModalAddCompraEVenda(tipo: string, categoria: string) {
+    this.tipo = tipo;
+    this.categoria = categoria;
+    this.formData = null;
+    this.visibleEstoque = true;
+  }
   closeModal() {
     this.visible = false;
+    this.visibleEstoque = false;
   }
 
   onRemove(key: string) {

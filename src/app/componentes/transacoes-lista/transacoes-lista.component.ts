@@ -19,13 +19,7 @@ export class TransacoesListaComponent {
   options: any;
   dados = true;
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
   ngOnChanges(changes: SimpleChanges) {
-    if ('valorSelecionado' in changes) {
-    }
     if (changes['dados1'] && changes['dados1'].currentValue) {
       this.processarDados(this.dados1);
     }
@@ -33,9 +27,9 @@ export class TransacoesListaComponent {
 
   private processarDados(dados: Transacao[]): void {
     const dataFiltrada = dados.filter((dado) => {
-      const mes = parseInt(dado.data.split('/')[1], 10);
+      const mes = Number(dado.data.split('/')[1]);
       return (
-        mes === parseInt(this.valorSelecionado) &&
+        mes === Number(this.valorSelecionado) &&
         (this.filtro != '' ? dado.tipo === this.filtro : true)
       );
     });
@@ -77,7 +71,10 @@ export class TransacoesListaComponent {
       const labels1 = Object.keys(contagemCategorias);
       const data1 = Object.values(porcentagens);
 
-      const data2 = [contagemTipos['receita'] || 0, contagemTipos['despesa'] || 0];
+      const data2 = [
+        contagemTipos['receita'] || 0,
+        contagemTipos['despesa'] || 0,
+      ];
 
       this.data = {
         labels: labels1,

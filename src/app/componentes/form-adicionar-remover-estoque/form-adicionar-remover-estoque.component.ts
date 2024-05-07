@@ -1,16 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { DropdownChangeEvent } from 'primeng/dropdown';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
 interface ItemEstoque {
-  codigo: string;
-  fornecedor: string;
+  item: string;
   id: string;
-  produto: string;
-  preco: number;
-  quantidade: number;
 }
 
 @Component({
@@ -21,14 +17,15 @@ interface ItemEstoque {
 export class FormAdicionarRemoverEstoqueComponent {
   form!: FormGroup;
   situacaoLabel: string = 'Pendente';
-  categorias = ['entrada', 'saida'];
-  formulario!: any;
-  @Input() produtos: ItemEstoque[] | undefined;
-  @Input() contatos: ItemEstoque[] = [];
-  @Input() formData!: any;
-  @Input() tipo: string = '';
-  @Output() close = new EventEmitter();
+  estoque: ItemEstoque[] = [];
 
+  @Input() formData!: Transacao;
+  @Input() tipo: string = '';
+  @Input() categoria: string = '';
+  @Output() close = new EventEmitter();
+  estoqueSubscription!: Subscription;
+
+  quantidade!: number;
   constructor(
     private formBuilder: FormBuilder,
     private contatoService: ContatoService
@@ -36,62 +33,88 @@ export class FormAdicionarRemoverEstoqueComponent {
 
   ngOnInit() {
     this.form = this.criarForm();
+    this.estoqueSubscription = this.contatoService
+      .getCollection('estoque')
+      .subscribe((items) => {
+        this.estoque = [];
+        items.forEach((item) => {
+          this.estoque.push(item);
+        });
+      });
   }
 
   private criarForm() {
     return this.formBuilder.group({
       id: [''],
-      data: [''],
-      categoria: [''],
-      codigo: ['', Validators.required],
+      data: ['', Validators.required],
+      descricao: ['', Validators.required],
+      peca: ['', Validators.required],
       fornecedor: ['', Validators.required],
-      produto: [''],
-      quantidade: ['', [Validators.required, Validators.min(0)]],
-      adicionar: ['', [Validators.required, Validators.min(0)]],
-      preco: ['', [Validators.required, Validators.min(0)]],
+      situacao: [''],
+      tipo: [this.tipo],
+      quantidade: ['', [Validators.required]],
+      valor: ['', [Validators.required, Validators.min(0)]],
     });
-  }
-  onProdutoChange($event: DropdownChangeEvent) {
-    this.formulario = $event.value;
-    console.log(this.formulario.produto);
-    this.form.patchValue({
-      id: this.formulario.id,
-      data: this.formulario.data,
-      codigo: this.formulario.codigo,
-      produto: this.formulario.produto,
-      fornecedor: this.formulario.fornecedor,
-      quantidade: this.formulario.quantidade,
-      preco: this.formulario.preco,
-    });
-  }
-
-  carregaItensEstoque() {
-    if (this.contatos) {
-      this.produtos = [];
-      this.contatos.forEach((item) => {
-        this.produtos?.push(item); // Adiciona os produtos do item atual ao array this.produtos
-      });
-    }
   }
 
   ngOnChanges() {
-    this.carregaItensEstoque();
+    if (this.formData) {
+      this.atualizarFormulario();
+    } else {
+      this.form = this.criarForm();
+    }
+  }
+
+  atualizarFormulario() {
+    this.form.patchValue(this.formData);
+    this.atualizarLabel();
+  }
+
+  atualizarLabel() {
+    this.situacaoLabel = this.form.value.situacao ? 'Efetivado' : 'Pendente';
   }
 
   onSubmit() {
-    const formData = this.form.value;
-    if (formData.categoria === 'entrada') {
-      formData.quantidade = formData.quantidade + formData.adicionar;
+    const {
+      id,
+      data,
+      descricao,
+      peca,
+      fornecedor,
+      situacao,
+      tipo,
+      quantidade,
+      valor,
+    } = this.form.value;
+    const { item } = peca;
+    const formData = {
+      id,
+      data,
+      descricao,
+      item,
+      fornecedor,
+      situacao,
+      tipo,
+      quantidade,
+      valor,
+    };
+
+    if (formData.id === null || formData.id === '') {
+      this.contatoService.addDocument('transacoes', formData);
+
+      let quantidade;
+      if (this.categoria === 'Compra de peça') {
+        quantidade = this.quantidade + formData.quantidade;
+      } else {
+        quantidade = this.quantidade - formData.quantidade;
+      }
+
+      this.contatoService.updateDocument('estoque', peca.id, {
+        quantidade: quantidade,
+      });
     } else {
-      formData.quantidade = formData.quantidade - formData.adicionar;
+      this.contatoService.updateDocument('transacoes', formData.id, formData);
     }
-
-    this.contatoService.updateDocument('estoque', formData.id, formData);
-
-    const formDataMovimentacao = this.form.value;
-
-    this.contatoService.addDocument('movimentacao', formDataMovimentacao);
-
     this.form = this.criarForm();
     this.close.emit();
   }
@@ -99,5 +122,9 @@ export class FormAdicionarRemoverEstoqueComponent {
   onCancel() {
     this.form = this.criarForm();
     this.close.emit();
+  }
+
+  selecionouPeca(event: any) {
+    this.quantidade = event.value.quantidade;
   }
 }

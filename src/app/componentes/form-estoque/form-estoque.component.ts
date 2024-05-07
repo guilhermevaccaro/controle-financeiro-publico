@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Categoria } from 'src/app/models/Categoria';
-import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -11,10 +9,7 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class FormEstoqueComponent {
   form!: FormGroup;
-  situacaoLabel: string = 'Pendente';
-  categorias = ['entrada', 'saida'];
   @Input() formData!: any;
-  @Input() tipo: string = '';
   @Output() close = new EventEmitter();
 
   constructor(
@@ -30,15 +25,12 @@ export class FormEstoqueComponent {
     return this.formBuilder.group({
       id: [''],
       codigo: ['', Validators.required],
-      fornecedor: ['', Validators.required],
       item: [''],
-      quantidade: ['', [Validators.required, Validators.min(0)]],
     });
   }
 
   ngOnChanges() {
     if (this.formData) {
-      console.log(this.formData);
       this.atualizarFormulario();
     } else {
       this.form = this.criarForm();
@@ -49,9 +41,7 @@ export class FormEstoqueComponent {
     this.form.patchValue({
       id: this.formData.id,
       codigo: this.formData.codigo,
-      fornecedor: this.formData.fornecedor,
       item: this.formData.item,
-      quantidade: this.formData.quantidade,
     });
   }
 
@@ -67,13 +57,10 @@ export class FormEstoqueComponent {
   }
 
   onCancel() {
-    console.log('cancel');
     this.form = this.formBuilder.group({
       id: [''],
       codigo: ['', Validators.required],
-      fornecedor: ['', Validators.required],
       item: [''],
-      quantidade: ['', [Validators.required, Validators.min(0)]],
     });
     this.close.emit();
   }

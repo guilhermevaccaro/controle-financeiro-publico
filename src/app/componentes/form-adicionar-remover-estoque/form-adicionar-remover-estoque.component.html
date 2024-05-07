@@ -1,54 +1,109 @@
 <form [formGroup]="form" class="display-flex">
   <p-dropdown
-    [options]="produtos"
+    [options]="estoque"
     optionLabel="item"
-    placeholder="Produto"
-    formControlName="produto"
+    placeholder="Peça"
+    formControlName="peca"
     [showClear]="false"
     class="full-width"
-    (onChange)="onProdutoChange($event)"
+    (onChange)="selecionouPeca($event)"
   ></p-dropdown>
-  <p-calendar [showIcon]="true" formControlName="data" dataType="string">
-  </p-calendar>
-  <p-dropdown
-    [options]="categorias"
-    placeholder="Categoria"
-    formControlName="categoria"
-    [showClear]="false"
-    class="full-width"
-  ></p-dropdown>
+  <small
+    class="p-error block center"
+    *ngIf="
+      (form.get('peca')?.invalid && form.get('peca')?.dirty) ||
+      (form.get('peca')?.invalid && form.get('peca')?.touched)
+    "
+  >
+    Peça é obrigatória</small
+  >
 
-  <p-inputNumber
-    placeholder="0,00"
-    formControlName="preco"
-    mode="currency"
-    currency="BRL"
-    class="full-width"
-    locale="pt-BR"
-  ></p-inputNumber>
+  <input
+    type="text"
+    pInputText
+    placeholder="Fornecedor"
+    formControlName="fornecedor"
+  />
+  <small
+    class="p-error block center"
+    *ngIf="
+      (form.get('fornecedor')?.invalid && form.get('fornecedor')?.dirty) ||
+      (form.get('fornecedor')?.invalid && form.get('fornecedor')?.touched)
+    "
+  >
+    Fornecedor é obrigatório</small
+  >
+  <input
+    type="text"
+    pInputText
+    placeholder="Descrição"
+    formControlName="descricao"
+  />
+  <small
+    class="p-error block center"
+    *ngIf="
+      (form.get('descricao')?.invalid && form.get('descricao')?.dirty) ||
+      (form.get('descricao')?.invalid && form.get('descricao')?.touched)
+    "
+  >
+    Descrição é obrigatória</small
+  >
 
   <div>
-    <label for=""> Quantidade Atual</label>
+    <label for="">Valor</label>
     <p-inputNumber
-      [readonly]="true"
-      placeholder="quantidade"
+      placeholder="0,00"
+      formControlName="valor"
+      mode="currency"
+      currency="BRL"
+      class="full-width"
+      locale="pt-BR"
+    ></p-inputNumber>
+  </div>
+
+  <div>
+    <label for="">Quantidade</label>
+    <p-inputNumber
+      placeholder="Quantidade"
       formControlName="quantidade"
       class="full-width"
     ></p-inputNumber>
   </div>
-  <div>
-    <label for=""> Adicionar</label>
-    <p-inputNumber
-      placeholder="quantidade"
-      formControlName="adicionar"
-      class="full-width"
-    ></p-inputNumber>
+
+  <p-calendar
+    placeholder="dd/mm/yyyy"
+    formControlName="data"
+    dataType="string"
+    dateFormat="dd/mm/yy"
+    appendTo="body"
+    iconDisplay="input"
+    [showIcon]="true"
+  ></p-calendar>
+  <small
+    class="p-error block center"
+    *ngIf="
+      (form.get('data')?.invalid && form.get('data')?.dirty) ||
+      (form.get('data')?.invalid && form.get('data')?.touched)
+    "
+  >
+    Data obrigatória</small
+  >
+
+  <div class="switch">
+    <p class="no-margin vertical-center">{{ situacaoLabel }}</p>
+    <p-inputSwitch
+      class="space-switch vertical-center"
+      formControlName="situacao"
+      (onChange)="atualizarLabel()"
+    ></p-inputSwitch>
   </div>
 </form>
 
 <p-divider></p-divider>
 
 <div class="space-between">
-  <p-button color="primary" (click)="onSubmit()"> Salvar </p-button>
+  <p-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">
+    Salvar
+  </p-button>
   <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>
 </div>

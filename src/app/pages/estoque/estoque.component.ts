@@ -1,12 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
-interface Item {
-  item: string;
-  quantidade: number;
-}
 @Component({
   selector: 'app-estoque',
   templateUrl: './estoque.component.html',
@@ -93,7 +88,6 @@ export class EstoqueComponent implements OnInit {
   }
 
   showModalEdit(formData: any) {
-    console.log(formData);
     this.formData = formData;
     this.visible = true;
   }
