@@ -6,10 +6,11 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Situação</th>
-      <th>Fornecedor / Cliente</th>
+      <th>Razão</th>
       <th>Categoria</th>
       <th>Item</th>
       <th>Valor</th>
+      <th>Total</th>
       <th>Data</th>
       <th>Ações</th>
     </tr>
@@ -33,13 +34,13 @@
         </ng-template>
       </td>
       <td>
-        <p>{{ product.fornecedor }}</p>
+        <p>{{ product.fornecedor | titlecase  }}</p>
       </td>
       <td>
-        <p>{{ product.categoria }}</p>
+        <p>{{ product.categoria | titlecase  }}</p>
         {{ product.descricao }}
       </td>
-      <td>{{ product.item }} ({{ product.quantidade }})</td>
+      <td>{{ product.item | titlecase  }} ({{ product.quantidade }})</td>
       <td>
         <ng-container *ngIf="product.tipo === 'despesa'; else receita">
           <div class="red">R$ -{{ product.valor | number : "0.2" }}</div>
@@ -47,6 +48,9 @@
         <ng-template #receita>
           <div class="green">R$ +{{ product.valor | number : "0.2" }}</div>
         </ng-template>
+      </td>
+      <td>
+        {{ product.valorTotal | number : "0.2" }}
       </td>
       <td>{{ product.data }}</td>
       <td>

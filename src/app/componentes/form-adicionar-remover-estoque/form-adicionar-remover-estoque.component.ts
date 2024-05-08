@@ -18,12 +18,14 @@ export class FormAdicionarRemoverEstoqueComponent {
   form!: FormGroup;
   situacaoLabel: string = 'Pendente';
   estoque: ItemEstoque[] = [];
+  razao: ItemEstoque[] = [];
 
   @Input() formData!: Transacao;
   @Input() tipo: string = '';
   @Input() categoria: string = '';
   @Output() close = new EventEmitter();
   estoqueSubscription!: Subscription;
+  razaoSubscription!: Subscription;
 
   quantidade!: number;
   constructor(
@@ -41,6 +43,14 @@ export class FormAdicionarRemoverEstoqueComponent {
           this.estoque.push(item);
         });
       });
+    this.razaoSubscription = this.contatoService
+      .getCollection('razao')
+      .subscribe((items) => {
+        this.razao = [];
+        items.forEach((item) => {
+          this.razao.push(item);
+        });
+      });
   }
 
   private criarForm() {
@@ -54,6 +64,7 @@ export class FormAdicionarRemoverEstoqueComponent {
       tipo: [this.tipo],
       quantidade: ['', [Validators.required]],
       valor: ['', [Validators.required, Validators.min(0)]],
+      valorTotal: [''],
     });
   }
 
@@ -75,6 +86,7 @@ export class FormAdicionarRemoverEstoqueComponent {
   }
 
   onSubmit() {
+    const valorTotal = this.form.value.quantidade * this.form.value.valor;
     const {
       id,
       data,
@@ -97,6 +109,7 @@ export class FormAdicionarRemoverEstoqueComponent {
       tipo,
       quantidade,
       valor,
+      valorTotal,
     };
 
     console.log(formData);
@@ -109,7 +122,7 @@ export class FormAdicionarRemoverEstoqueComponent {
           ? this.quantidade + formData.quantidade
           : this.quantidade - formData.quantidade;
 
-          console.log(quantidade);
+      console.log(quantidade);
 
       this.contatoService.updateDocument('estoque', peca.id, {
         quantidade: quantidade,

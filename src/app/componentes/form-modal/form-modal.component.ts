@@ -48,6 +48,8 @@ export class FormModalComponent {
       situacao: [''],
       tipo: [this.tipo],
       valor: ['', [Validators.required, Validators.min(0)]],
+      quantidade: [1],
+      valorTotal: [''],
     });
   }
 
@@ -70,6 +72,9 @@ export class FormModalComponent {
 
   onSubmit() {
     const formData = this.form.value;
+    const valorTotal = this.form.value.quantidade * this.form.value.valor;
+    formData.valorTotal = valorTotal; // Adicionar o valor total aos dados do formulário
+
     if (formData.id === null || formData.id === '') {
       this.contatoService.addDocument('transacoes', formData);
     } else {

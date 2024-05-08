@@ -58,25 +58,25 @@ export class PagesComponent {
 
       this.somaReceita = this.dados
         .filter((item) => item.tipo === 'receita')
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.somaDespesa = this.dados
         .filter((item) => item.tipo === 'despesa')
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.saldoPrevisto = this.somaReceita - this.somaDespesa;
 
       this.saldoMes =
         dadosEfetivados
           .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0) -
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0) -
         dadosEfetivados
           .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0);
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0);
 
       const dadosPendentes = dataFiltradaPendente.filter(
         (item) => item.situacao !== true
@@ -85,12 +85,12 @@ export class PagesComponent {
       this.saldoPendente =
         dadosPendentes
           .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0) -
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0) -
         dadosPendentes
           .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0);
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0);
     });
   }
 }

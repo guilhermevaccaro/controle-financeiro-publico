@@ -6,4 +6,5 @@ export interface Transacao {
   situacao: boolean;
   tipo: string;
   valor: number;
+  valorTotal: number;
 }

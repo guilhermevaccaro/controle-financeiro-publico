@@ -18,12 +18,15 @@
     Peça é obrigatória</small
   >
 
-  <input
-    type="text"
-    pInputText
-    placeholder="Fornecedor"
+  <p-dropdown
+    [options]="razao"
+    optionLabel="razao"
+    placeholder="Razão"
     formControlName="fornecedor"
-  />
+    [showClear]="false"
+    class="full-width"
+    (onChange)="selecionouPeca($event)"
+  ></p-dropdown>
   <small
     class="p-error block center"
     *ngIf="

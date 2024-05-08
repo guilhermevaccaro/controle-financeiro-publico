@@ -58,12 +58,81 @@
     ></app-form-estoque>
   </p-dialog>
 </mat-card>
+<mat-card
+  ><p-table
+    [value]="razao"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    class="responsive-table"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>
+          {{ product.razao }}
+        </td>
+
+        <td>
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            (click)="showModalEdit(product)"
+          >
+          </p-button>
+          <p-button
+            icon="pi pi-trash"
+            [rounded]="true"
+            [text]="true"
+            severity="danger "
+            (click)="confirm($event, product.id, 'estoque')"
+          >
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-dialog
+    [header]="'Estoque'"
+    [(visible)]="visible"
+    [modal]="true"
+    [closable]="false"
+  >
+    <app-form-estoque
+      [formData]="formData"
+      (close)="closeModal()"
+    ></app-form-estoque>
+  </p-dialog>
+</mat-card>
 <div class="botao">
   <p-button
     label="Adicionar Peça ao Estoque"
     icon="pi pi-plus"
     (click)="showModal()"
   ></p-button>
+  <p-dialog
+    [header]="'Razão'"
+    [(visible)]="visibleRazao"
+    [modal]="true"
+    [closable]="false"
+  >
+    <app-form-razao
+      [formData]="formData"
+      (close)="closeModal()"
+    ></app-form-razao>
+  </p-dialog>
+  <div class="botao">
+    <p-button
+      label="Adicionar Razão"
+      icon="pi pi-plus"
+      (click)="showModalRazao()"
+    ></p-button>
+  </div>
+  <p-toast />
+  <p-confirmDialog />
 </div>
-<p-toast />
-<p-confirmDialog />

@@ -15,9 +15,10 @@ export class TabelaComponent {
   @Output() openAdd = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
+
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   ngOnChanges() {

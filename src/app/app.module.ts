@@ -49,6 +49,7 @@ import { FormEstoqueComponent } from './componentes/form-estoque/form-estoque.co
 import { EstoqueVendaComponent } from './componentes/estoque-venda/estoque-venda.component';
 import { EstoqueCompraComponent } from './componentes/estoque-compra/estoque-compra.component';
 import { FormAdicionarRemoverEstoqueComponent } from './componentes/form-adicionar-remover-estoque/form-adicionar-remover-estoque.component';
+import { FormRazaoComponent } from './componentes/form-razao/form-razao.component';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -69,6 +70,7 @@ registerLocaleData(localePt);
     EstoqueVendaComponent,
     EstoqueCompraComponent,
     FormAdicionarRemoverEstoqueComponent,
+    FormRazaoComponent,
   ],
   imports: [
     MatCardModule,

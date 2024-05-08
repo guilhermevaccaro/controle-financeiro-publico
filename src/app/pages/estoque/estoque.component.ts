@@ -9,12 +9,13 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class EstoqueComponent implements OnInit {
   contatos!: any[];
+  razao!: any[];
   contatosEntrada!: any[];
   contatosSaida!: any[];
   visible = false;
   precoTotal!: number;
   produtos: any[] = [];
-  visible1 = false;
+  visibleRazao = false;
   @Output() open = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
   formData!: any;
@@ -32,15 +33,8 @@ export class EstoqueComponent implements OnInit {
     this.service.getCollection('estoque').subscribe((items) => {
       this.contatos = items;
     });
-    this.service.getCollection('movimentacao').subscribe((items) => {
-      this.contatosEntrada = items.filter(
-        (item: any) => item.categoria === 'entrada'
-      );
-    });
-    this.service.getCollection('movimentacao').subscribe((items) => {
-      this.contatosSaida = items.filter(
-        (item: any) => item.categoria === 'saida'
-      );
+    this.service.getCollection('razao').subscribe((items) => {
+      this.razao = items;
     });
   }
 
@@ -83,8 +77,8 @@ export class EstoqueComponent implements OnInit {
     this.visible = true;
   }
 
-  showModalAdd() {
-    this.visible1 = true;
+  showModalRazao() {
+    this.visibleRazao = true;
   }
 
   showModalEdit(formData: any) {
@@ -94,6 +88,6 @@ export class EstoqueComponent implements OnInit {
 
   closeModal() {
     this.visible = false;
-    this.visible1 = false;
+    this.visibleRazao = false;
   }
 }

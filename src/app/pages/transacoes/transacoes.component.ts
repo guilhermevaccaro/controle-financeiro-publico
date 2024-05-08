@@ -111,45 +111,45 @@ export class TransacoesComponent {
 
       this.receitaPendente = this.contatos
         .filter((item) => item.tipo === 'receita' && item.situacao !== true)
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.receitaRecebidas = this.contatos
         .filter((item) => item.tipo === 'receita' && item.situacao === true)
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.somaReceita = this.contatos
         .filter((item) => item.tipo === 'receita')
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.despesaPendente = this.contatos
         .filter((item) => item.tipo === 'despesa' && item.situacao !== true)
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.despesaPagas = this.contatos
         .filter((item) => item.tipo === 'despesa' && item.situacao === true)
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.somaDespesa = this.contatos
         .filter((item) => item.tipo === 'despesa')
-        .map((item) => item.valor)
-        .reduce((total, valor) => total + valor, 0);
+        .map((item) => item.valorTotal)
+        .reduce((total, valorTotal) => total + valorTotal, 0);
 
       this.saldoPrevisto = this.somaReceita - this.somaDespesa;
 
       this.saldoMes =
         dadosEfetivados
           .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0) -
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0) -
         dadosEfetivados
           .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0);
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0);
 
       const dadosPendentes = dataFiltrada.filter(
         (item) => item.situacao !== true
@@ -158,12 +158,12 @@ export class TransacoesComponent {
       this.saldoPendente =
         dadosPendentes
           .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0) -
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0) -
         dadosPendentes
           .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valor)
-          .reduce((total, valor) => total + valor, 0);
+          .map((item) => item.valorTotal)
+          .reduce((total, valorTotal) => total + valorTotal, 0);
     });
   }
 }
