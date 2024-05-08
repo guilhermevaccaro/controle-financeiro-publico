@@ -26,6 +26,7 @@ export class FormEstoqueComponent {
       id: [''],
       codigo: ['', Validators.required],
       item: [''],
+      quantidade: [0, Validators.required],
     });
   }
 

@@ -99,15 +99,17 @@ export class FormAdicionarRemoverEstoqueComponent {
       valor,
     };
 
+    console.log(formData);
+
     if (formData.id === null || formData.id === '') {
       this.contatoService.addDocument('transacoes', formData);
 
-      let quantidade;
-      if (this.categoria === 'Compra de peça') {
-        quantidade = this.quantidade + formData.quantidade;
-      } else {
-        quantidade = this.quantidade - formData.quantidade;
-      }
+      const quantidade =
+        this.categoria === 'Compra de peça'
+          ? this.quantidade + formData.quantidade
+          : this.quantidade - formData.quantidade;
+
+          console.log(quantidade);
 
       this.contatoService.updateDocument('estoque', peca.id, {
         quantidade: quantidade,
