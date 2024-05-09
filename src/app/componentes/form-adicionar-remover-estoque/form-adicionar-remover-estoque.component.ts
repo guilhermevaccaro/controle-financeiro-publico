@@ -27,7 +27,8 @@ export class FormAdicionarRemoverEstoqueComponent {
   estoqueSubscription!: Subscription;
   razaoSubscription!: Subscription;
 
-  quantidade!: number;
+  quantidade = 0;
+  idPeca!: string;
   constructor(
     private formBuilder: FormBuilder,
     private contatoService: ContatoService
@@ -86,6 +87,7 @@ export class FormAdicionarRemoverEstoqueComponent {
   }
 
   onSubmit() {
+    console.log(this.form.value);
     const valorTotal = this.form.value.quantidade * this.form.value.valor;
     const {
       id,
@@ -98,12 +100,11 @@ export class FormAdicionarRemoverEstoqueComponent {
       quantidade,
       valor,
     } = this.form.value;
-    const { item } = peca;
     const formData = {
       id,
       data,
       descricao,
-      item,
+      peca,
       fornecedor,
       situacao,
       tipo,
@@ -117,6 +118,7 @@ export class FormAdicionarRemoverEstoqueComponent {
     if (formData.id === null || formData.id === '') {
       this.contatoService.addDocument('transacoes', formData);
 
+      console.log(this.quantidade);
       const quantidade =
         this.categoria === 'Compra de peça'
           ? this.quantidade + formData.quantidade
@@ -140,6 +142,13 @@ export class FormAdicionarRemoverEstoqueComponent {
   }
 
   selecionouPeca(event: any) {
+    console.log(event.value);
     this.quantidade = event.value.quantidade;
+    console.log(this.quantidade);
+  }
+  selecionouRazao(event: any) {
+    // console.log(event.value);
+    // this.quantidade = event.value.quantidade;
+    // console.log(this.quantidade);
   }
 }

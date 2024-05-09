@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { take } from 'rxjs';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -32,6 +33,7 @@ export class TransacoesComponent {
   receitaRecebidas!: number;
   formData: any;
   visible: boolean = false;
+  quantidadeAtual!: number;
   public tipo: string = '';
 
   constructor(
@@ -88,8 +90,24 @@ export class TransacoesComponent {
     this.visible = false;
   }
 
-  onRemove(key: string) {
-    this.serviceContato.deleteDocument('transacoes', key);
+  onRemove(objeto: any) {
+    this.serviceContato.deleteDocument('transacoes', objeto.key);
+    const items = this.serviceContato
+      .getDocumentById('estoque', objeto.keyPeca)
+      .pipe(take(1));
+
+    let quantidadeMudanca: number;
+    items.subscribe((data) => {
+      if (objeto.tipo === 'receita') {
+        quantidadeMudanca = data.quantidade + objeto.quantidade;
+      } else if (objeto.tipo === 'despesa') {
+        quantidadeMudanca = data.quantidade - objeto.quantidade;
+      }
+
+      this.serviceContato.updateDocument('estoque', objeto.keyPeca, {
+        quantidade: quantidadeMudanca,
+      });
+    });
   }
 
   carregar() {

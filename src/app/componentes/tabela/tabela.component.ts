@@ -15,20 +15,21 @@ export class TabelaComponent {
   @Output() openAdd = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {}
 
   ngOnChanges() {
     if (this.contatos) {
-     console.log(this.contatos);
+      console.log(this.contatos);
     }
   }
 
-  deletandoTransacao(key: Transacao) {
-    this.remove.emit(key);
+  deletandoTransacao(key: Transacao, quantidade: Transacao, keyPeca: Transacao, tipo: Transacao) {
+    const dados = { key, quantidade, keyPeca, tipo };
+    this.remove.emit(dados);
+    console.log(dados);
   }
   abrindoModal(tipo: string, transacao?: Transacao) {
     if (transacao) {
@@ -37,7 +38,8 @@ export class TabelaComponent {
       this.openAdd.emit(tipo);
     }
   }
-  confirm(event: Event, key: Transacao) {
+  confirm(event: Event, key: Transacao, quantidade: Transacao, keyPeca: any, tipo: any) {
+    console.log(quantidade);
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Deseja excluir o dado?',
@@ -51,7 +53,7 @@ export class TabelaComponent {
       rejectLabel: 'Não',
 
       accept: () => {
-        this.deletandoTransacao(key);
+        this.deletandoTransacao(key, quantidade, keyPeca, tipo);
         this.messageService.add({
           severity: 'info',
           summary: 'Sucesso',
