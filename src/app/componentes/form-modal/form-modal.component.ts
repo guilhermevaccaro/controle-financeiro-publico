@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Transacao } from 'src/app/models/Transacao';
 
@@ -11,15 +11,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './form-modal.component.html',
   styleUrls: ['./form-modal.component.css'],
 })
-export class FormModalComponent {
+export class FormModalComponent implements OnInit, OnChanges{
   form!: FormGroup;
-  situacaoLabel: string = 'Pendente';
+  situacaoLabel = 'Pendente';
   categorias!: Categoria[];
   categoriasSubscription!: Subscription;
 
   @Input() formData!: Transacao;
-  @Input() tipo: string = '';
-  @Input() categoria: string = '';
+  @Input() tipo = '';
+  @Input() categoria = '';
   @Output() close = new EventEmitter();
 
   constructor(

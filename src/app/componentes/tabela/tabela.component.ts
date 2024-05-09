@@ -26,10 +26,9 @@ export class TabelaComponent {
     }
   }
 
-  deletandoTransacao(key: Transacao, quantidade: Transacao, keyPeca: Transacao, tipo: Transacao) {
-    const dados = { key, quantidade, keyPeca, tipo };
-    this.remove.emit(dados);
-    console.log(dados);
+  deletandoTransacao(data: Transacao) {
+    this.remove.emit(data);
+    console.log(data);
   }
   abrindoModal(tipo: string, transacao?: Transacao) {
     if (transacao) {
@@ -38,8 +37,7 @@ export class TabelaComponent {
       this.openAdd.emit(tipo);
     }
   }
-  confirm(event: Event, key: Transacao, quantidade: Transacao, keyPeca: any, tipo: any) {
-    console.log(quantidade);
+  confirm(event: Event, data: Transacao) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Deseja excluir o dado?',
@@ -53,7 +51,7 @@ export class TabelaComponent {
       rejectLabel: 'Não',
 
       accept: () => {
-        this.deletandoTransacao(key, quantidade, keyPeca, tipo);
+        this.deletandoTransacao(data);
         this.messageService.add({
           severity: 'info',
           summary: 'Sucesso',

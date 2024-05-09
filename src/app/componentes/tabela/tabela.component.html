@@ -33,14 +33,19 @@
           ></i>
         </ng-template>
       </td>
-      <td>
+      <td *ngIf="product.fornecedor">
         <p>{{ product.fornecedor.razao | titlecase }}</p>
       </td>
+      <td *ngIf="!product.fornecedor">Sem fornecedor</td>
       <td>
         <p>{{ product.categoria | titlecase }}</p>
         {{ product.descricao }}
       </td>
-      <td>{{ product.peca.item | titlecase }} ({{ product.quantidade }})</td>
+      <td *ngIf="product.peca">
+        {{ product.peca.item | titlecase }} ({{ product.quantidade }})
+      </td>
+      <td *ngIf="!product.peca">Sem item</td>
+
       <td>
         <ng-container *ngIf="product.tipo === 'despesa'; else receita">
           <div class="red">R$ -{{ product.valor | number : "0.2" }}</div>
@@ -66,7 +71,7 @@
           [rounded]="true"
           [text]="true"
           severity="danger "
-          (click)="confirm($event, product.id,product.quantidade, product.peca.id, product.tipo)"
+          (click)="confirm($event, product)"
         >
         </p-button>
       </td>

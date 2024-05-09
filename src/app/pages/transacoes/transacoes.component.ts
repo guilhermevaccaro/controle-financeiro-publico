@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { take } from 'rxjs';
+import { first, take } from 'rxjs';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -32,9 +32,9 @@ export class TransacoesComponent {
   receitaPendente!: number;
   receitaRecebidas!: number;
   formData: any;
-  visible: boolean = false;
+  visible = false;
   quantidadeAtual!: number;
-  public tipo: string = '';
+  public tipo = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -91,23 +91,24 @@ export class TransacoesComponent {
   }
 
   onRemove(objeto: any) {
-    this.serviceContato.deleteDocument('transacoes', objeto.key);
-    const items = this.serviceContato
-      .getDocumentById('estoque', objeto.keyPeca)
-      .pipe(take(1));
+    this.serviceContato.deleteDocument('transacoes', objeto.id);
+    this.serviceContato
+      .getDocumentById('estoque', objeto.peca.id)
+      .pipe(first())
+      .subscribe((data) => {
+        console.log('objeto', objeto);
+        console.log('data', data);
+        let quantidadeMudanca = 0;
+        if (objeto.tipo === 'receita') {
+          quantidadeMudanca = data.quantidade + objeto.quantidade;
+        } else if (objeto.tipo === 'despesa') {
+          quantidadeMudanca = data.quantidade - objeto.quantidade;
+        }
 
-    let quantidadeMudanca: number;
-    items.subscribe((data) => {
-      if (objeto.tipo === 'receita') {
-        quantidadeMudanca = data.quantidade + objeto.quantidade;
-      } else if (objeto.tipo === 'despesa') {
-        quantidadeMudanca = data.quantidade - objeto.quantidade;
-      }
-
-      this.serviceContato.updateDocument('estoque', objeto.keyPeca, {
-        quantidade: quantidadeMudanca,
+        this.serviceContato.updateDocument('estoque', objeto.peca.id, {
+          quantidade: quantidadeMudanca,
+        });
       });
-    });
   }
 
   carregar() {

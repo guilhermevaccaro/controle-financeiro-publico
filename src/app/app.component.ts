@@ -19,10 +19,10 @@ export class AppComponent {
   isCollapsed = true;
 
   formData: any;
-  visible: boolean = false;
-  visibleEstoque: boolean = false;
-  public tipo: string = '';
-  public categoria: string = '';
+  visible = false;
+  visibleEstoque = false;
+  public tipo = '';
+  public categoria = '';
 
   constructor(
     private observer: BreakpointObserver,
