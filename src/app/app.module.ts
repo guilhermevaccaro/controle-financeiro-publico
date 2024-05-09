@@ -38,18 +38,16 @@ import { TooltipModule } from 'primeng/tooltip';
 import { environment } from '../environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormAdicionarRemoverEstoqueComponent } from './componentes/form-adicionar-remover-estoque/form-adicionar-remover-estoque.component';
+import { FormEstoqueComponent } from './componentes/form-estoque/form-estoque.component';
 import { FormModalComponent } from './componentes/form-modal/form-modal.component';
+import { FormRazaoComponent } from './componentes/form-razao/form-razao.component';
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
+import { EstoqueComponent } from './pages/estoque/estoque.component';
 import { PagesComponent } from './pages/home/pages.component';
 import { TransacoesComponent } from './pages/transacoes/transacoes.component';
-import { EstoqueComponent } from './pages/estoque/estoque.component';
-import { FormEstoqueComponent } from './componentes/form-estoque/form-estoque.component';
-import { EstoqueVendaComponent } from './componentes/estoque-venda/estoque-venda.component';
-import { EstoqueCompraComponent } from './componentes/estoque-compra/estoque-compra.component';
-import { FormAdicionarRemoverEstoqueComponent } from './componentes/form-adicionar-remover-estoque/form-adicionar-remover-estoque.component';
-import { FormRazaoComponent } from './componentes/form-razao/form-razao.component';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -67,8 +65,6 @@ registerLocaleData(localePt);
     TransacoesComponent,
     EstoqueComponent,
     FormEstoqueComponent,
-    EstoqueVendaComponent,
-    EstoqueCompraComponent,
     FormAdicionarRemoverEstoqueComponent,
     FormRazaoComponent,
   ],

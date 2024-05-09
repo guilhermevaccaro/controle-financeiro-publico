@@ -16,13 +16,13 @@ interface ItemEstoque {
 })
 export class FormAdicionarRemoverEstoqueComponent {
   form!: FormGroup;
-  situacaoLabel: string = 'Pendente';
+  situacaoLabel = 'Pendente';
   estoque: ItemEstoque[] = [];
   razao: ItemEstoque[] = [];
 
   @Input() formData!: Transacao;
-  @Input() tipo: string = '';
-  @Input() categoria: string = '';
+  @Input() tipo = '';
+  @Input() categoria = '';
   @Output() close = new EventEmitter();
   estoqueSubscription!: Subscription;
   razaoSubscription!: Subscription;

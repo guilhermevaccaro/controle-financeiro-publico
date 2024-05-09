@@ -1,12 +1,23 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Transacao } from 'src/app/models/Transacao';
 
+interface ContagemCategorias {
+  [categoria: string]: number;
+}
+
+interface ContagemTipos {
+  [tipo: string]: number;
+}
+
+interface Porcentagens {
+  [categoria: string]: string;
+}
 @Component({
   selector: 'app-transacoes-lista',
   templateUrl: './transacoes-lista.component.html',
   styleUrls: ['./transacoes-lista.component.css'],
 })
-export class TransacoesListaComponent {
+export class TransacoesListaComponent implements OnChanges {
   contatos!: Transacao[];
   @Input() valorSelecionado!: string;
   @Input() filtro!: string;
@@ -22,6 +33,7 @@ export class TransacoesListaComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dados1'] && changes['dados1'].currentValue) {
       this.processarDados(this.dados1);
+      console.log(this.dados1);
     }
   }
 
@@ -58,13 +70,13 @@ export class TransacoesListaComponent {
       });
 
       let total = 0;
-      for (let categoria in contagemCategorias) {
+      for (const categoria in contagemCategorias) {
         total += contagemCategorias[categoria];
       }
 
-      let porcentagens: { [categoria: string]: string } = {};
-      for (let categoria in contagemCategorias) {
-        let porcentagem = (contagemCategorias[categoria] / total) * 100;
+      const porcentagens: { [categoria: string]: string } = {};
+      for (const categoria in contagemCategorias) {
+        const porcentagem = (contagemCategorias[categoria] / total) * 100;
         porcentagens[categoria] = porcentagem.toFixed(1);
       }
 

@@ -78,18 +78,11 @@
 
         <td>
           <p-button
-            icon="pi pi-pencil"
-            [rounded]="true"
-            [text]="true"
-            (click)="showModalEdit(product)"
-          >
-          </p-button>
-          <p-button
             icon="pi pi-trash"
             [rounded]="true"
             [text]="true"
             severity="danger "
-            (click)="confirm($event, product.id, 'estoque')"
+            (click)="confirm($event, product.id, 'razao')"
           >
           </p-button>
         </td>
