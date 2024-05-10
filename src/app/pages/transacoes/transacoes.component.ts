@@ -12,7 +12,7 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class TransacoesComponent {
   filtro!: string;
-  contatos!: Transacao[];
+  contatos!: any[];
   valorSelecionado!: any;
   opcoes = [
     { label: 'Transações', value: 'transacoes' },
@@ -35,7 +35,9 @@ export class TransacoesComponent {
   visible = false;
   quantidadeAtual!: number;
   public tipo = '';
-
+  dadosPDF!: any[];
+  exportColumns!: any[];
+  cols!: any[];
   constructor(
     private formBuilder: FormBuilder,
     private serviceContato: ContatoService,
@@ -183,6 +185,57 @@ export class TransacoesComponent {
           .filter((item) => item.tipo === 'despesa')
           .map((item) => item.valorTotal)
           .reduce((total, valorTotal) => total + valorTotal, 0);
+    });
+  }
+
+  exportPdf() {
+    this.dadosPDF = this.contatos
+      .map((contato) => {
+        const partesData = contato.data.split('/');
+        const timestamp = new Date(
+          partesData[2],
+          partesData[1] - 1,
+          partesData[0]
+        ).getTime();
+        if (contato.situacao === true) {
+          contato.situacao = 'Efetivado';
+        } else {
+          contato.situacao = 'Pendente';
+        }
+        return {
+          data: contato.data,
+          timestamp: timestamp,
+          situacao: contato.situacao,
+          fornecedor: contato.fornecedor.razao,
+          item: contato.peca.item,
+          quantidade: contato.peca.quantidade,
+          valor: contato.valor,
+          valorTotal: contato.valorTotal,
+        };
+      })
+      .sort((a, b) => a.timestamp - b.timestamp);
+
+    this.cols = [
+      { field: 'data', header: 'Data' },
+      { field: 'situacao', header: 'Situação' },
+      { field: 'fornecedor', header: 'Fornecedor/Cliente' },
+      { field: 'item', header: 'Item' },
+      { field: 'quantidade', header: 'Quantidade' },
+      { field: 'valor', header: 'Valor Unitário' },
+      { field: 'valorTotal', header: 'Valor Total' },
+    ];
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
+
+    import('jspdf').then((jsPDF) => {
+      import('jspdf-autotable').then((x) => {
+        const doc = new jsPDF.default('p', 'px', 'a4');
+        (doc as any).autoTable(this.exportColumns, this.dadosPDF);
+        doc.save('products.pdf');
+      });
     });
   }
 }

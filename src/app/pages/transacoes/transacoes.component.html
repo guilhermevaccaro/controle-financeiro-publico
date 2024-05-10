@@ -31,6 +31,13 @@
             >
             </p-calendar>
           </form>
+          <p-button
+            severity="danger"
+            icon="pi pi-file-pdf"
+            (click)="exportPdf()"
+            pTooltip="PDF"
+            tooltipPosition="bottom"
+          ></p-button>
         </mat-card-header>
         <app-tabela
           [contatos]="contatos"
