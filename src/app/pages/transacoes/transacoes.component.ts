@@ -38,6 +38,8 @@ export class TransacoesComponent {
   dadosPDF!: any[];
   exportColumns!: any[];
   cols!: any[];
+  rangeDates: Date[] | undefined;
+
   constructor(
     private formBuilder: FormBuilder,
     private serviceContato: ContatoService,
@@ -51,10 +53,16 @@ export class TransacoesComponent {
     this.remove.emit(key);
   }
   ngOnInit() {
+    const dataInicio = new Date();
+    dataInicio.setDate(1);
+
+    const dataFim = new Date();
+    dataFim.setMonth(dataFim.getMonth() + 1);
+    dataFim.setDate(0);
+
     this.form = this.formBuilder.group({
-      mes: [new Date()],
+      rangeDates: [[dataInicio, dataFim]],
     });
-    this.valorSelecionado = new Date().getMonth() + 1;
     this.carregar();
   }
   customInputStyle = {
@@ -78,8 +86,6 @@ export class TransacoesComponent {
   }
 
   onDateSelect(event: any) {
-    const selectedDate: Date = event;
-    this.valorSelecionado = selectedDate.getMonth() + 1;
     this.carregar();
   }
 
@@ -116,76 +122,14 @@ export class TransacoesComponent {
   carregar() {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
-    this.serviceContato.getCollection('transacoes').subscribe((items) => {
-      const dataFiltrada = items.filter((item) => {
-        const mes = parseInt(item.data.split('/')[1], 10);
-        return (
-          mes === parseInt(this.valorSelecionado) &&
-          (this.filtro !== 'transacoes' ? item.tipo === this.filtro : true)
-        );
+    this.serviceContato
+      .getTransacoesPorIntervaloDeDatas(
+        this.form.value.rangeDates[0],
+        this.form.value.rangeDates[1]
+      )
+      .subscribe((transacoes) => {
+        this.contatos = transacoes;
       });
-      this.contatos = dataFiltrada;
-
-      const dadosEfetivados = dataFiltrada.filter(
-        (item) => item.situacao === true
-      );
-
-      this.receitaPendente = this.contatos
-        .filter((item) => item.tipo === 'receita' && item.situacao !== true)
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.receitaRecebidas = this.contatos
-        .filter((item) => item.tipo === 'receita' && item.situacao === true)
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.somaReceita = this.contatos
-        .filter((item) => item.tipo === 'receita')
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.despesaPendente = this.contatos
-        .filter((item) => item.tipo === 'despesa' && item.situacao !== true)
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.despesaPagas = this.contatos
-        .filter((item) => item.tipo === 'despesa' && item.situacao === true)
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.somaDespesa = this.contatos
-        .filter((item) => item.tipo === 'despesa')
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.saldoPrevisto = this.somaReceita - this.somaDespesa;
-
-      this.saldoMes =
-        dadosEfetivados
-          .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0) -
-        dadosEfetivados
-          .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      const dadosPendentes = dataFiltrada.filter(
-        (item) => item.situacao !== true
-      );
-
-      this.saldoPendente =
-        dadosPendentes
-          .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0) -
-        dadosPendentes
-          .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0);
-    });
   }
 
   exportPdf() {

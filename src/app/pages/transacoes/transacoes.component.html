@@ -20,16 +20,12 @@
         <mat-card-header>
           <form [formGroup]="form" class="form">
             <p-calendar
-              view="month"
-              formControlName="mes"
-              dateFormat="MM"
-              dataType="string"
+              formControlName="rangeDates"
+              selectionMode="range"
               [readonlyInput]="true"
-              class="date"
-              (onSelect)="onDateSelect($event)"
               [inputStyle]="customInputStyle"
-            >
-            </p-calendar>
+              (onSelect)="onDateSelect($event)"
+            ></p-calendar>
           </form>
           <p-button
             severity="danger"
@@ -95,16 +91,12 @@
         <mat-card-header>
           <form [formGroup]="form" class="form">
             <p-calendar
-              view="month"
-              formControlName="mes"
-              dateFormat="MM"
-              dataType="string"
+              formControlName="rangeDates"
+              selectionMode="range"
               [readonlyInput]="true"
-              class="date"
-              (onSelect)="onDateSelect($event)"
               [inputStyle]="customInputStyle"
-            >
-            </p-calendar>
+              (onSelect)="onDateSelect($event)"
+            ></p-calendar>
           </form>
         </mat-card-header>
         <app-tabela
@@ -155,16 +147,13 @@
         <mat-card-header>
           <form [formGroup]="form" class="form">
             <p-calendar
-              view="month"
-              formControlName="mes"
-              dateFormat="MM"
-              dataType="string"
+              formControlName="rangeDates"
+              selectionMode="range"
+              dateFormat="dd/mm/yy"
               [readonlyInput]="true"
-              class="date"
-              (onSelect)="onDateSelect($event)"
               [inputStyle]="customInputStyle"
-            >
-            </p-calendar>
+              (onSelect)="onDateSelect($event)"
+            ></p-calendar>
           </form>
         </mat-card-header>
         <app-tabela

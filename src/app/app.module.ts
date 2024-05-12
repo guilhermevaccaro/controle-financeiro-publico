@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -101,6 +101,7 @@ registerLocaleData(localePt);
     TableModule,
     CalendarModule,
     InputTextModule,
+    FormsModule,
 
     AngularFireModule.initializeApp(firebaseConfig),
   ],
