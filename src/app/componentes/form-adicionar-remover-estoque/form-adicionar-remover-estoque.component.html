@@ -105,7 +105,7 @@
 <p-divider></p-divider>
 
 <div class="space-between">
-  <p-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">
+  <p-button color="primary" (click)="onSubmit(form.value)" [disabled]="form.invalid">
     Salvar
   </p-button>
   <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>

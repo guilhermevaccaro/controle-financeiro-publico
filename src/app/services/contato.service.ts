@@ -21,10 +21,10 @@ export class ContatoService {
       .valueChanges();
   }
 
-  addDocument(collectionName: string, data: any): Promise<any> {
-    return this.firestore.collection(collectionName).add(data);
+  async addDocument(collectionName: string, data: any): Promise<string> {
+    const docRef = await this.firestore.collection(collectionName).add(data);
+    return docRef.id;
   }
-
   updateDocument(
     collectionName: string,
     docId: string,
@@ -35,5 +35,16 @@ export class ContatoService {
 
   deleteDocument(collectionName: string, docId: string): Promise<void> {
     return this.firestore.collection(collectionName).doc(docId).delete();
+  }
+
+  getTransacoesPorIntervaloDeDatas(
+    dataInicio: Date,
+    dataFim: Date
+  ): Observable<any[]> {
+    return this.firestore
+      .collection<any>('transacoes', (ref) =>
+        ref.where('data', '>=', dataInicio).where('data', '<=', dataFim)
+      )
+      .valueChanges();
   }
 }

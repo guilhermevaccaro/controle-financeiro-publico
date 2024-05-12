@@ -29,6 +29,7 @@ export class FormAdicionarRemoverEstoqueComponent {
 
   quantidade = 0;
   idPeca!: string;
+  novaTransacao: any;
   constructor(
     private formBuilder: FormBuilder,
     private contatoService: ContatoService
@@ -56,7 +57,6 @@ export class FormAdicionarRemoverEstoqueComponent {
 
   private criarForm() {
     return this.formBuilder.group({
-      id: [''],
       data: ['', Validators.required],
       descricao: ['', Validators.required],
       peca: ['', Validators.required],
@@ -86,54 +86,25 @@ export class FormAdicionarRemoverEstoqueComponent {
     this.situacaoLabel = this.form.value.situacao ? 'Efetivado' : 'Pendente';
   }
 
-  onSubmit() {
-    console.log(this.form.value);
-    const valorTotal = this.form.value.quantidade * this.form.value.valor;
-    const {
-      id,
-      data,
-      descricao,
-      peca,
-      fornecedor,
-      situacao,
-      tipo,
-      quantidade,
-      valor,
-    } = this.form.value;
-    const formData = {
-      id,
-      data,
-      descricao,
-      peca,
-      fornecedor,
-      situacao,
-      tipo,
-      quantidade,
-      valor,
-      valorTotal,
-    };
-
-    console.log(formData);
-
-    if (formData.id === null || formData.id === '') {
-      this.contatoService.addDocument('transacoes', formData);
-
-      console.log(this.quantidade);
-      const quantidade =
-        this.categoria === 'Compra de peça'
-          ? this.quantidade + formData.quantidade
-          : this.quantidade - formData.quantidade;
-
-      console.log(quantidade);
-
-      this.contatoService.updateDocument('estoque', peca.id, {
-        quantidade: quantidade,
-      });
-    } else {
-      this.contatoService.updateDocument('transacoes', formData.id, formData);
+  async onSubmit(novaTransacao: any): Promise<void> {
+    try {
+      if (!novaTransacao.id || novaTransacao.id === '') {
+        const novoDocumentoId = await this.contatoService.addDocument(
+          'transacoes',
+          novaTransacao
+        );
+        console.log('Novo documento adicionado com o ID:', novoDocumentoId);
+      } else {
+        await this.contatoService.updateDocument(
+          'transacoes',
+          novaTransacao.id,
+          novaTransacao
+        );
+        console.log('Documento atualizado com sucesso.');
+      }
+    } catch (error) {
+      console.error('Erro ao salvar transação:', error);
     }
-    this.form = this.criarForm();
-    this.close.emit();
   }
 
   onCancel() {
