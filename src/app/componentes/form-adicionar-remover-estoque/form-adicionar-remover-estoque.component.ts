@@ -87,6 +87,9 @@ export class FormAdicionarRemoverEstoqueComponent {
   }
 
   async onSubmit(novaTransacao: any): Promise<void> {
+    const valorTotal = novaTransacao.quantidade * novaTransacao.valor;
+    novaTransacao.valorTotal = valorTotal;
+
     try {
       if (!novaTransacao.id || novaTransacao.id === '') {
         const novoDocumentoId = await this.contatoService.addDocument(
@@ -94,6 +97,13 @@ export class FormAdicionarRemoverEstoqueComponent {
           novaTransacao
         );
         console.log('Novo documento adicionado com o ID:', novoDocumentoId);
+        const quantidade =
+          this.categoria === 'Compra de peça'
+            ? this.quantidade + novaTransacao.quantidade
+            : this.quantidade - novaTransacao.quantidade;
+        this.contatoService.updateDocument('estoque', novaTransacao.peca.id, {
+          quantidade: quantidade,
+        });
       } else {
         await this.contatoService.updateDocument(
           'transacoes',
