@@ -24,7 +24,7 @@ export class FormRazaoComponent {
   private criarForm() {
     return this.formBuilder.group({
       id: [''],
-      razao: ['', Validators.required],
+      nome: ['', Validators.required],
     });
   }
 
@@ -39,16 +39,16 @@ export class FormRazaoComponent {
   atualizarFormulario() {
     this.form.patchValue({
       id: this.formData.id,
-      razao: this.formData.razao,
+      nome: this.formData.fornecedor,
     });
   }
 
   onSubmit() {
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
-      this.contatoService.addDocument('razao', formData);
+      this.contatoService.addDocument('fornecedor', formData);
     } else {
-      this.contatoService.updateDocument('razao', formData.id, formData);
+      this.contatoService.updateDocument('fornecedor', formData.id, formData);
     }
     this.form = this.criarForm();
     this.close.emit();
@@ -57,7 +57,7 @@ export class FormRazaoComponent {
   onCancel() {
     this.form = this.formBuilder.group({
       id: [''],
-      razao: [''],
+      nome: [''],
     });
     this.close.emit();
   }

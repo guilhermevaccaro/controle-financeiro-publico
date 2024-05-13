@@ -1,5 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// Seu código Angular TypeScript
+
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
@@ -14,22 +23,21 @@ interface ItemEstoque {
   templateUrl: './form-adicionar-remover-estoque.component.html',
   styleUrls: ['./form-adicionar-remover-estoque.component.css'],
 })
-export class FormAdicionarRemoverEstoqueComponent {
-  form!: FormGroup;
-  situacaoLabel = 'Pendente';
-  estoque: ItemEstoque[] = [];
-  razao: ItemEstoque[] = [];
-
-  @Input() formData!: Transacao;
+export class FormAdicionarRemoverEstoqueComponent implements OnInit, OnChanges {
+  @Input() formData!: any;
   @Input() tipo = '';
   @Input() categoria = '';
   @Output() close = new EventEmitter();
   estoqueSubscription!: Subscription;
+  form!: FormGroup;
+  estoque: ItemEstoque[] = [];
+  nome: ItemEstoque[] = [];
   razaoSubscription!: Subscription;
-
   quantidade = 0;
   idPeca!: string;
   novaTransacao: any;
+  situacaoOpcoes!: any[];
+
   constructor(
     private formBuilder: FormBuilder,
     private contatoService: ContatoService
@@ -37,6 +45,12 @@ export class FormAdicionarRemoverEstoqueComponent {
 
   ngOnInit() {
     this.form = this.criarForm();
+    this.situacaoOpcoes = [
+      {
+        nome: 'Pendente',
+      },
+      { nome: 'Efetivado' },
+    ];
     this.estoqueSubscription = this.contatoService
       .getCollection('estoque')
       .subscribe((items) => {
@@ -46,22 +60,24 @@ export class FormAdicionarRemoverEstoqueComponent {
         });
       });
     this.razaoSubscription = this.contatoService
-      .getCollection('razao')
+      .getCollection('fornecedor')
       .subscribe((items) => {
-        this.razao = [];
+        this.nome = [];
         items.forEach((item) => {
-          this.razao.push(item);
+          this.nome.push(item);
         });
       });
   }
 
   private criarForm() {
     return this.formBuilder.group({
+      id: [''],
       data: ['', Validators.required],
+      categoria: [this.categoria],
       descricao: ['', Validators.required],
-      peca: ['', Validators.required],
+      pecas: this.formBuilder.array([]), // FormArray para múltiplas peças
       fornecedor: ['', Validators.required],
-      situacao: [''],
+      situacao: ['', Validators.required],
       tipo: [this.tipo],
       quantidade: ['', [Validators.required]],
       valor: ['', [Validators.required, Validators.min(0)]],
@@ -71,6 +87,8 @@ export class FormAdicionarRemoverEstoqueComponent {
 
   ngOnChanges() {
     if (this.formData) {
+      console.log(this.formData);
+
       this.atualizarFormulario();
     } else {
       this.form = this.criarForm();
@@ -78,43 +96,59 @@ export class FormAdicionarRemoverEstoqueComponent {
   }
 
   atualizarFormulario() {
-    this.form.patchValue(this.formData);
-    this.atualizarLabel();
+    this.form.patchValue({
+      id: this.formData.id,
+      data: this.formData.data.timestamp,
+      categoria: this.formData.categoria,
+      descricao: this.formData.descricao,
+      fornecedor: this.formData.fornecedor.razao,
+      situacao: this.formData.situacao.nome,
+      tipo: this.formData.tipo,
+      quantidade: this.formData.quantidade,
+      valor: this.formData.valor,
+      valorTotal: this.formData.valorTotal,
+    });
   }
 
-  atualizarLabel() {
-    this.situacaoLabel = this.form.value.situacao ? 'Efetivado' : 'Pendente';
-  }
+  onSubmit() {
+    const formData = {
+      ...this.form.value,
+      valorTotal: this.form.value.quantidade * this.form.value.valor,
+    };
 
-  async onSubmit(novaTransacao: any): Promise<void> {
-    const valorTotal = novaTransacao.quantidade * novaTransacao.valor;
-    novaTransacao.valorTotal = valorTotal;
-
-    try {
-      if (!novaTransacao.id || novaTransacao.id === '') {
-        const novoDocumentoId = await this.contatoService.addDocument(
-          'transacoes',
-          novaTransacao
-        );
-        console.log('Novo documento adicionado com o ID:', novoDocumentoId);
-        const quantidade =
-          this.categoria === 'Compra de peça'
-            ? this.quantidade + novaTransacao.quantidade
-            : this.quantidade - novaTransacao.quantidade;
-        this.contatoService.updateDocument('estoque', novaTransacao.peca.id, {
-          quantidade: quantidade,
-        });
+    if (formData.id === null || formData.id === '') {
+      this.contatoService.addDocument('transacoes', formData);
+      let quantidade = this.quantidade;
+      if (formData.tipo === 'despesa') {
+        quantidade += formData.quantidade;
       } else {
-        await this.contatoService.updateDocument(
-          'transacoes',
-          novaTransacao.id,
-          novaTransacao
-        );
-        console.log('Documento atualizado com sucesso.');
+        quantidade -= formData.quantidade;
       }
-    } catch (error) {
-      console.error('Erro ao salvar transação:', error);
+
+      this.contatoService.updateDocument('estoque', formData.peca.id, {
+        quantidade: quantidade,
+      });
+    } else {
+      this.contatoService.updateDocument('transacoes', formData.id, formData);
     }
+    this.form = this.criarForm();
+    this.close.emit();
+  }
+
+  createPecaFormGroup(pecaData?: any): FormGroup {
+    return this.formBuilder.group({
+      descricao: [pecaData ? pecaData.descricao : '', Validators.required],
+      valor: [
+        pecaData ? pecaData.valor : '',
+        [Validators.required, Validators.min(0)],
+      ],
+      quantidade: [pecaData ? pecaData.quantidade : '', Validators.required],
+    });
+  }
+
+  addPeca() {
+    const pecas = this.form.get('pecas') as FormArray;
+    pecas.push(this.createPecaFormGroup());
   }
 
   onCancel() {
@@ -123,13 +157,6 @@ export class FormAdicionarRemoverEstoqueComponent {
   }
 
   selecionouPeca(event: any) {
-    console.log(event.value);
     this.quantidade = event.value.quantidade;
-    console.log(this.quantidade);
-  }
-  selecionouRazao(event: any) {
-    // console.log(event.value);
-    // this.quantidade = event.value.quantidade;
-    // console.log(this.quantidade);
   }
 }

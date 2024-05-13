@@ -19,13 +19,12 @@
   >
 
   <p-dropdown
-    [options]="razao"
-    optionLabel="razao"
-    placeholder="Razão"
+    [options]="nome"
+    optionLabel="nome"
+    placeholder="Fornecedor / Cliente"
     formControlName="fornecedor"
     [showClear]="false"
     class="full-width"
-    (onChange)="selecionouRazao($event)"
   ></p-dropdown>
   <small
     class="p-error block center"
@@ -90,25 +89,19 @@
   >
     Data obrigatória</small
   >
-
-  <div class="switch">
-    <p class="no-margin vertical-center">{{ situacaoLabel }}</p>
-    <p-inputSwitch
-      class="space-switch vertical-center"
-      formControlName="situacao"
-      (onChange)="atualizarLabel()"
-    ></p-inputSwitch>
-  </div>
+  <p-dropdown
+    [options]="situacaoOpcoes"
+    optionLabel="nome"
+    placeholder="Situação"
+    formControlName="situacao"
+    [showClear]="false"
+    class="full-width"
+  ></p-dropdown>
+  <p-divider></p-divider>
 </form>
 
-<p-divider></p-divider>
-
 <div class="space-between">
-  <p-button
-    color="primary"
-    (click)="onSubmit(form.value)"
-    [disabled]="form.invalid"
-  >
+  <p-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">
     Salvar
   </p-button>
   <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>

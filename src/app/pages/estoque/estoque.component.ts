@@ -9,7 +9,7 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class EstoqueComponent implements OnInit {
   contatos!: any[];
-  razao!: any[];
+  fornecedor!: any[];
   contatosEntrada!: any[];
   contatosSaida!: any[];
   visible = false;
@@ -33,8 +33,8 @@ export class EstoqueComponent implements OnInit {
     this.service.getCollection('estoque').subscribe((items) => {
       this.contatos = items;
     });
-    this.service.getCollection('razao').subscribe((items) => {
-      this.razao = items;
+    this.service.getCollection('fornecedor').subscribe((items) => {
+      this.fornecedor = items;
     });
   }
 

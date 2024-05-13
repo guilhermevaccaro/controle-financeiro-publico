@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { Timestamp } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +23,18 @@ export class ContatoService {
   }
 
   async addDocument(collectionName: string, data: any): Promise<string> {
+    // Adiciona o documento à coleção no Firestore
     const docRef = await this.firestore.collection(collectionName).add(data);
-    return docRef.id;
+
+    // Obtém o ID do documento adicionado
+    const docId = docRef.id;
+
+    // Atribui o ID ao objeto data antes de retorná-lo
+    data.id = docId;
+
+    return docId; // Retorna apenas o ID, se necessário
   }
+
   updateDocument(
     collectionName: string,
     docId: string,
@@ -45,6 +55,14 @@ export class ContatoService {
       .collection<any>('transacoes', (ref) =>
         ref.where('data', '>=', dataInicio).where('data', '<=', dataFim)
       )
-      .valueChanges();
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map((docs: any[]) => {
+          return docs.map((doc) => {
+            doc.data = doc.data.toDate();
+            return doc;
+          });
+        })
+      );
   }
 }

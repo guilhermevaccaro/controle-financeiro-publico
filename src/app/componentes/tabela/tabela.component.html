@@ -57,7 +57,7 @@
       <td>
         {{ product.valorTotal | number : "0.2" }}
       </td>
-      <td>{{ product.data }}</td>
+      <td>{{ product.data | date: 'dd/MM/yy' }}</td>
       <td>
         <p-button
           icon="pi pi-pencil"

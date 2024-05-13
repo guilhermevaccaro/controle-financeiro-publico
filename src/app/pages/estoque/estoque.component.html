@@ -60,7 +60,7 @@
 </mat-card>
 <mat-card
   ><p-table
-    [value]="razao"
+    [value]="fornecedor"
     [tableStyle]="{ 'min-width': '50rem' }"
     class="responsive-table"
   >
@@ -73,7 +73,7 @@
     <ng-template pTemplate="body" let-product>
       <tr>
         <td>
-          {{ product.razao }}
+          {{ product.nome }}
         </td>
 
         <td>
@@ -121,7 +121,7 @@
   </p-dialog>
   <div class="botao">
     <p-button
-      label="Adicionar Razão"
+      label="Adicionar Fornecedor / Cliente"
       icon="pi pi-plus"
       (click)="showModalRazao()"
     ></p-button>
