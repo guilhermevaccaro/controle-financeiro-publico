@@ -34,9 +34,7 @@ export class TransacoesComponent {
   visible = false;
   quantidadeAtual!: number;
   public tipo = '';
-  dadosPDF!: any[];
-  exportColumns!: any[];
-  cols!: any[];
+
   rangeDates: Date[] | undefined;
 
   constructor(
@@ -99,24 +97,21 @@ export class TransacoesComponent {
   }
 
   onRemove(objeto: any) {
+    console.log(objeto);
     this.serviceContato.deleteDocument('transacoes', objeto.id);
-    this.serviceContato
-      .getDocumentById('estoque', objeto.peca.id)
-      .pipe(first())
-      .subscribe((data) => {
-        let quantidadeMudanca = 0;
-        if (objeto.tipo === 'receita') {
-          quantidadeMudanca = data.quantidade + objeto.quantidade;
-        } else if (objeto.tipo === 'despesa') {
-          quantidadeMudanca = data.quantidade - objeto.quantidade;
-        }
-
-        this.serviceContato.updateDocument('estoque', objeto.peca.id, {
-          quantidade: quantidadeMudanca,
-        });
-      });
+    this.updateEstoque(objeto);
   }
-
+  private updateEstoque(formData: any) {
+    for (const peca of formData.pecas) {
+      const quantidade =
+        formData.tipo === 'receita'
+          ? peca.item.quantidade + peca.quantidadeAdicionada
+          : peca.quantidadeAdicionada - peca.item.quantidade;
+      this.serviceContato
+        .updateDocument('estoque', peca.idPeca, { quantidade: quantidade })
+        .catch((err) => console.error('Error updating estoque', err));
+    }
+  }
   carregar() {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
@@ -175,61 +170,5 @@ export class TransacoesComponent {
         this.despesaPagas = somaDespesasEfetivadas;
         this.despesaPendente = somaDespesasPendentes;
       });
-  }
-
-  exportPdf() {
-    function formatDate(dateString: any) {
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = String(date.getFullYear()).slice(-2);
-      return `${day}/${month}/${year}`;
-    }
-
-    this.dadosPDF = this.contatos
-      .map((contato) => {
-        if (contato.situacao.nome === 'Efetivado') {
-          contato.situacao.nome = 'Efetivado';
-        } else {
-          contato.situacao.nome = 'Pendente';
-        }
-
-        return {
-          data: formatDate(contato.data),
-          situacao: contato.situacao.nome,
-          fornecedor: contato.fornecedor.razao,
-          item: contato.peca,
-          quantidade: contato.peca,
-          valorTotal: contato.valorTotal,
-        };
-      })
-      .sort((a, b) => {
-        const dateA = new Date(a.data.split('/').reverse().join('-')).getTime();
-        const dateB = new Date(b.data.split('/').reverse().join('-')).getTime();
-        return dateA - dateB;
-      });
-
-    this.cols = [
-      { field: 'data', header: 'Data' },
-      { field: 'situacao', header: 'Situação' },
-      { field: 'fornecedor', header: 'Fornecedor/Cliente' },
-      { field: 'item', header: 'Item' },
-      { field: 'quantidade', header: 'Quantidade' },
-      { field: 'valor', header: 'Valor Unitário' },
-      { field: 'valorTotal', header: 'Valor Total' },
-    ];
-
-    this.exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
-
-    import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
-        const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.dadosPDF);
-        doc.save('products.pdf');
-      });
-    });
   }
 }

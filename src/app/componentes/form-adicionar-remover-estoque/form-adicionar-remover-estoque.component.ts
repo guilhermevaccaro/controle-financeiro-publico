@@ -21,6 +21,7 @@ import { ContatoService } from 'src/app/services/contato.service';
 
 interface ItemEstoque {
   item: string;
+  quantidade: number;
   id: string;
 }
 
@@ -215,29 +216,17 @@ export class FormAdicionarRemoverEstoqueComponent
   }
 
   private updateEstoque(formData: any) {
-    console.log('formDataEstoque', formData);
-
-    const quantidadePorPeca: { [id: string]: number } = {};
-
-    const pecas = formData.pecas;
-    for (const peca of pecas) {
-      if (quantidadePorPeca[peca.idPeca]) {
-        quantidadePorPeca[peca.idPeca] += peca.quantidadeAdicionada;
-      } else {
-        quantidadePorPeca[peca.idPeca] = peca.quantidadeAdicionada;
-      }
-    }
-
-    for (const idPeca in quantidadePorPeca) {
-      if (quantidadePorPeca.hasOwnProperty(idPeca)) {
-        const quantidade = quantidadePorPeca[idPeca];
-
-        this.contatoService
-          .updateDocument('estoque', idPeca, { quantidade: quantidade })
-          .catch((err) => console.error('Error updating estoque', err));
-      }
+    for (const peca of formData.pecas) {
+      const quantidade =
+        formData.tipo === 'receita'
+          ? peca.item.quantidade - peca.quantidadeAdicionada
+          : peca.quantidadeAdicionada + peca.item.quantidade;
+      this.contatoService
+        .updateDocument('estoque', peca.idPeca, { quantidade: quantidade })
+        .catch((err) => console.error('Error updating estoque', err));
     }
   }
+
   private calcularValorTotal(formData: any): number {
     let valorTotal = 0;
 
