@@ -23,24 +23,18 @@
               formControlName="rangeDates"
               selectionMode="range"
               [readonlyInput]="true"
+              dateFormat="dd/mm/yy"
               [inputStyle]="customInputStyle"
               (onSelect)="onDateSelect($event)"
             ></p-calendar>
           </form>
-          <p-button
-            severity="danger"
-            icon="pi pi-file-pdf"
-            (click)="exportPdf()"
-            pTooltip="PDF"
-            tooltipPosition="bottom"
-          ></p-button>
+
         </mat-card-header>
         <app-tabela
           [contatos]="contatos"
-          [valorSelecionado]="valorSelecionado"
           filtro=""
           (remove)="onRemove($event)"
-          (open)="showModal($event)"
+          (clickOpen)="showModal($event)"
         ></app-tabela>
       </mat-card>
     </div>
@@ -96,15 +90,15 @@
               [readonlyInput]="true"
               [inputStyle]="customInputStyle"
               (onSelect)="onDateSelect($event)"
+              dateFormat="dd/mm/yy"
             ></p-calendar>
           </form>
         </mat-card-header>
         <app-tabela
           [contatos]="contatos"
-          [valorSelecionado]="valorSelecionado"
           filtro="receita"
           (remove)="onRemove($event)"
-          (open)="showModal($event)"
+          (clickOpen)="showModal($event)"
         ></app-tabela>
       </mat-card>
     </div>
@@ -153,15 +147,15 @@
               [readonlyInput]="true"
               [inputStyle]="customInputStyle"
               (onSelect)="onDateSelect($event)"
+              dateFormat="dd/mm/yy"
             ></p-calendar>
           </form>
         </mat-card-header>
         <app-tabela
           [contatos]="contatos"
-          [valorSelecionado]="valorSelecionado"
           filtro="despesa"
           (remove)="onRemove($event)"
-          (open)="showModal($event)"
+          (clickOpen)="showModal($event)"
         ></app-tabela>
       </mat-card>
     </div>
@@ -199,16 +193,9 @@
   </div>
 </div>
 
-<p-dialog
-  [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo"
-  [(visible)]="visible"
-  [modal]="true"
->
-  <app-form-adicionar-remover-estoque
-    [formData]="formData"
-    (close)="closeModal()"
-    [tipo]="tipo"
-  ></app-form-adicionar-remover-estoque>
+<p-dialog [(visible)]="visible" [modal]="true" [closable]="false">
+  <app-form-modal [dados]="formData" (clickClose)="closeModal()">
+  </app-form-modal>
 </p-dialog>
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>

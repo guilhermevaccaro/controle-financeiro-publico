@@ -1,80 +1,55 @@
-<form [formGroup]="form" class="display-flex">
-  <p-dropdown
-    [options]="categorias"
-    placeholder="Categoria"
-    formControlName="categoria"
-    [showClear]="false"
-    class="full-width"
-  ></p-dropdown>
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('categoria')?.invalid && form.get('categoria')?.dirty) ||
-      (form.get('categoria')?.invalid && form.get('categoria')?.touched)
-    "
-  >
-    Categoria é obrigatória</small
-  >
-
-  <input
-    type="text"
-    pInputText
-    placeholder="Descrição"
-    formControlName="descricao"
-  />
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('descricao')?.invalid && form.get('descricao')?.dirty) ||
-      (form.get('descricao')?.invalid && form.get('descricao')?.touched)
-    "
-  >
-    Descrição é obrigatória</small
-  >
-
-  <p-inputNumber
-    placeholder="0,00"
-    formControlName="valor"
-    mode="currency"
-    currency="BRL"
-    class="full-width"
-    locale="pt-BR"
-  ></p-inputNumber>
-
-  <p-calendar
-    placeholder="dd/mm/yyyy"
-    formControlName="data"
-    dataType="string"
-    dateFormat="dd/mm/yy"
-    appendTo="body"
-    iconDisplay="input"
-    [showIcon]="true"
-  ></p-calendar>
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('data')?.invalid && form.get('data')?.dirty) ||
-      (form.get('data')?.invalid && form.get('data')?.touched)
-    "
-  >
-    Data obrigatória</small
-  >
-
-  <div class="switch">
-    <p class="no-margin vertical-center">{{ situacaoLabel }}</p>
-    <p-inputSwitch
-      class="space-switch vertical-center"
-      formControlName="situacao"
-      (onChange)="atualizarLabel()"
-    ></p-inputSwitch>
+<div class="display-flex">
+  <div class="field">
+    <p>Código do Pedido</p>
+    <div class="value">{{ dados?.codigoPedido }}</div>
   </div>
-</form>
 
+  <div class="field">
+    <p>Data</p>
+    <div class="value">{{ dados?.data | date : "dd/MM/yy" }}</div>
+  </div>
+
+  <div class="field">
+    <p>Situação</p>
+    <div class="value">{{ dados?.situacao.nome }}</div>
+  </div>
+</div>
+
+<div class="display-flex">
+  <div class="field">
+    <p>Fornecedor / Cliente</p>
+    <div class="value">{{ dados?.fornecedor.nome }}</div>
+  </div>
+
+  <div class="field">
+    <p>Descrição</p>
+    <div class="value">{{ dados?.descricao }}</div>
+  </div>
+</div>
 <p-divider></p-divider>
 
+<div class="">
+  <div *ngFor="let peca of dados?.pecas; let i = index">
+    <div class="display-flex">
+      <div class="field">
+        <p>Peça</p>
+        <div class="value">{{ peca.item.nome }}</div>
+      </div>
+
+      <div class="field">
+        <p>Quantidade</p>
+        <div class="value">{{ peca.quantidadeAdicionada }}</div>
+      </div>
+
+      <div class="field">
+        <p>Valor Unitário</p>
+        <div class="value">{{ peca.valorUnitario | currency : 'BRL' }}</div>
+      </div>
+    </div>
+    <p-divider></p-divider>
+  </div>
+</div>
+
 <div class="space-between">
-  <p-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">
-    Salvar
-  </p-button>
   <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>
 </div>

@@ -1,24 +1,55 @@
 <p-table
+  #dt1
   [value]="contatos"
   [tableStyle]="{ 'min-width': '50rem' }"
   class="responsive-table"
+  [globalFilterFields]="['fornecedor.nome', 'situacao.nome', 'codigoPedido']"
+  (onFilter)="onTableFilter($event)"
 >
   <ng-template pTemplate="header">
     <tr>
-      <th>Situação</th>
-      <th>Razão</th>
-      <th>Categoria</th>
-      <th>Item</th>
-      <th>Valor</th>
-      <th>Total</th>
       <th>Data</th>
+      <th>Situação</th>
+      <th>Pedido</th>
+      <th>Categoria</th>
+      <th>Valor</th>
       <th>Ações</th>
     </tr>
   </ng-template>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <p-button
+        label="Clear"
+        class="p-button-outlined"
+        icon="pi pi-filter-slash"
+        (click)="clear(dt1)"
+      ></p-button>
+      <span class="p-input-icon-left ml-auto">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="onFilterGlobal($event, dt1)"
+          placeholder="Search keyword"
+        />
+      </span>
+      <p-button
+        severity="danger"
+        icon="pi pi-file-pdf"
+        (click)="exportPdf()"
+        pTooltip="PDF"
+        tooltipPosition="bottom"
+      ></p-button>
+    </div>
+  </ng-template>
   <ng-template pTemplate="body" let-product>
     <tr>
+      <td>{{ product.data | date : "dd/MM/yy" }}</td>
+
       <td style="padding-left: 40px">
-        <ng-container *ngIf="product.situacao === true; else pendente">
+        <ng-container
+          *ngIf="product.situacao.nome === 'Efetivado'; else pendente"
+        >
           <i
             class="pi pi-check-circle green"
             style="font-size: 1.2rem"
@@ -33,37 +64,32 @@
           ></i>
         </ng-template>
       </td>
-      <td *ngIf="product.fornecedor">
-        <p>{{ product.fornecedor.razao | titlecase }}</p>
+
+      <td>
+        <p>{{ product.codigoPedido }}</p>
+        <p>{{ product.fornecedor.nome | titlecase }}</p>
       </td>
-      <td *ngIf="!product.fornecedor">Sem fornecedor</td>
+
       <td>
         <p>{{ product.categoria | titlecase }}</p>
         {{ product.descricao }}
       </td>
-      <td *ngIf="product.peca">
-        {{ product.peca.item | titlecase }} ({{ product.quantidade }})
-      </td>
-      <td *ngIf="!product.peca">Sem item</td>
 
       <td>
         <ng-container *ngIf="product.tipo === 'despesa'; else receita">
-          <div class="red">R$ -{{ product.valor | number : "0.2" }}</div>
+          <div class="red">R$ -{{ product.valorTotal | number : "0.2" }}</div>
         </ng-container>
         <ng-template #receita>
-          <div class="green">R$ +{{ product.valor | number : "0.2" }}</div>
+          <div class="green">R$ +{{ product.valorTotal | number : "0.2" }}</div>
         </ng-template>
       </td>
-      <td>
-        {{ product.valorTotal | number : "0.2" }}
-      </td>
-      <td>{{ product.data | date: 'dd/MM/yy' }}</td>
+
       <td>
         <p-button
-          icon="pi pi-pencil"
+          icon="pi pi-info-circle"
           [rounded]="true"
           [text]="true"
-          (click)="abrindoModal('', product)"
+          (click)="abrindoModal(product)"
         >
         </p-button>
         <p-button

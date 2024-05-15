@@ -10,6 +10,8 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class PagesComponent {
   dados!: Transacao[];
+  dadosDespesa!: Transacao[];
+  dadosReceita!: Transacao[];
   form!: FormGroup;
   saldoMes = 0;
   saldoPrevisto = 0;
@@ -17,19 +19,27 @@ export class PagesComponent {
   somaDespesa = 0;
   somaReceita = 0;
   valorSelecionado!: any;
+  rangeDates: Date[] | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
     private serviceContato: ContatoService
   ) {
+    const dataInicio = new Date();
+    dataInicio.setDate(1);
+
+    const dataFim = new Date();
+    dataFim.setMonth(dataFim.getMonth() + 1);
+    dataFim.setDate(0);
+
     this.form = this.formBuilder.group({
-      mes: [new Date()],
+      rangeDates: [[dataInicio, dataFim]],
     });
     this.valorSelecionado = new Date().getMonth() + 1;
   }
 
   ngOnInit(): void {
-    this.calculaSaldos();
+    this.carregar();
   }
 
   customInputStyle = {
@@ -41,56 +51,59 @@ export class PagesComponent {
   onDateSelect(event: any) {
     const selectedDate: Date = event;
     this.valorSelecionado = selectedDate.getMonth() + 1;
-    this.calculaSaldos();
+    this.carregar();
   }
 
-  calculaSaldos() {
-    this.serviceContato.getCollection('transacoes').subscribe((items) => {
-      const dataFiltradaPendente = items.filter((item) => {
-        const mes = Number(item.data.split('/')[1]);
-        return mes === Number(this.valorSelecionado);
+  carregar() {
+    this.serviceContato
+      .getTransacoesPorIntervaloDeDatas(
+        this.form.value.rangeDates[0],
+        this.form.value.rangeDates[1]
+      )
+      .subscribe((transacoes) => {
+        this.dados = transacoes;
+
+        this.dadosReceita = [];
+        this.dadosDespesa = [];
+
+        this.dados.forEach((transacao) => {
+          if (transacao.tipo === 'receita') {
+            this.dadosReceita.push(transacao);
+          } else {
+            this.dadosDespesa.push(transacao);
+          }
+        });
+
+          let somaReceitas = 0;
+          let somaDespesas = 0;
+          let somaReceitasEfetivadas = 0;
+          let somaReceitasPendentes = 0;
+          let somaDespesasEfetivadas = 0;
+          let somaDespesasPendentes = 0;
+
+        // Itera sobre os documentos e atualiza as somas de acordo com o tipo da transação
+        transacoes.forEach((transacao) => {
+          const valorTotal = transacao.valorTotal;
+          if (transacao.tipo === 'receita') {
+            somaReceitas += valorTotal;
+            if (transacao.situacao.nome === 'Efetivado') {
+              somaReceitasEfetivadas += valorTotal;
+            } else {
+              somaReceitasPendentes += valorTotal;
+            }
+          } else if (transacao.tipo === 'despesa') {
+            somaDespesas -= valorTotal;
+            if (transacao.situacao.nome === 'Efetivado') {
+              somaDespesasEfetivadas -= valorTotal;
+            } else {
+              somaDespesasPendentes += valorTotal;
+            }
+          }
+        });
+
+        this.saldoMes = somaReceitas + somaDespesas;
+        this.somaReceita = somaReceitas;
+        this.somaDespesa = somaDespesas;
       });
-      this.dados = dataFiltradaPendente;
-
-      const dadosEfetivados = dataFiltradaPendente.filter(
-        (item) => item.situacao === true
-      );
-
-      this.somaReceita = this.dados
-        .filter((item) => item.tipo === 'receita')
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.somaDespesa = this.dados
-        .filter((item) => item.tipo === 'despesa')
-        .map((item) => item.valorTotal)
-        .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      this.saldoPrevisto = this.somaReceita - this.somaDespesa;
-
-      this.saldoMes =
-        dadosEfetivados
-          .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0) -
-        dadosEfetivados
-          .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0);
-
-      const dadosPendentes = dataFiltradaPendente.filter(
-        (item) => item.situacao !== true
-      );
-
-      this.saldoPendente =
-        dadosPendentes
-          .filter((item) => item.tipo === 'receita')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0) -
-        dadosPendentes
-          .filter((item) => item.tipo === 'despesa')
-          .map((item) => item.valorTotal)
-          .reduce((total, valorTotal) => total + valorTotal, 0);
-    });
   }
 }

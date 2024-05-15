@@ -1,108 +1,101 @@
-<form [formGroup]="form" class="display-flex">
-  <p-dropdown
-    [options]="estoque"
-    optionLabel="item"
-    placeholder="Peça"
-    formControlName="peca"
-    [showClear]="false"
-    class="full-width"
-    (onChange)="selecionouPeca($event)"
-  ></p-dropdown>
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('peca')?.invalid && form.get('peca')?.dirty) ||
-      (form.get('peca')?.invalid && form.get('peca')?.touched)
-    "
-  >
-    Peça é obrigatória</small
-  >
+<form [formGroup]="form">
+  <div class="display-flex">
+    <span class="p-float-label">
+      <input type="text" pInputText formControlName="codigoPedido" />
+      <label htmlFor="codigoPedido">Código do Pedido</label>
+    </span>
 
-  <p-dropdown
-    [options]="nome"
-    optionLabel="nome"
-    placeholder="Fornecedor / Cliente"
-    formControlName="fornecedor"
-    [showClear]="false"
-    class="full-width"
-  ></p-dropdown>
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('fornecedor')?.invalid && form.get('fornecedor')?.dirty) ||
-      (form.get('fornecedor')?.invalid && form.get('fornecedor')?.touched)
-    "
-  >
-    Fornecedor é obrigatório</small
-  >
-  <input
-    type="text"
-    pInputText
-    placeholder="Descrição"
-    formControlName="descricao"
-  />
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('descricao')?.invalid && form.get('descricao')?.dirty) ||
-      (form.get('descricao')?.invalid && form.get('descricao')?.touched)
-    "
-  >
-    Descrição é obrigatória</small
-  >
-
-  <div>
-    <label for="">Valor</label>
-    <p-inputNumber
-      placeholder="0,00"
-      formControlName="valor"
-      mode="currency"
-      currency="BRL"
+    <p-calendar
+      placeholder="dd/mm/yyyy"
+      formControlName="data"
+      dateFormat="dd/mm/yy"
+      appendTo="body"
+      iconDisplay="input"
+      [showIcon]="true"
+    ></p-calendar>
+    <p-dropdown
+      appendTo="body"
+      [options]="situacaoOpcoes"
+      optionLabel="nome"
+      placeholder="Situação"
+      formControlName="situacao"
+      [showClear]="false"
       class="full-width"
-      locale="pt-BR"
-    ></p-inputNumber>
+    ></p-dropdown>
   </div>
+  <div class="display-flex">
+    <p-dropdown
+      appendTo="body"
+      [options]="nome"
+      optionLabel="nome"
+      placeholder="Fornecedor / Cliente"
+      formControlName="fornecedor"
+      [showClear]="false"
+      class="full-widt"
+    ></p-dropdown>
 
-  <div>
-    <label for="">Quantidade</label>
-    <p-inputNumber
-      placeholder="Quantidade"
-      formControlName="quantidade"
-      class="full-width"
-    ></p-inputNumber>
+    <input
+      type="text"
+      pInputText
+      placeholder="Descrição"
+      formControlName="descricao"
+    />
+
+    <p-button (click)="addPeca()">Adicionar Peça</p-button>
   </div>
+  <p-divider></p-divider>
 
-  <p-calendar
-    placeholder="dd/mm/yyyy"
-    formControlName="data"
-    dateFormat="dd/mm/yy"
-    appendTo="body"
-    iconDisplay="input"
-    [showIcon]="true"
-  ></p-calendar>
-  <small
-    class="p-error block center"
-    *ngIf="
-      (form.get('data')?.invalid && form.get('data')?.dirty) ||
-      (form.get('data')?.invalid && form.get('data')?.touched)
-    "
+  <div
+    formArrayName="pecas"
+    *ngFor="let pecas of getPecasFormArray(); let i = index"
   >
-    Data obrigatória</small
-  >
-  <p-dropdown
-    [options]="situacaoOpcoes"
-    optionLabel="nome"
-    placeholder="Situação"
-    formControlName="situacao"
-    [showClear]="false"
-    class="full-width"
-  ></p-dropdown>
+    <div [formGroupName]="i" class="display-flex">
+      <p-dropdown
+        appendTo="body"
+        [options]="estoque"
+        optionLabel="nome"
+        placeholder="Peça"
+        formControlName="item"
+        [showClear]="false"
+        class="full-width"
+        (onChange)="selecionouPeca($event, i)"
+      ></p-dropdown>
+
+      <div>
+        <span class="p-float-label">
+          <p-inputNumber
+            formControlName="quantidadeAdicionada"
+            class="full-width"
+          ></p-inputNumber>
+          <label for="">Quantidade</label>
+        </span>
+      </div>
+      <div>
+        <span class="p-float-label">
+          <p-inputNumber
+            formControlName="valorUnitario"
+            mode="currency"
+            currency="BRL"
+            class="full-width"
+            locale="pt-BR"
+            [title]="'Teste'"
+          ></p-inputNumber>
+          <label htmlFor="number-input">Valor Unitário</label>
+        </span>
+      </div>
+      <p-button
+        icon="pi pi-times"
+        [rounded]="true"
+        [text]="true"
+        severity="danger "
+        (onClick)="removerPeca(i)"
+      ></p-button>
+    </div>
+  </div>
   <p-divider></p-divider>
 </form>
 
 <div class="space-between">
-  <p-button color="primary" (click)="onSubmit()" [disabled]="form.invalid">
-    Salvar
-  </p-button>
+  <p-button color="primary" (click)="onSubmit()"> Salvar </p-button>
   <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>
 </div>

@@ -52,7 +52,7 @@ mat-card {
 
 mat-card-header {
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   padding: 15px;
 }
 

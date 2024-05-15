@@ -18,7 +18,7 @@ interface Porcentagens {
   styleUrls: ['./transacoes-lista.component.css'],
 })
 export class TransacoesListaComponent implements OnChanges {
-  contatos!: Transacao[];
+  contatos!: any[];
   @Input() valorSelecionado!: string;
   @Input() filtro!: string;
   @Input() somaReceita!: number;
@@ -38,34 +38,35 @@ export class TransacoesListaComponent implements OnChanges {
   }
 
   private processarDados(dados: Transacao[]): void {
-    const dataFiltrada = dados.filter((dado) => {
-      const mes = Number(dado.data.split('/')[1]);
-      return (
-        mes === Number(this.valorSelecionado) &&
-        (this.filtro != '' ? dado.tipo === this.filtro : true)
-      );
-    });
-    this.contatos = dataFiltrada;
+    this.contatos = dados;
 
     this.atualizarDadosGrafico();
   }
 
   atualizarDadosGrafico() {
+    console.log('atualizarDadosGrafico');
     if (this.contatos && this.contatos.length > 0) {
-      const contagemCategorias: { [categoria: string]: number } = {};
-      const contagemTipos: { [tipo: string]: number } = {};
+      // Declaração explícita dos tipos
+      const contagemCategorias: { [key: string]: number } = {};
+      const contagemTipos: { [key: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
-        if (contagemCategorias[objeto.categoria]) {
-          contagemCategorias[objeto.categoria] += objeto.valor;
-        } else {
-          contagemCategorias[objeto.categoria] = objeto.valor;
-        }
+        // Itera sobre todas as peças na transação
+        objeto.pecas.forEach((peca: { item: { nome: any; }; }) => {
+          const nomePeca = peca.item.nome;
+          // Acumula valor total para cada categoria de peça
+          if (contagemCategorias[nomePeca]) {
+            contagemCategorias[nomePeca] += objeto.valorTotal;
+          } else {
+            contagemCategorias[nomePeca] = objeto.valorTotal;
+          }
+        });
 
+        // Acumula valor total para cada tipo de transação
         if (contagemTipos[objeto.tipo]) {
-          contagemTipos[objeto.tipo] += objeto.valor;
+          contagemTipos[objeto.tipo] += objeto.valorTotal;
         } else {
-          contagemTipos[objeto.tipo] = objeto.valor;
+          contagemTipos[objeto.tipo] = objeto.valorTotal;
         }
       });
 
@@ -74,7 +75,7 @@ export class TransacoesListaComponent implements OnChanges {
         total += contagemCategorias[categoria];
       }
 
-      const porcentagens: { [categoria: string]: string } = {};
+      const porcentagens: { [key: string]: string } = {};
       for (const categoria in contagemCategorias) {
         const porcentagem = (contagemCategorias[categoria] / total) * 100;
         porcentagens[categoria] = porcentagem.toFixed(1);

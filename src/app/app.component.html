@@ -28,7 +28,8 @@
           'btn-collapsed': true,
           'background-purple':
             router.url === '/transacoes' || router.url === '/dashboard',
-          'background-blue': router.url === '/dashboard' || router.url === '/estoque',
+          'background-blue':
+            router.url === '/dashboard' || router.url === '/estoque',
           'background-green': router.url === '/transacoes/receita',
           'background-red': router.url === '/transacoes/despesa'
         }"
@@ -42,7 +43,8 @@
           btn: true,
           'background-purple':
             router.url === '/transacoes' || router.url === '/dashboard',
-          'background-blue': router.url === '/dashboard' || router.url === '/estoque',
+          'background-blue':
+            router.url === '/dashboard' || router.url === '/estoque',
           'background-green': router.url === '/transacoes/receita',
           'background-red': router.url === '/transacoes/despesa'
         }"
@@ -92,47 +94,37 @@
       yPosition="below"
       overlapTrigger="false"
     >
-      <button mat-menu-item (click)="showModalAdd('despesa')" class="red">
+      <!-- <button mat-menu-item (click)="showModalAdd('despesa')" class="red">
         <mat-icon color="accent">trending_down</mat-icon>
         <span class="red">Adicionar Despesa</span>
       </button>
       <button mat-menu-item (click)="showModalAdd('receita')">
         <mat-icon color="warn">trending_up</mat-icon>
         <span class="green">Adicionar Receita</span>
-      </button>
+      </button> -->
       <button
         mat-menu-item
         (click)="showModalAddCompraEVenda('despesa', 'Compra de peça')"
       >
-        <mat-icon color="warn">trending_up</mat-icon>
-        <span class="green">Adicionar Compra</span>
+        <mat-icon color="accent">trending_up</mat-icon>
+        <span class="red">Adicionar Compra</span>
       </button>
       <button
         mat-menu-item
         (click)="showModalAddCompraEVenda('receita', 'Venda de peça')"
       >
-        <mat-icon color="warn">trending_up</mat-icon>
+        <mat-icon color="warn">trending_down</mat-icon>
         <span class="green">Adicionar Venda</span>
       </button>
     </mat-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<p-dialog
-  [header]="formData ? 'Editando ' + formData.tipo : 'Adicionando ' + tipo"
-  [(visible)]="visible"
-  [modal]="true"
->
-  <app-form-modal
-    [formData]="formData"
-    (close)="closeModal()"
-    [tipo]="tipo"
-  ></app-form-modal>
-</p-dialog>
 
 <p-dialog
-  [header]="formData ? 'Editando ' + formData.categoria: 'Adicionando ' + categoria"
+  [header]="'Adicionando Pedido de ' + categoria"
   [(visible)]="visibleEstoque"
   [modal]="true"
+  [closable]="false"
 >
   <app-form-adicionar-remover-estoque
     [formData]="formData"

@@ -1,91 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Transacao } from 'src/app/models/Transacao';
-
-import { ContatoService } from './../../services/contato.service';
-import { Categoria } from 'src/app/models/Categoria';
-import { Subscription } from 'rxjs';
+/* eslint-disable no-prototype-builtins */
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-form-modal',
   templateUrl: './form-modal.component.html',
   styleUrls: ['./form-modal.component.css'],
 })
-export class FormModalComponent implements OnInit, OnChanges{
-  form!: FormGroup;
-  situacaoLabel = 'Pendente';
-  categorias!: Categoria[];
-  categoriasSubscription!: Subscription;
+export class FormModalComponent {
+  @Input() dados!: any;
+  @Output() clickClose = new EventEmitter<void>();
 
-  @Input() formData!: Transacao;
-  @Input() tipo = '';
-  @Input() categoria = '';
-  @Output() close = new EventEmitter();
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private contatoService: ContatoService
-  ) {}
-
-  ngOnInit() {
-    this.form = this.criarForm();
-    this.categoriasSubscription = this.contatoService
-      .getCollection('categorias')
-      .subscribe((items) => {
-        this.categorias = [];
-        items.forEach((item) => {
-          this.categorias.push(item.nomeCategoria);
-        });
-      });
-  }
-
-  private criarForm() {
-    return this.formBuilder.group({
-      id: [''],
-      categoria: [this.categoria, Validators.required],
-      data: ['', Validators.required],
-      descricao: ['', Validators.required],
-      situacao: [''],
-      tipo: [this.tipo],
-      valor: ['', [Validators.required, Validators.min(0)]],
-      quantidade: [1],
-      valorTotal: [''],
-    });
-  }
-
-  ngOnChanges() {
-    if (this.formData) {
-      this.atualizarFormulario();
-    } else {
-      this.form = this.criarForm();
-    }
-  }
-
-  atualizarFormulario() {
-    this.form.patchValue(this.formData);
-    this.atualizarLabel();
-  }
-
-  atualizarLabel() {
-    this.situacaoLabel = this.form.value.situacao ? 'Efetivado' : 'Pendente';
-  }
-
-  onSubmit() {
-    const formData = this.form.value;
-    const valorTotal = this.form.value.quantidade * this.form.value.valor;
-    formData.valorTotal = valorTotal; // Adicionar o valor total aos dados do formulário
-
-    if (formData.id === null || formData.id === '') {
-      this.contatoService.addDocument('transacoes', formData);
-    } else {
-      this.contatoService.updateDocument('transacoes', formData.id, formData);
-    }
-    this.form = this.criarForm();
-    this.close.emit();
-  }
+  pecas!: any;
 
   onCancel() {
-    this.form = this.criarForm();
-    this.close.emit();
+    this.clickClose.emit();
   }
 }

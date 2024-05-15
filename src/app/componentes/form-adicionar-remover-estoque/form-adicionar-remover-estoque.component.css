@@ -1,8 +1,7 @@
 .display-flex {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   gap: 20px;
+  padding-top: 20px;
 }
 
 .space-between {
@@ -12,20 +11,24 @@
   gap: 20px;
 }
 
-::ng-deep .p-dropdown {
+/* ::ng-deep .p-dropdown {
   width: 100%;
-}
+} */
 
-:host ::ng-deep p-inputnumber {
+/* :host ::ng-deep p-inputnumber {
   width: 100%;
 }
 
 :host ::ng-deep .p-inputnumber {
   width: 100%;
-}
+} */
 
 .switch {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+
+.row{
+  flex-direction: row;
 }

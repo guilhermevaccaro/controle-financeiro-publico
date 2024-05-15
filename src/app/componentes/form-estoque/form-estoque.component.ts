@@ -25,7 +25,7 @@ export class FormEstoqueComponent {
     return this.formBuilder.group({
       id: [''],
       codigo: ['', Validators.required],
-      item: [''],
+      nome: [''],
       quantidade: [0, Validators.required],
     });
   }
@@ -42,7 +42,7 @@ export class FormEstoqueComponent {
     this.form.patchValue({
       id: this.formData.id,
       codigo: this.formData.codigo,
-      item: this.formData.item,
+      nome: this.formData.nome,
     });
   }
 
@@ -61,7 +61,7 @@ export class FormEstoqueComponent {
     this.form = this.formBuilder.group({
       id: [''],
       codigo: ['', Validators.required],
-      item: [''],
+      nome: [''],
     });
     this.close.emit();
   }

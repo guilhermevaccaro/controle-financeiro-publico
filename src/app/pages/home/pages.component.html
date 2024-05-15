@@ -2,16 +2,14 @@
   <div class="header">
     <form [formGroup]="form" class="form">
       <p-calendar
-        view="month"
-        formControlName="mes"
-        dateFormat="MM"
-        dataType="string"
+        formControlName="rangeDates"
+        selectionMode="range"
+        dateFormat="dd/mm/yy"
         [readonlyInput]="true"
-        (onSelect)="onDateSelect($event)"
-        class="date"
         [inputStyle]="customInputStyle"
-      >
-      </p-calendar>
+        (onSelect)="onDateSelect($event)"
+        dateFormat="dd/mm/yy"
+      ></p-calendar>
     </form>
   </div>
 
@@ -64,7 +62,7 @@
               [valorSelecionado]="valorSelecionado"
               [filtro]="'despesa'"
               [somaDespesa]="somaDespesa"
-              [dados1]="dados"
+              [dados1]="dadosDespesa"
             ></app-transacoes-lista
           ></mat-card-content>
         </mat-card>
@@ -80,7 +78,7 @@
               [valorSelecionado]="valorSelecionado"
               [filtro]="'receita'"
               [somaReceita]="somaReceita"
-              [dados1]="dados"
+              [dados1]="dadosReceita"
             ></app-transacoes-lista>
           </mat-card-content>
         </mat-card>
