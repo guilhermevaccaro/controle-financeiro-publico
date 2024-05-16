@@ -97,16 +97,12 @@ export class TransacoesComponent {
   }
 
   onRemove(objeto: any) {
-    console.log(objeto);
-    this.serviceContato.deleteDocument('transacoes', objeto.id);
     this.updateEstoque(objeto);
+    this.serviceContato.deleteDocument('transacoes', objeto.id);
   }
   private updateEstoque(formData: any) {
     for (const peca of formData.pecas) {
-      const quantidade =
-        formData.tipo === 'receita'
-          ? peca.item.quantidade + peca.quantidadeAdicionada
-          : peca.quantidadeAdicionada - peca.item.quantidade;
+      const quantidade = peca.item.quantidade;
       this.serviceContato
         .updateDocument('estoque', peca.idPeca, { quantidade: quantidade })
         .catch((err) => console.error('Error updating estoque', err));
