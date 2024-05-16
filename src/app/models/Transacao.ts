@@ -1,6 +1,4 @@
 export interface Transacao {
-  fornecedor: any;
-  peca: any;
   id: string;
   categoria: string;
   data: string;

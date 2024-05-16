@@ -235,6 +235,11 @@ export class FormAdicionarRemoverEstoqueComponent
       const valorTotalPorPeca = peca.quantidadeAdicionada * peca.valorUnitario;
       valorTotal += valorTotalPorPeca;
     }
+
+    if (formData.tipo === 'despesa') {
+      return -valorTotal;
+    }
+
     return valorTotal;
   }
 }

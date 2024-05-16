@@ -69,12 +69,10 @@ export class TabelaComponent {
     table.filterGlobal(input.value, 'contains');
   }
   onTableFilter(event: any) {
-    // `filteredValue` contains the filtered data
     this.filteredContatos = event.filteredValue;
     console.log('Filtrando dados:', this.filteredContatos);
   }
   criarNovoArrayComDadosFiltrados(table: any) {
-    // Criar um novo array com os dados filtrados
     this.novoArrayComDadosFiltrados = [...this.filteredContatos];
   }
   exportPdf() {
