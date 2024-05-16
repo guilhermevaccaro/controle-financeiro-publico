@@ -11,24 +11,12 @@
   gap: 20px;
 }
 
-/* ::ng-deep .p-dropdown {
-  width: 100%;
-} */
-
-/* :host ::ng-deep p-inputnumber {
-  width: 100%;
-}
-
-:host ::ng-deep .p-inputnumber {
-  width: 100%;
-} */
-
 .switch {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-.row{
+.row {
   flex-direction: row;
 }

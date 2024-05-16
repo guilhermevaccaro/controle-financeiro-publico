@@ -1,17 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Transacao } from 'src/app/models/Transacao';
 
-interface ContagemCategorias {
-  [categoria: string]: number;
-}
-
-interface ContagemTipos {
-  [tipo: string]: number;
-}
-
-interface Porcentagens {
-  [categoria: string]: string;
-}
 @Component({
   selector: 'app-transacoes-lista',
   templateUrl: './transacoes-lista.component.html',
@@ -33,7 +22,6 @@ export class TransacoesListaComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dados1'] && changes['dados1'].currentValue) {
       this.processarDados(this.dados1);
-      console.log(this.dados1);
     }
   }
 
@@ -44,25 +32,19 @@ export class TransacoesListaComponent implements OnChanges {
   }
 
   atualizarDadosGrafico() {
-    console.log('atualizarDadosGrafico');
     if (this.contatos && this.contatos.length > 0) {
-      // Declaração explícita dos tipos
       const contagemCategorias: { [key: string]: number } = {};
       const contagemTipos: { [key: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
-        // Itera sobre todas as peças na transação
-        objeto.pecas.forEach((peca: { item: { nome: any; }; }) => {
+        objeto.pecas.forEach((peca: { item: { nome: any } }) => {
           const nomePeca = peca.item.nome;
-          // Acumula valor total para cada categoria de peça
           if (contagemCategorias[nomePeca]) {
             contagemCategorias[nomePeca] += objeto.valorTotal;
           } else {
             contagemCategorias[nomePeca] = objeto.valorTotal;
           }
         });
-
-        // Acumula valor total para cada tipo de transação
         if (contagemTipos[objeto.tipo]) {
           contagemTipos[objeto.tipo] += objeto.valorTotal;
         } else {

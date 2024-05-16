@@ -175,7 +175,6 @@ export class FormAdicionarRemoverEstoqueComponent
       ...this.form.value,
       valorTotal: this.calcularValorTotal(this.form.value),
     };
-    console.log('formData', formData);
 
     if (!formData.id) {
       this.contatoService
@@ -206,7 +205,6 @@ export class FormAdicionarRemoverEstoqueComponent
   }
 
   selecionouPeca(event: any, index: number) {
-    console.log('event', event.value, 'index', index);
     const pecas = this.form.get('pecas') as FormArray;
     const pecaGroup = pecas.at(index) as FormGroup;
     pecaGroup.patchValue({

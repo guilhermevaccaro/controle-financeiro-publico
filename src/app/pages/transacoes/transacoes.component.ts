@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { first, take } from 'rxjs';
 import { Transacao } from 'src/app/models/Transacao';
 import { ContatoService } from 'src/app/services/contato.service';
 
@@ -10,7 +9,7 @@ import { ContatoService } from 'src/app/services/contato.service';
   templateUrl: './transacoes.component.html',
   styleUrls: ['./transacoes.component.css'],
 })
-export class TransacoesComponent {
+export class TransacoesComponent implements OnInit {
   filtro!: string;
   contatos!: any[];
   opcoes = [
@@ -82,12 +81,11 @@ export class TransacoesComponent {
     });
   }
 
-  onDateSelect(event: any) {
+  onDateSelect() {
     this.carregar();
   }
 
   showModal(formData: any) {
-    console.log(formData);
     this.formData = formData;
     this.visible = true;
   }
@@ -111,7 +109,6 @@ export class TransacoesComponent {
   carregar() {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
-    console.log(this.filtro);
     this.serviceContato
       .getTransacoesPorIntervaloDeDatas(
         this.form.value.rangeDates[0],
@@ -122,7 +119,6 @@ export class TransacoesComponent {
           this.contatos = transacoes.filter(
             (transacao) => transacao.tipo === 'despesa'
           );
-          console.log(this.contatos);
         } else if (this.filtro === 'receita') {
           this.contatos = transacoes.filter(
             (transacao) => transacao.tipo === 'receita'
@@ -138,7 +134,6 @@ export class TransacoesComponent {
         let somaDespesasEfetivadas = 0;
         let somaDespesasPendentes = 0;
 
-        // Itera sobre os documentos e atualiza as somas de acordo com o tipo da transação
         transacoes.forEach((transacao) => {
           const valorTotal = transacao.valorTotal;
           if (transacao.tipo === 'receita') {

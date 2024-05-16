@@ -70,7 +70,6 @@ export class TabelaComponent {
   }
   onTableFilter(event: any) {
     this.filteredContatos = event.filteredValue;
-    console.log('Filtrando dados:', this.filteredContatos);
   }
   criarNovoArrayComDadosFiltrados(table: any) {
     this.novoArrayComDadosFiltrados = [...this.filteredContatos];
