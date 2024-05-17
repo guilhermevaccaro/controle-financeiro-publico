@@ -1,7 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
-import { Transacao } from 'src/app/models/Transacao';
+import { Table, TableFilterEvent } from 'primeng/table';
+import { Fornecedor, Peca, Pedido } from 'src/app/models/Pedido';
 
 @Component({
   selector: 'app-tabela',
@@ -9,29 +16,56 @@ import { Transacao } from 'src/app/models/Transacao';
   styleUrls: ['./tabela.component.css'],
 })
 export class TabelaComponent {
-  @Input() contatos!: any[];
+  @Input() contatos!: Pedido[];
   @Output() clickOpen = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
+  @Output() dateSelect = new EventEmitter(false);
   dt1: any;
   filteredContatos = [];
-  novoArrayComDadosFiltrados = [];
+  novoArrayComDadosFiltrados!: Pedido[];
   dadosPDF!: any[];
   exportColumns!: any[];
   cols!: any[];
+  form!: any;
+
   constructor(
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private formBuilder: FormBuilder
   ) {}
+  customInputStyle = {
+    cursor: 'pointer',
+    'text-align': 'center',
+    'border-radius': '25px',
+  };
+  ngOnInit() {
+    const dataInicio = new Date();
+    dataInicio.setDate(1);
 
-  deletandoTransacao(data: Transacao) {
-    this.remove.emit(data);
+    const dataFim = new Date();
+    dataFim.setMonth(dataFim.getMonth() + 1);
+    dataFim.setDate(0);
+
+    this.form = this.formBuilder.group({
+      rangeDates: [[dataInicio, dataFim]],
+    });
+    this.emitDateSelect(this.form.value.rangeDates);
   }
-  abrindoModal(transacao: Transacao) {
-    if (transacao) {
-      this.clickOpen.emit(transacao);
+  deletandoTransacao(pedido: Pedido[]) {
+    this.remove.emit(pedido);
+  }
+  abrindoModal(pedido: Pedido[]) {
+    if (pedido) {
+      this.clickOpen.emit(pedido);
     }
   }
-  confirm(event: Event, data: Transacao) {
+  emitDateSelect(event: any) {
+    const startDate = this.form.value.rangeDates[0];
+    const endDate = this.form.value.rangeDates[1];
+
+    this.dateSelect.emit({ startDate, endDate });
+  }
+  confirm(event: Event, data: Pedido[]) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Deseja excluir o dado?',
@@ -64,19 +98,18 @@ export class TabelaComponent {
   clear(table: Table) {
     table.clear();
   }
-  onFilterGlobal(event: Event, table: any) {
+  onFilterGlobal(event: Event, table: Table) {
     const input = event.target as HTMLInputElement;
     table.filterGlobal(input.value, 'contains');
   }
-  onTableFilter(event: any) {
+  onTableFilter(event: TableFilterEvent) {
+    console.log('event ', event);
     this.filteredContatos = event.filteredValue;
   }
-  criarNovoArrayComDadosFiltrados(table: any) {
-    this.novoArrayComDadosFiltrados = [...this.filteredContatos];
-  }
+
   exportPdf() {
-    this.criarNovoArrayComDadosFiltrados(this.dt1);
-    function formatDate(dateString: any) {
+    this.novoArrayComDadosFiltrados = [...this.filteredContatos];
+    function formatDate(dateString: string) {
       const date = new Date(dateString);
       const day = String(date.getDate()).padStart(2, '0');
       const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -88,10 +121,10 @@ export class TabelaComponent {
       .map(
         (contato: {
           situacao: { nome: string };
-          data: any;
-          fornecedor: { nome: any };
-          pecas: { item: any; quantidade: any };
-          valorTotal: any;
+          data: string;
+          fornecedor: Fornecedor;
+          pecas: Peca[];
+          valorTotal: number;
         }) => {
           if (contato.situacao.nome === 'Efetivado') {
             contato.situacao.nome = 'Efetivado';
@@ -103,7 +136,7 @@ export class TabelaComponent {
             data: formatDate(contato.data),
             situacao: contato.situacao.nome,
             fornecedor: contato.fornecedor.nome,
-            pecas: contato.pecas.item,
+            pecas: contato.pecas.map((peca) => peca.item).join(', '),
             quantidade: contato.pecas,
             valorTotal: contato.valorTotal,
           };
@@ -131,9 +164,15 @@ export class TabelaComponent {
     }));
 
     import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
+      import('jspdf-autotable').then(() => {
         const doc = new jsPDF.default('p', 'px', 'a4');
+        const title = 'Relatório de Pedidos';
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const titleXPosition = pageWidth / 2; // Centralizar título
+        doc.setFontSize(18); // Tamanho da fonte do título
+        doc.text(title, titleXPosition, 30, { align: 'center' });
         (doc as any).autoTable(this.exportColumns, this.dadosPDF);
+        console.log('doc ', doc);
         doc.save(`pedidos${new Date().toLocaleDateString()}.pdf`);
       });
     });

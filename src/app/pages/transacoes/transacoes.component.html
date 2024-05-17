@@ -17,23 +17,12 @@
   <div class="linha" *ngIf="opcoesSelecionadas === 'transacoes'">
     <div class="card-grafico-rosca1">
       <mat-card>
-        <mat-card-header>
-          <form [formGroup]="form" class="form">
-            <p-calendar
-              formControlName="rangeDates"
-              selectionMode="range"
-              [readonlyInput]="true"
-              dateFormat="dd/mm/yy"
-              [inputStyle]="customInputStyle"
-              (onSelect)="onDateSelect()"
-            ></p-calendar>
-          </form>
-        </mat-card-header>
         <app-tabela
           [contatos]="contatos"
           filtro=""
           (remove)="onRemove($event)"
           (clickOpen)="showModal($event)"
+          (dateSelect)="onDateSelectRecebido($event)"
         ></app-tabela>
       </mat-card>
     </div>
@@ -81,23 +70,12 @@
   <div class="linha" *ngIf="opcoesSelecionadas === 'receita'">
     <div class="card-grafico-rosca1">
       <mat-card>
-        <mat-card-header>
-          <form [formGroup]="form" class="form">
-            <p-calendar
-              formControlName="rangeDates"
-              selectionMode="range"
-              [readonlyInput]="true"
-              [inputStyle]="customInputStyle"
-              (onSelect)="onDateSelect()"
-              dateFormat="dd/mm/yy"
-            ></p-calendar>
-          </form>
-        </mat-card-header>
         <app-tabela
           [contatos]="contatos"
           filtro="receita"
           (remove)="onRemove($event)"
           (clickOpen)="showModal($event)"
+          (dateSelect)="onDateSelectRecebido($event)"
         ></app-tabela>
       </mat-card>
     </div>
@@ -137,24 +115,12 @@
   <div class="linha" *ngIf="opcoesSelecionadas === 'despesa'">
     <div class="card-grafico-rosca1">
       <mat-card>
-        <mat-card-header>
-          <form [formGroup]="form" class="form">
-            <p-calendar
-              formControlName="rangeDates"
-              selectionMode="range"
-              dateFormat="dd/mm/yy"
-              [readonlyInput]="true"
-              [inputStyle]="customInputStyle"
-              (onSelect)="onDateSelect()"
-              dateFormat="dd/mm/yy"
-            ></p-calendar>
-          </form>
-        </mat-card-header>
         <app-tabela
           [contatos]="contatos"
           filtro="despesa"
           (remove)="onRemove($event)"
           (clickOpen)="showModal($event)"
+          (dateSelect)="onDateSelectRecebido($event)"
         ></app-tabela>
       </mat-card>
     </div>

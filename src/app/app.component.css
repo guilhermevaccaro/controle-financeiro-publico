@@ -39,11 +39,7 @@ h2 {
   border: solid #22c55e 2px;
 }
 
-.background-green :hover {
-  background-color: pink;
-  color: white;
-  border: solid #22c55e 2px;
-}
+
 
 .background-red {
   background-color: #ef4444;

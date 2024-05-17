@@ -1,24 +1,25 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 
 import { ContatoService } from './services/contato.service';
+import { Pedido } from './models/Pedido';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Controle-Financeiro';
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   isMobile = true;
   isCollapsed = true;
 
-  formData: any;
+  formData!: Pedido | null;
   visible = false;
   visibleEstoque = false;
   public tipo = '';
@@ -96,11 +97,6 @@ export class AppComponent {
       this.sidenav.open();
       this.isCollapsed = !this.isCollapsed;
     }
-  }
-  showModalAdd(tipo: string) {
-    this.tipo = tipo;
-    this.formData = null;
-    this.visible = true;
   }
 
   showModalAddCompraEVenda(tipo: string, categoria: string) {

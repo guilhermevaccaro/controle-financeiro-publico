@@ -16,7 +16,9 @@ import {
   UntypedFormArray,
   Validators,
 } from '@angular/forms';
+import { DropdownChangeEvent } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
+import { Item, Peca, Pedido } from 'src/app/models/Pedido';
 import { ContatoService } from 'src/app/services/contato.service';
 
 interface ItemEstoque {
@@ -37,10 +39,10 @@ interface Situacao {
 export class FormAdicionarRemoverEstoqueComponent
   implements OnInit, OnChanges, OnDestroy
 {
-  @Input() formData!: any;
+  @Input() formData!: Pedido | null;
   @Input() tipo = '';
   @Input() categoria = '';
-  @Output() close = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>();
 
   form!: FormGroup;
   estoque: ItemEstoque[] = [];
@@ -102,15 +104,16 @@ export class FormAdicionarRemoverEstoqueComponent
   }
 
   private createPecaFormGroup(
-    peca: any = {
+    item: Item,
+    peca: Peca = {
       idPeca: '',
-      item: '',
-      quantidadeAdicionada: null,
-      valorUnitario: null,
+      item: item,
+      quantidadeAdicionada: 0,
+      valorUnitario: 0,
     }
   ): FormGroup {
     return this.formBuilder.group({
-      idPeca: [peca.id],
+      idPeca: [peca.idPeca],
       item: [peca.item, Validators.required],
       quantidadeAdicionada: [peca.quantidadeAdicionada, Validators.required],
       valorUnitario: [peca.valorUnitario, Validators.required],
@@ -135,9 +138,9 @@ export class FormAdicionarRemoverEstoqueComponent
       });
   }
 
-  addPeca() {
+  addPeca(item: Item) {
     const pecas = this.form.get('pecas') as FormArray;
-    pecas.push(this.createPecaFormGroup());
+    pecas.push(this.createPecaFormGroup(item));
   }
 
   removerPeca(index: number) {
@@ -152,20 +155,22 @@ export class FormAdicionarRemoverEstoqueComponent
   private updateForm() {
     const transacao = this.formData;
     this.form.patchValue({
-      id: transacao.id,
-      data: transacao.data,
-      categoria: transacao.categoria,
-      descricao: transacao.descricao,
-      fornecedor: transacao.fornecedor,
-      situacao: transacao.situacao,
-      tipo: transacao.tipo,
-      valorTotal: transacao.valorTotal,
+      id: transacao?.id,
+      data: transacao?.data,
+      categoria: transacao?.categoria,
+      descricao: transacao?.descricao,
+      fornecedor: transacao?.fornecedor,
+      situacao: transacao?.situacao,
+      tipo: transacao?.tipo,
+      valorTotal: transacao?.valorTotal,
     });
 
     this.form.setControl(
       'pecas',
       this.formBuilder.array(
-        transacao.pecas.map((peca: any) => this.createPecaFormGroup(peca))
+        transacao?.pecas?.map((peca: Peca) =>
+          this.createPecaFormGroup(peca.item)
+        ) || []
       )
     );
   }
@@ -201,10 +206,10 @@ export class FormAdicionarRemoverEstoqueComponent
   private resetForm() {
     this.form.reset();
     this.form = this.createForm();
-    this.close.emit();
+    this.closeModal.emit();
   }
 
-  selecionouPeca(event: any, index: number) {
+  selecionouPeca(event: DropdownChangeEvent, index: number) {
     const pecas = this.form.get('pecas') as FormArray;
     const pecaGroup = pecas.at(index) as FormGroup;
     pecaGroup.patchValue({
@@ -213,7 +218,7 @@ export class FormAdicionarRemoverEstoqueComponent
     });
   }
 
-  private updateEstoque(formData: any) {
+  private updateEstoque(formData: Pedido) {
     for (const peca of formData.pecas) {
       const quantidade =
         formData.tipo === 'receita'
@@ -225,7 +230,7 @@ export class FormAdicionarRemoverEstoqueComponent
     }
   }
 
-  private calcularValorTotal(formData: any): number {
+  private calcularValorTotal(formData: Pedido): number {
     let valorTotal = 0;
 
     const pecas = formData.pecas;

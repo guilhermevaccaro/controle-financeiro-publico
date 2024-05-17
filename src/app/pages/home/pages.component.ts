@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Transacao } from 'src/app/models/Transacao';
+import { Pedido } from 'src/app/models/Pedido';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -9,9 +9,9 @@ import { ContatoService } from 'src/app/services/contato.service';
   styleUrls: ['./pages.component.css'],
 })
 export class PagesComponent {
-  dados!: Transacao[];
-  dadosDespesa!: Transacao[];
-  dadosReceita!: Transacao[];
+  dados!: Pedido[];
+  dadosDespesa!: Pedido[];
+  dadosReceita!: Pedido[];
   form!: FormGroup;
   saldoMes = 0;
   saldoPrevisto = 0;
@@ -66,34 +66,34 @@ export class PagesComponent {
         this.dadosReceita = [];
         this.dadosDespesa = [];
 
-        this.dados.forEach((transacao) => {
-          if (transacao.tipo === 'receita') {
-            this.dadosReceita.push(transacao);
+        this.dados.forEach((Pedido) => {
+          if (Pedido.tipo === 'receita') {
+            this.dadosReceita.push(Pedido);
           } else {
-            this.dadosDespesa.push(transacao);
+            this.dadosDespesa.push(Pedido);
           }
         });
 
-          let somaReceitas = 0;
-          let somaDespesas = 0;
-          let somaReceitasEfetivadas = 0;
-          let somaReceitasPendentes = 0;
-          let somaDespesasEfetivadas = 0;
-          let somaDespesasPendentes = 0;
+        let somaReceitas = 0;
+        let somaDespesas = 0;
+        let somaReceitasEfetivadas = 0;
+        let somaReceitasPendentes = 0;
+        let somaDespesasEfetivadas = 0;
+        let somaDespesasPendentes = 0;
 
         // Itera sobre os documentos e atualiza as somas de acordo com o tipo da transação
-        transacoes.forEach((transacao) => {
-          const valorTotal = transacao.valorTotal;
-          if (transacao.tipo === 'receita') {
+        transacoes.forEach((Pedido) => {
+          const valorTotal = Pedido.valorTotal;
+          if (Pedido.tipo === 'receita') {
             somaReceitas += valorTotal;
-            if (transacao.situacao.nome === 'Efetivado') {
+            if (Pedido.situacao.nome === 'Efetivado') {
               somaReceitasEfetivadas += valorTotal;
             } else {
               somaReceitasPendentes += valorTotal;
             }
-          } else if (transacao.tipo === 'despesa') {
+          } else if (Pedido.tipo === 'despesa') {
             somaDespesas -= valorTotal;
-            if (transacao.situacao.nome === 'Efetivado') {
+            if (Pedido.situacao.nome === 'Efetivado') {
               somaDespesasEfetivadas -= valorTotal;
             } else {
               somaDespesasPendentes += valorTotal;

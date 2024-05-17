@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Transacao } from 'src/app/models/Transacao';
+import { Pedido } from 'src/app/models/Pedido';
 
 @Component({
   selector: 'app-transacoes-lista',
@@ -13,7 +13,7 @@ export class TransacoesListaComponent implements OnChanges {
   @Input() somaReceita!: number;
   @Input() somaDespesa!: number;
   @Input() saldoPrevisto!: number;
-  @Input() dados1!: any;
+  @Input() dados1!: Pedido[];
   data: any;
   data2: any;
   options: any;
@@ -25,7 +25,7 @@ export class TransacoesListaComponent implements OnChanges {
     }
   }
 
-  private processarDados(dados: Transacao[]): void {
+  private processarDados(dados: Pedido[]): void {
     this.contatos = dados;
 
     this.atualizarDadosGrafico();
@@ -65,11 +65,13 @@ export class TransacoesListaComponent implements OnChanges {
 
       const labels1 = Object.keys(contagemCategorias);
       const data1 = Object.values(porcentagens);
+      console.log('data1 ', data1);
 
       const data2 = [
         contagemTipos['receita'] || 0,
         contagemTipos['despesa'] || 0,
       ];
+      console.log('data2 ', data2);
 
       this.data = {
         labels: labels1,

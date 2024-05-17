@@ -18,28 +18,40 @@
   </ng-template>
   <ng-template pTemplate="caption">
     <div class="flex">
-      <p-button
-        label="Clear"
-        class="p-button-outlined"
-        icon="pi pi-filter-slash"
-        (click)="clear(dt1)"
-      ></p-button>
-      <span class="p-input-icon-left ml-auto">
-        <i class="pi pi-search"></i>
-        <input
-          pInputText
-          type="text"
-          (input)="onFilterGlobal($event, dt1)"
-          placeholder="Search keyword"
-        />
-      </span>
-      <p-button
-        severity="danger"
-        icon="pi pi-file-pdf"
-        (click)="exportPdf()"
-        pTooltip="PDF"
-        tooltipPosition="bottom"
-      ></p-button>
+      <form [formGroup]="form" class="form">
+        <p-calendar
+          formControlName="rangeDates"
+          selectionMode="range"
+          [readonlyInput]="true"
+          dateFormat="dd/mm/yy"
+          [inputStyle]="customInputStyle"
+          (onSelect)="emitDateSelect($event)"
+        ></p-calendar>
+      </form>
+      <div>
+        <p-button
+          label="Limpar"
+          class="p-button-outlined"
+          icon="pi pi-filter-slash"
+          (click)="clear(dt1)"
+        ></p-button>
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="onFilterGlobal($event, dt1)"
+            placeholder="Pesquisar"
+          />
+        </span>
+        <p-button
+          severity="danger"
+          icon="pi pi-file-pdf"
+          (click)="exportPdf()"
+          pTooltip="PDF"
+          tooltipPosition="bottom"
+        ></p-button>
+      </div>
     </div>
   </ng-template>
   <ng-template pTemplate="body" let-product>

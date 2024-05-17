@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Transacao } from 'src/app/models/Transacao';
+import { Pedido } from 'src/app/models/Pedido';
+import { RangeDate } from 'src/app/models/RangeDate';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { ContatoService } from 'src/app/services/contato.service';
 })
 export class TransacoesComponent implements OnInit {
   filtro!: string;
-  contatos!: any[];
+  contatos!: Pedido[];
   opcoes = [
     { label: 'Transações', value: 'transacoes' },
     { label: 'Receitas', value: 'receita' },
@@ -20,7 +20,6 @@ export class TransacoesComponent implements OnInit {
 
   despesaPendente!: number;
   despesaPagas!: number;
-  form!: any;
   somaReceita!: number;
   somaDespesa!: number;
   saldoPrevisto!: number;
@@ -29,48 +28,22 @@ export class TransacoesComponent implements OnInit {
   opcoesSelecionadas!: string;
   receitaPendente!: number;
   receitaRecebidas!: number;
-  formData: any;
+  formData!: Pedido;
   visible = false;
   quantidadeAtual!: number;
+  inicio!: Date;
+  fim!: Date;
   public tipo = '';
 
-  rangeDates: Date[] | undefined;
-
   constructor(
-    private formBuilder: FormBuilder,
     private serviceContato: ContatoService,
     private route: ActivatedRoute
   ) {}
-
-  @Output() open = new EventEmitter(false);
-  @Output() openAdd = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
-  deletandoTransacao(key: Transacao) {
+  deletandoTransacao(key: Pedido) {
     this.remove.emit(key);
   }
   ngOnInit() {
-    const dataInicio = new Date();
-    dataInicio.setDate(1);
-
-    const dataFim = new Date();
-    dataFim.setMonth(dataFim.getMonth() + 1);
-    dataFim.setDate(0);
-
-    this.form = this.formBuilder.group({
-      rangeDates: [[dataInicio, dataFim]],
-    });
-    this.carregar();
-  }
-  customInputStyle = {
-    cursor: 'pointer',
-    'text-align': 'center',
-    'border-radius': '25px',
-  };
-
-  onOpcaoSelecionada(event: { value: any }) {
-    this.pegaTipoUrl();
-
-    this.opcoesSelecionadas = event.value;
     this.carregar();
   }
 
@@ -81,11 +54,15 @@ export class TransacoesComponent implements OnInit {
     });
   }
 
-  onDateSelect() {
-    this.carregar();
+  onDateSelectRecebido(event: RangeDate) {
+    this.inicio = event.startDate;
+    this.fim = event.endDate;
+    if (this.inicio && this.fim) {
+      this.carregar();
+    }
   }
 
-  showModal(formData: any) {
+  showModal(formData: Pedido) {
     this.formData = formData;
     this.visible = true;
   }
@@ -94,11 +71,11 @@ export class TransacoesComponent implements OnInit {
     this.visible = false;
   }
 
-  onRemove(objeto: any) {
+  onRemove(objeto: Pedido) {
     this.updateEstoque(objeto);
     this.serviceContato.deleteDocument('transacoes', objeto.id);
   }
-  private updateEstoque(formData: any) {
+  private updateEstoque(formData: Pedido) {
     for (const peca of formData.pecas) {
       const quantidade = peca.item.quantidade;
       this.serviceContato
@@ -110,18 +87,15 @@ export class TransacoesComponent implements OnInit {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
     this.serviceContato
-      .getTransacoesPorIntervaloDeDatas(
-        this.form.value.rangeDates[0],
-        this.form.value.rangeDates[1]
-      )
+      .getTransacoesPorIntervaloDeDatas(this.inicio, this.fim)
       .subscribe((transacoes) => {
         if (this.filtro === 'despesa') {
           this.contatos = transacoes.filter(
-            (transacao) => transacao.tipo === 'despesa'
+            (Pedido) => Pedido.tipo === 'despesa'
           );
         } else if (this.filtro === 'receita') {
           this.contatos = transacoes.filter(
-            (transacao) => transacao.tipo === 'receita'
+            (Pedido) => Pedido.tipo === 'receita'
           );
         } else {
           this.contatos = transacoes;
@@ -134,18 +108,18 @@ export class TransacoesComponent implements OnInit {
         let somaDespesasEfetivadas = 0;
         let somaDespesasPendentes = 0;
 
-        transacoes.forEach((transacao) => {
-          const valorTotal = transacao.valorTotal;
-          if (transacao.tipo === 'receita') {
+        transacoes.forEach((Pedido) => {
+          const valorTotal = Pedido.valorTotal;
+          if (Pedido.tipo === 'receita') {
             somaReceitas += valorTotal;
-            if (transacao.situacao.nome === 'Efetivado') {
+            if (Pedido.situacao.nome === 'Efetivado') {
               somaReceitasEfetivadas += valorTotal;
             } else {
               somaReceitasPendentes += valorTotal;
             }
-          } else if (transacao.tipo === 'despesa') {
+          } else if (Pedido.tipo === 'despesa') {
             somaDespesas -= valorTotal;
-            if (transacao.situacao.nome === 'Efetivado') {
+            if (Pedido.situacao.nome === 'Efetivado') {
               somaDespesasEfetivadas -= valorTotal;
             } else {
               somaDespesasPendentes += valorTotal;
