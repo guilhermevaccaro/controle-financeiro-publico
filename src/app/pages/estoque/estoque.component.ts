@@ -1,5 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Estoque } from 'src/app/models/Estoque';
+import { Fornecedor } from 'src/app/models/Pedido';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -8,17 +10,11 @@ import { ContatoService } from 'src/app/services/contato.service';
   styleUrls: ['./estoque.component.css'],
 })
 export class EstoqueComponent implements OnInit {
-  contatos!: any[];
-  fornecedor!: any[];
-  contatosEntrada!: any[];
-  contatosSaida!: any[];
+  estoque!: Estoque[];
+  fornecedor!: Fornecedor[];
   visible = false;
-  precoTotal!: number;
-  produtos: any[] = [];
   visibleRazao = false;
-  @Output() open = new EventEmitter(false);
-  @Output() remove = new EventEmitter(false);
-  formData!: any;
+  formData!: Estoque;
 
   constructor(
     private service: ContatoService,
@@ -31,18 +27,19 @@ export class EstoqueComponent implements OnInit {
   }
   carrega() {
     this.service.getCollection('estoque').subscribe((items) => {
-      this.contatos = items;
+      this.estoque = items;
     });
     this.service.getCollection('fornecedor').subscribe((items) => {
       this.fornecedor = items;
     });
   }
 
-  deletandoTransacao(tabela: any, key: any) {
+  deletandoTransacao(tabela: string, key: string) {
     this.service.deleteDocument(tabela, key);
   }
 
-  confirm(event: Event, key: any, tabela: any) {
+  confirm(event: Event, key: string, tabela: string) {
+    console.log(event, key, tabela);
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Deseja excluir o dado?',
@@ -81,7 +78,7 @@ export class EstoqueComponent implements OnInit {
     this.visibleRazao = true;
   }
 
-  showModalEdit(formData: any) {
+  showModalEdit(formData: Estoque) {
     this.formData = formData;
     this.visible = true;
   }

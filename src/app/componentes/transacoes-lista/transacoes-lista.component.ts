@@ -14,9 +14,9 @@ export class TransacoesListaComponent implements OnChanges {
   @Input() somaDespesa!: number;
   @Input() saldoPrevisto!: number;
   @Input() dados1!: Pedido[];
-  data: any;
-  data2: any;
-  options: any;
+  data: unknown;
+  data2: unknown;
+  options: unknown;
   dados = true;
 
   ngOnChanges(changes: SimpleChanges) {
@@ -37,7 +37,7 @@ export class TransacoesListaComponent implements OnChanges {
       const contagemTipos: { [key: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
-        objeto.pecas.forEach((peca: { item: { nome: any } }) => {
+        objeto.pecas.forEach((peca: { item: { nome: string } }) => {
           const nomePeca = peca.item.nome;
           if (contagemCategorias[nomePeca]) {
             contagemCategorias[nomePeca] += objeto.valorTotal;
@@ -71,7 +71,7 @@ export class TransacoesListaComponent implements OnChanges {
         contagemTipos['receita'] || 0,
         contagemTipos['despesa'] || 0,
       ];
-      console.log('data2 ', data2);
+      console.log('data2 ', this.data2);
 
       this.data = {
         labels: labels1,

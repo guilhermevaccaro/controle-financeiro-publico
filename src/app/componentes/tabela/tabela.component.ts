@@ -1,11 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table, TableFilterEvent } from 'primeng/table';
 import { Fornecedor, Peca, Pedido } from 'src/app/models/Pedido';
@@ -15,18 +9,20 @@ import { Fornecedor, Peca, Pedido } from 'src/app/models/Pedido';
   templateUrl: './tabela.component.html',
   styleUrls: ['./tabela.component.css'],
 })
-export class TabelaComponent {
+export class TabelaComponent implements OnInit {
   @Input() contatos!: Pedido[];
   @Output() clickOpen = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
   @Output() dateSelect = new EventEmitter(false);
-  dt1: any;
+  dt1!: Table;
   filteredContatos = [];
   novoArrayComDadosFiltrados!: Pedido[];
   dadosPDF!: any[];
-  exportColumns!: any[];
-  cols!: any[];
-  form!: any;
+
+  exportColumns!: { title: string; dataKey: string }[]; // Specify a more specific type for exportColumns
+
+  cols!: { field: string; header: string }[];
+  form!: FormGroup;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -49,7 +45,7 @@ export class TabelaComponent {
     this.form = this.formBuilder.group({
       rangeDates: [[dataInicio, dataFim]],
     });
-    this.emitDateSelect(this.form.value.rangeDates);
+    this.emitDateSelect(); // Remove the argument from the method call
   }
   deletandoTransacao(pedido: Pedido[]) {
     this.remove.emit(pedido);
@@ -59,11 +55,14 @@ export class TabelaComponent {
       this.clickOpen.emit(pedido);
     }
   }
-  emitDateSelect(event: any) {
+  emitDateSelect() {
     const startDate = this.form.value.rangeDates[0];
     const endDate = this.form.value.rangeDates[1];
 
-    this.dateSelect.emit({ startDate, endDate });
+    this.dateSelect.emit({ startDate, endDate } as {
+      startDate: Date;
+      endDate: Date;
+    });
   }
   confirm(event: Event, data: Pedido[]) {
     this.confirmationService.confirm({

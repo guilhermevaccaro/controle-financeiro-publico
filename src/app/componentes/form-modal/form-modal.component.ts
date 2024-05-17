@@ -1,5 +1,5 @@
-/* eslint-disable no-prototype-builtins */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Pedido } from 'src/app/models/Pedido';
 
 @Component({
   selector: 'app-form-modal',
@@ -7,10 +7,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./form-modal.component.css'],
 })
 export class FormModalComponent {
-  @Input() dados!: any;
+  @Input() dados: Pedido | undefined;
   @Output() clickClose = new EventEmitter<void>();
-
-  pecas!: any;
 
   onCancel() {
     this.clickClose.emit();
