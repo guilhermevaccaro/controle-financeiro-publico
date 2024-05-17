@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Fornecedor } from 'src/app/models/Fornecedor';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -7,10 +8,10 @@ import { ContatoService } from 'src/app/services/contato.service';
   templateUrl: './form-razao.component.html',
   styleUrls: ['./form-razao.component.css'],
 })
-export class FormRazaoComponent {
+export class FormRazaoComponent implements OnInit {
   form!: FormGroup;
-  @Input() formData!: any;
-  @Output() close = new EventEmitter();
+  @Input() formData!: Fornecedor;
+  @Output() closeModal = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,21 +29,6 @@ export class FormRazaoComponent {
     });
   }
 
-  ngOnChanges() {
-    if (this.formData) {
-      this.atualizarFormulario();
-    } else {
-      this.form = this.criarForm();
-    }
-  }
-
-  atualizarFormulario() {
-    this.form.patchValue({
-      id: this.formData.id,
-      nome: this.formData.fornecedor,
-    });
-  }
-
   onSubmit() {
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
@@ -51,7 +37,7 @@ export class FormRazaoComponent {
       this.contatoService.updateDocument('fornecedor', formData.id, formData);
     }
     this.form = this.criarForm();
-    this.close.emit();
+    this.closeModal.emit();
   }
 
   onCancel() {
@@ -59,6 +45,6 @@ export class FormRazaoComponent {
       id: [''],
       nome: [''],
     });
-    this.close.emit();
+    this.closeModal.emit();
   }
 }

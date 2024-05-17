@@ -7,7 +7,7 @@
         dateFormat="dd/mm/yy"
         [readonlyInput]="true"
         [inputStyle]="customInputStyle"
-        (onSelect)="onDateSelect($event)"
+        (onSelect)="onDateSelect()"
         dateFormat="dd/mm/yy"
       ></p-calendar>
     </form>
@@ -59,7 +59,6 @@
           </mat-card-header>
           <mat-card-content>
             <app-transacoes-lista
-              [valorSelecionado]="valorSelecionado"
               [filtro]="'despesa'"
               [somaDespesa]="somaDespesa"
               [dados1]="dadosDespesa"
@@ -75,7 +74,6 @@
           </mat-card-header>
           <mat-card-content>
             <app-transacoes-lista
-              [valorSelecionado]="valorSelecionado"
               [filtro]="'receita'"
               [somaReceita]="somaReceita"
               [dados1]="dadosReceita"
@@ -93,7 +91,6 @@
           </mat-card-header>
           <mat-card-content>
             <app-transacoes-lista
-              [valorSelecionado]="valorSelecionado"
               [filtro]="''"
               [somaDespesa]="somaDespesa"
               [somaReceita]="somaReceita"

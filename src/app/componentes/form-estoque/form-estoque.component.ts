@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Estoque } from 'src/app/models/Estoque';
 import { ContatoService } from 'src/app/services/contato.service';
 
 @Component({
@@ -7,10 +8,10 @@ import { ContatoService } from 'src/app/services/contato.service';
   templateUrl: './form-estoque.component.html',
   styleUrls: ['./form-estoque.component.css'],
 })
-export class FormEstoqueComponent {
+export class FormEstoqueComponent implements OnInit, OnChanges {
   form!: FormGroup;
-  @Input() formData!: any;
-  @Output() close = new EventEmitter();
+  @Input() formData!: Estoque;
+  @Output() closeModal = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,7 +55,7 @@ export class FormEstoqueComponent {
       this.contatoService.updateDocument('estoque', formData.id, formData);
     }
     this.form = this.criarForm();
-    this.close.emit();
+    this.closeModal.emit();
   }
 
   onCancel() {
@@ -63,6 +64,6 @@ export class FormEstoqueComponent {
       codigo: ['', Validators.required],
       nome: [''],
     });
-    this.close.emit();
+    this.closeModal.emit();
   }
 }

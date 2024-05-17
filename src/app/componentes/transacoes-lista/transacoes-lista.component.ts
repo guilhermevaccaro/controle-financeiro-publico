@@ -7,7 +7,7 @@ import { Pedido } from 'src/app/models/Pedido';
   styleUrls: ['./transacoes-lista.component.css'],
 })
 export class TransacoesListaComponent implements OnChanges {
-  contatos!: any[];
+  contatos!: Pedido[];
   @Input() valorSelecionado!: string;
   @Input() filtro!: string;
   @Input() somaReceita!: number;

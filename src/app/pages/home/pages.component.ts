@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Pedido } from 'src/app/models/Pedido';
 import { ContatoService } from 'src/app/services/contato.service';
@@ -8,7 +8,7 @@ import { ContatoService } from 'src/app/services/contato.service';
   templateUrl: './pages.component.html',
   styleUrls: ['./pages.component.css'],
 })
-export class PagesComponent {
+export class PagesComponent implements OnInit {
   dados!: Pedido[];
   dadosDespesa!: Pedido[];
   dadosReceita!: Pedido[];
@@ -18,7 +18,6 @@ export class PagesComponent {
   saldoPendente = 0;
   somaDespesa = 0;
   somaReceita = 0;
-  valorSelecionado!: any;
   rangeDates: Date[] | undefined;
 
   constructor(
@@ -35,7 +34,6 @@ export class PagesComponent {
     this.form = this.formBuilder.group({
       rangeDates: [[dataInicio, dataFim]],
     });
-    this.valorSelecionado = new Date().getMonth() + 1;
   }
 
   ngOnInit(): void {
@@ -48,9 +46,7 @@ export class PagesComponent {
     'border-radius': '25px',
   };
 
-  onDateSelect(event: any) {
-    const selectedDate: Date = event;
-    this.valorSelecionado = selectedDate.getMonth() + 1;
+  onDateSelect() {
     this.carregar();
   }
 
