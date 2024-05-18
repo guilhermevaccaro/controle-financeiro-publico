@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { map, Observable } from 'rxjs';
+import { Pedido } from '../models/Pedido';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class ContatoService {
       .valueChanges();
   }
 
-  async addDocument(collectionName: string, data: any): Promise<string> {
+  async addDocument(collectionName: string, data: Pedido): Promise<string> {
     const docRef = await this.firestore.collection(collectionName).add(data);
     const docId = docRef.id;
     data.id = docId;
@@ -42,7 +43,7 @@ export class ContatoService {
   getTransacoesPorIntervaloDeDatas(
     dataInicio: Date,
     dataFim: Date
-  ): Observable<any[]> {
+  ): Observable<Pedido[]> {
     return this.firestore
       .collection<any>('transacoes', (ref) =>
         ref.where('data', '>=', dataInicio).where('data', '<=', dataFim)
