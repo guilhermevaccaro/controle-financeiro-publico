@@ -1,4 +1,4 @@
-interface DadosPDF1 {
+export interface DadosPDF1 {
   situacao: { nome: string };
   data: string;
   fornecedor: { nome: string };
@@ -6,7 +6,7 @@ interface DadosPDF1 {
   valorTotal: number;
 }
 
-interface DadoPDF {
+export interface DadoPDF {
   data: string;
   situacao: string;
   fornecedor: string;

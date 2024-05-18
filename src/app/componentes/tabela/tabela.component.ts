@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table, TableFilterEvent } from 'primeng/table';
 import { Pedido } from 'src/app/models/Pedido';
+import { DadoPDF, DadosPDF1 } from 'src/app/models/DadosPDF';
 
 @Component({
   selector: 'app-tabela',
