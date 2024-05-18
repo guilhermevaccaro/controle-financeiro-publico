@@ -56,8 +56,11 @@ export class TabelaComponent implements OnInit {
     }
   }
   emitDateSelect() {
-    const startDate = this.form.value.rangeDates[0];
-    const endDate = this.form.value.rangeDates[1];
+    const startDate = new Date(this.form.value.rangeDates[0]);
+    const endDate = new Date(this.form.value.rangeDates[1]);
+
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(23, 59, 59, 999);
 
     this.dateSelect.emit({ startDate, endDate } as {
       startDate: Date;

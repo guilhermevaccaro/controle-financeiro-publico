@@ -26,11 +26,11 @@ export class PagesComponent implements OnInit {
   ) {
     const dataInicio = new Date();
     dataInicio.setDate(1);
-
+    dataInicio.setHours(0, 0, 0, 0);
     const dataFim = new Date();
     dataFim.setMonth(dataFim.getMonth() + 1);
     dataFim.setDate(0);
-
+    dataFim.setHours(23, 59, 59, 999);
     this.form = this.formBuilder.group({
       rangeDates: [[dataInicio, dataFim]],
     });
@@ -51,11 +51,16 @@ export class PagesComponent implements OnInit {
   }
 
   carregar() {
+    const [inicio, fim] = this.form.value.rangeDates.map(
+      (date: string) => new Date(date)
+    );
+    inicio.setHours(0, 0, 0, 0);
+    fim.setHours(23, 59, 59, 999);
+
+    const startDate = inicio;
+    const endDate = fim;
     this.serviceContato
-      .getTransacoesPorIntervaloDeDatas(
-        this.form.value.rangeDates[0],
-        this.form.value.rangeDates[1]
-      )
+      .getTransacoesPorIntervaloDeDatas(startDate, endDate)
       .subscribe((transacoes) => {
         this.dados = transacoes;
 

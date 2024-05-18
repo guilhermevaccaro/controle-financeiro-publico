@@ -86,6 +86,7 @@ export class TransacoesComponent implements OnInit {
   carregar() {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
+    console.log(this.inicio, this.fim);
     this.serviceContato
       .getTransacoesPorIntervaloDeDatas(this.inicio, this.fim)
       .subscribe((transacoes) => {

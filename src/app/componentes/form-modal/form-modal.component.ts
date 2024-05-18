@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Pedido } from 'src/app/models/Pedido';
 
 @Component({
@@ -6,19 +6,10 @@ import { Pedido } from 'src/app/models/Pedido';
   templateUrl: './form-modal.component.html',
   styleUrls: ['./form-modal.component.css'],
 })
-export class FormModalComponent implements OnInit, OnChanges {
+export class FormModalComponent {
   @Input() pedido!: Pedido;
   @Output() clickClose = new EventEmitter<void>();
 
-  ngOnInit() {
-    console.log(this.pedido);
-  }
-  ngOnChanges() {
-    console.log(this.pedido);
-  }
-  click() {
-    console.log(this.pedido);
-  }
   onCancel() {
     this.clickClose.emit();
   }

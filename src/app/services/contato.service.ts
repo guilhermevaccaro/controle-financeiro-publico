@@ -43,10 +43,6 @@ export class ContatoService {
     dataInicio: Date,
     dataFim: Date
   ): Observable<any[]> {
-    dataInicio.setHours(0, 0, 0, 0);
-
-    dataFim.setHours(23, 59, 59, 999);
-
     return this.firestore
       .collection<any>('transacoes', (ref) =>
         ref.where('data', '>=', dataInicio).where('data', '<=', dataFim)
