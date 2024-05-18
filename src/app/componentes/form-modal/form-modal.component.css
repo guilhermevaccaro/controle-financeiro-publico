@@ -1,34 +1,30 @@
 .display-flex {
   display: flex;
   gap: 20px;
-  padding-top: 20px;
 }
 
 .space-between {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
 }
 
-/* ::ng-deep .p-dropdown {
-  width: 100%;
-} */
-
-/* :host ::ng-deep p-inputnumber {
-  width: 100%;
-}
-
-:host ::ng-deep .p-inputnumber {
-  width: 100%;
-} */
-
-.switch {
+.space-around {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.row{
-  flex-direction: row;
+.align-end {
+  justify-content: flex-end;
 }
+
+p{
+  font-size: 1.1rem;
+
+}
+.value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+

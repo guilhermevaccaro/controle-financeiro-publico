@@ -12,6 +12,7 @@ export interface Pedido {
 }
 
 export interface Fornecedor {
+  fornecedor: any;
   nome: string;
   id: string;
 }

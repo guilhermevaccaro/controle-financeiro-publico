@@ -158,8 +158,8 @@
   </div>
 </div>
 
-<p-dialog [(visible)]="visible" [modal]="true" [closable]="false">
-  <app-form-modal [dados]="formData" (clickClose)="closeModal()">
+<p-dialog [(visible)]="visible" [modal]="true">
+  <app-form-modal [pedido]="formData" (clickClose)="closeModal()">
   </app-form-modal>
 </p-dialog>
 <p-toast></p-toast>

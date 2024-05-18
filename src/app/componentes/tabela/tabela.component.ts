@@ -146,6 +146,7 @@ export class TabelaComponent implements OnInit {
         const dateB = new Date(b.data.split('/').reverse().join('-')).getTime();
         return dateA - dateB;
       });
+    console.log('this.dadosPDF ', this.dadosPDF);
 
     this.cols = [
       { field: 'data', header: 'Data' },

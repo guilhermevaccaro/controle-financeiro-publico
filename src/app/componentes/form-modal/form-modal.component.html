@@ -1,55 +1,79 @@
-<div class="display-flex">
-  <div class="field">
-    <p>Código do Pedido</p>
-    <div class="value">{{ dados?.codigoPedido }}</div>
+<div class="display-flex space-between">
+  <div class="display-flex">
+    <p>Código do Pedido:</p>
+    <div class="value">
+      {{ pedido.codigoPedido }}
+    </div>
   </div>
 
-  <div class="field">
-    <p>Data</p>
-    <div class="value">{{ dados?.data | date : "dd/MM/yy" }}</div>
-  </div>
-
-  <div class="field">
-    <p>Situação</p>
-    <div class="value">{{ dados?.situacao?.nome }}</div>
+  <div class="display-flex">
+    <p>Data:</p>
+    <div class="value">
+      {{ pedido.data | date : "dd/MM/yy" }}
+    </div>
   </div>
 </div>
 
-<div class="display-flex">
-  <div class="field">
-    <p>Fornecedor / Cliente</p>
-    <div class="value">{{ dados?.fornecedor?.nome }}</div>
+<div class="display-flex space-between">
+  <div class="display-flex">
+    <p>Fornecedor / Cliente:</p>
+    <div class="value">
+      {{ pedido.fornecedor.nome }}
+    </div>
   </div>
 
-  <div class="field">
-    <p>Descrição</p>
-    <div class="value">{{ dados?.descricao }}</div>
+  <div class="display-flex">
+    <p>Descrição:</p>
+    <div class="value">
+      {{ pedido.descricao }}
+    </div>
+  </div>
+</div>
+<div class="display-flex">
+  <p>Situação:</p>
+  <div class="value">
+    {{ pedido.situacao.nome }}
   </div>
 </div>
 <p-divider></p-divider>
 
 <div class="">
-  <div *ngFor="let peca of dados?.pecas; let i = index">
-    <div class="display-flex">
-      <div class="field">
-        <p>Peça</p>
-        <div class="value">{{ peca.item.nome }}</div>
-      </div>
-
-      <div class="field">
-        <p>Quantidade</p>
-        <div class="value">{{ peca.quantidadeAdicionada }}</div>
-      </div>
-
-      <div class="field">
-        <p>Valor Unitário</p>
-        <div class="value">{{ peca.valorUnitario | currency : 'BRL' }}</div>
+  <div class="field">
+    <div class="value">
+      <p-table [value]="pedido.pecas">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Quantidade</th>
+            <th>Produto</th>
+            <th>Valor Unitário</th>
+            <th>Valor Total</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{ item.quantidadeAdicionada }}</td>
+            <td>{{ item.item?.nome }}</td>
+            <td>{{ item.valorUnitario | currency : "BRL" }}</td>
+            <td>
+              {{
+                item.valorUnitario * item.quantidadeAdicionada
+                  | currency : "BRL"
+              }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div>
+      <p-divider></p-divider>
+      <div>
+        <div class="display-flex align-end">
+          <p>Valor Total</p>
+          <div class="value">
+            {{ pedido.valorTotal | currency : "BRL" }}
+          </div>
+        </div>
       </div>
     </div>
-    <p-divider></p-divider>
   </div>
-</div>
-
-<div class="space-between">
-  <p-button severity="danger" (click)="onCancel()">Cancelar</p-button>
 </div>
