@@ -65,13 +65,11 @@ export class TransacoesListaComponent implements OnChanges {
 
       const labels1 = Object.keys(contagemCategorias);
       const data1 = Object.values(porcentagens);
-      console.log('data1 ', data1);
 
       const data2 = [
         contagemTipos['receita'] || 0,
         contagemTipos['despesa'] || 0,
       ];
-      console.log('data2 ', this.data2);
 
       this.data = {
         labels: labels1,
