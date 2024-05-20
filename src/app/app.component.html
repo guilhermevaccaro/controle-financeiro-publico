@@ -1,4 +1,4 @@
-<mat-sidenav-container autosize="">
+<mat-sidenav-container autosize *ngIf="!isMobile">
   <mat-sidenav
     [mode]="isMobile ? 'over' : 'side'"
     [opened]="isMobile ? 'false' : 'true'"
@@ -119,6 +119,108 @@
     </mat-menu>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<div *ngIf="isMobile">
+  <button (click)="drawer.toggle()">Oi</button>
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer mode="over">
+      <mat-nav-list>
+        <button
+          [ngClass]="{
+            btn: true,
+            'background-purple':
+              router.url === '/transacoes' || router.url === '/dashboard',
+            'background-blue':
+              router.url === '/dashboard' || router.url === '/estoque',
+            'background-green': router.url === '/transacoes/receita',
+            'background-red': router.url === '/transacoes/despesa'
+          }"
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon>add</mat-icon> Novo
+        </button>
+        <a mat-list-item [routerLink]="'dashboard'">
+          <span class="entry"
+            ><span class="material-icons-outlined blue"> home </span>
+            <span>Dashboard</span>
+          </span>
+        </a>
+        <a mat-list-item [routerLink]="'transacoes'">
+          <span class="entry">
+            <span class="material-icons-outlined purple">
+              format_list_bulleted
+            </span>
+            <span>Transações</span>
+          </span>
+        </a>
+        <a mat-list-item [routerLink]="['/transacoes/receita']">
+          <span class="entry">
+            <span class="material-icons-outlined green"> trending_up </span>
+            <span>Receitas</span>
+          </span>
+        </a>
+        <a mat-list-item [routerLink]="['/transacoes/despesa']">
+          <span class="entry">
+            <span class="material-icons-outlined red"> trending_down </span>
+            <span>Despesas</span>
+          </span>
+        </a>
+        <a mat-list-item [routerLink]="['/estoque']">
+          <span class="entry">
+            <span class="material-icons-outlined orange"> watch_later </span>
+            <span>Estoque</span>
+          </span>
+        </a>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet style="height: 100vh;"></router-outlet>
+      <mat-menu
+        #menu="matMenu"
+        xPosition="before"
+        yPosition="below"
+        overlapTrigger="false"
+      >
+        <!-- <button mat-menu-item (click)="showModalAdd('despesa')" class="red">
+        <mat-icon color="accent">trending_down</mat-icon>
+        <span class="red">Adicionar Despesa</span>
+      </button>
+      <button mat-menu-item (click)="showModalAdd('receita')">
+        <mat-icon color="warn">trending_up</mat-icon>
+        <span class="green">Adicionar Receita</span>
+      </button> -->
+        <button
+          mat-menu-item
+          (click)="showModalAddCompraEVenda('despesa', 'Compra de peça')"
+        >
+          <mat-icon color="accent">trending_up</mat-icon>
+          <span class="red">Adicionar Compra</span>
+        </button>
+        <button
+          mat-menu-item
+          (click)="showModalAddCompraEVenda('receita', 'Venda de peça')"
+        >
+          <mat-icon color="warn">trending_down</mat-icon>
+          <span class="green">Adicionar Venda</span>
+        </button>
+      </mat-menu>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  <p-dialog
+    [header]="'Adicionando Pedido de ' + categoria"
+    [(visible)]="visibleEstoque"
+    [modal]="true"
+    [closable]="false"
+  >
+    <app-form-adicionar-remover-estoque
+      [formData]="formData"
+      (closeModal)="closeModal()"
+      [tipo]="tipo"
+      [categoria]="categoria"
+    >
+    </app-form-adicionar-remover-estoque>
+  </p-dialog>
+</div>
 
 <p-dialog
   [header]="'Adicionando Pedido de ' + categoria"
