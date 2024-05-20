@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <div class="display-flex">
+  <div [ngClass]="{ 'display-flex': !isMobile, mobile: isMobile }">
     <span class="p-float-label">
       <input type="text" pInputText formControlName="codigoPedido" />
       <label htmlFor="codigoPedido">Código do Pedido</label>
@@ -23,7 +23,7 @@
       class="full-width"
     ></p-dropdown>
   </div>
-  <div class="display-flex">
+  <div [ngClass]="{ 'display-flex': !isMobile }">
     <p-dropdown
       appendTo="body"
       [options]="nome"
@@ -49,7 +49,7 @@
     formArrayName="pecas"
     *ngFor="let pecas of getPecasFormArray(); let i = index"
   >
-    <div [formGroupName]="i" class="display-flex">
+    <div [formGroupName]="i" [ngClass]="{ 'display-flex': !isMobile }">
       <p-dropdown
         appendTo="body"
         [options]="estoque"
@@ -57,16 +57,13 @@
         placeholder="Peça"
         formControlName="item"
         [showClear]="false"
-        class="full-width"
+        class="teste"
         (onChange)="selecionouPeca($event, i)"
       ></p-dropdown>
 
       <div>
         <span class="p-float-label">
-          <p-inputNumber
-            formControlName="quantidadeAdicionada"
-            class="full-width"
-          ></p-inputNumber>
+          <p-inputNumber formControlName="quantidadeAdicionada"></p-inputNumber>
           <label for="">Quantidade</label>
         </span>
       </div>
@@ -76,7 +73,6 @@
             formControlName="valorUnitario"
             mode="currency"
             currency="BRL"
-            class="full-width"
             locale="pt-BR"
             [title]="'Teste'"
           ></p-inputNumber>

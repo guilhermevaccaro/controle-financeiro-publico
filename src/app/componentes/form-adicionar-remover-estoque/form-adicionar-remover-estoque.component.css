@@ -11,12 +11,18 @@
   gap: 20px;
 }
 
-.switch {
-  display: flex;
-  justify-content: center;
+.mobile {
   gap: 10px;
 }
 
-.row {
-  flex-direction: row;
+.form-mobile {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.teste{
+  display: inline-flex;
+  width: 20px;
 }

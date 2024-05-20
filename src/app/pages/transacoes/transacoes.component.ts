@@ -47,6 +47,14 @@ export class TransacoesComponent implements OnInit {
     this.carregar();
   }
 
+  alterarSituacao(pedido: Pedido) {
+    pedido.situacao.nome =
+      pedido.situacao.nome === 'Pendente' ? 'Efetivado' : 'Pendente';
+
+    this.serviceContato.updateDocument('transacoes', pedido.id, {
+      'situacao.nome': pedido.situacao.nome,
+    });
+  }
   pegaTipoUrl() {
     this.route.url.subscribe((segments) => {
       const ultimaSegmento = segments[segments.length - 1];

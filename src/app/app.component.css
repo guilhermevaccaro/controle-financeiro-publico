@@ -133,3 +133,23 @@ span {
   color: #0066cc;
   border: solid 2px #0066cc;
 }
+
+.fixed-bottom-right {
+  width: 56px; /* Largura do botão */
+  height: 56px; /* Altura do botão */
+  border-radius: 50%; /* Faz o botão ser redondo */  position: fixed;
+  bottom: 20px;
+  /* Ajuste conforme necessário */
+  right: 20px;
+  /* Ajuste conforme necessário */
+  z-index: 1000;
+  /* Certifique-se de que o botão fica acima de outros elementos */
+}
+.fixed-bottom-right:hover {
+
+  transition: 288ms;
+  transform: translateY(-0px);
+  background-color: #fff;
+  color: #0066cc;
+  border: solid 2px #0066cc;
+}

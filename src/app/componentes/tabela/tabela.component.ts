@@ -17,6 +17,7 @@ export class TabelaComponent implements OnInit {
   @Input() pedidos!: Pedido[];
   @Output() clickOpen = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
+  @Output() clickAlterarSituacao = new EventEmitter(false);
   @Output() dateSelect = new EventEmitter(false);
   dt1!: Table;
   filteredContatos = [];
@@ -54,6 +55,9 @@ export class TabelaComponent implements OnInit {
   deletandoTransacao(pedido: Pedido[]) {
     this.remove.emit(pedido);
   }
+  alterandoSituacao(pedido: Pedido[]) {
+    this.clickAlterarSituacao.emit(pedido);
+  }
   abrindoModal(pedido: Pedido[]) {
     if (pedido) {
       this.clickOpen.emit(pedido);
@@ -69,6 +73,36 @@ export class TabelaComponent implements OnInit {
     this.dateSelect.emit({ startDate, endDate } as {
       startDate: Date;
       endDate: Date;
+    });
+  }
+  confirmSituacao(event: Event, data: Pedido[]) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Deseja excluir o dado?',
+      header: 'Confirme Exclusão',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      rejectButtonStyleClass: 'p-button-text p-button-text',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+
+      accept: () => {
+        this.alterandoSituacao(data);
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Sucesso',
+          detail: 'Dado excluído',
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Rejeitado',
+        });
+      },
     });
   }
   confirm(event: Event, data: Pedido[]) {

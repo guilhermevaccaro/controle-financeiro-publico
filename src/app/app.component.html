@@ -125,27 +125,13 @@
   <mat-drawer-container autosize>
     <mat-drawer #drawer mode="over">
       <mat-nav-list>
-        <button
-          [ngClass]="{
-            btn: true,
-            'background-purple':
-              router.url === '/transacoes' || router.url === '/dashboard',
-            'background-blue':
-              router.url === '/dashboard' || router.url === '/estoque',
-            'background-green': router.url === '/transacoes/receita',
-            'background-red': router.url === '/transacoes/despesa'
-          }"
-          [matMenuTriggerFor]="menu"
-        >
-          <mat-icon>add</mat-icon> Novo
-        </button>
-        <a mat-list-item [routerLink]="'dashboard'">
+        <a mat-list-item [routerLink]="'dashboard'" (click)="drawer.toggle()">
           <span class="entry"
             ><span class="material-icons-outlined blue"> home </span>
             <span>Dashboard</span>
           </span>
         </a>
-        <a mat-list-item [routerLink]="'transacoes'">
+        <a mat-list-item [routerLink]="'transacoes'" (click)="drawer.toggle()">
           <span class="entry">
             <span class="material-icons-outlined purple">
               format_list_bulleted
@@ -153,19 +139,27 @@
             <span>Transações</span>
           </span>
         </a>
-        <a mat-list-item [routerLink]="['/transacoes/receita']">
+        <a
+          mat-list-item
+          [routerLink]="['/transacoes/receita']"
+          (click)="drawer.toggle()"
+        >
           <span class="entry">
             <span class="material-icons-outlined green"> trending_up </span>
             <span>Receitas</span>
           </span>
         </a>
-        <a mat-list-item [routerLink]="['/transacoes/despesa']">
+        <a
+          mat-list-item
+          [routerLink]="['/transacoes/despesa']"
+          (click)="drawer.toggle()"
+        >
           <span class="entry">
             <span class="material-icons-outlined red"> trending_down </span>
             <span>Despesas</span>
           </span>
         </a>
-        <a mat-list-item [routerLink]="['/estoque']">
+        <a mat-list-item [routerLink]="['/estoque']" (click)="drawer.toggle()">
           <span class="entry">
             <span class="material-icons-outlined orange"> watch_later </span>
             <span>Estoque</span>
@@ -174,7 +168,7 @@
       </mat-nav-list>
     </mat-drawer>
     <mat-drawer-content>
-      <router-outlet style="height: 100vh;"></router-outlet>
+      <router-outlet style="height: 100vh"></router-outlet>
       <mat-menu
         #menu="matMenu"
         xPosition="before"
@@ -220,6 +214,20 @@
     >
     </app-form-adicionar-remover-estoque>
   </p-dialog>
+  <button
+    [ngClass]="{
+      'background-purple':
+        router.url === '/transacoes' || router.url === '/dashboard',
+      'background-blue':
+        router.url === '/dashboard' || router.url === '/estoque',
+      'background-green': router.url === '/transacoes/receita',
+      'background-red': router.url === '/transacoes/despesa',
+      'fixed-bottom-right': true
+    }"
+    [matMenuTriggerFor]="menu"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
 
 <p-dialog

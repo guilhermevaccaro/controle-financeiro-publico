@@ -8,8 +8,8 @@
 >
   <ng-template pTemplate="header">
     <tr>
+      <th></th>
       <th>Data</th>
-      <th>Situação</th>
       <th>Pedido</th>
       <th>Categoria</th>
       <th>Valor</th>
@@ -56,8 +56,6 @@
   </ng-template>
   <ng-template pTemplate="body" let-product>
     <tr>
-      <td>{{ product.data | date : "dd/MM/yy" }}</td>
-
       <td style="padding-left: 40px">
         <ng-container
           *ngIf="product.situacao.nome === 'Efetivado'; else pendente"
@@ -76,6 +74,7 @@
           ></i>
         </ng-template>
       </td>
+      <td>{{ product.data | date : "dd/MM/yy" }}</td>
 
       <td>
         <p>{{ product.codigoPedido }}</p>
@@ -110,6 +109,14 @@
           [text]="true"
           severity="danger "
           (click)="confirm($event, product)"
+        >
+        </p-button>
+        <p-button
+          icon="pi pi-home"
+          [rounded]="true"
+          [text]="true"
+          severity="danger "
+          (click)="confirmSituacao($event, product)"
         >
         </p-button>
       </td>

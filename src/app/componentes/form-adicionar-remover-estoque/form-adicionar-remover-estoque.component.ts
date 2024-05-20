@@ -1,4 +1,5 @@
 /* eslint-disable no-prototype-builtins */
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   Component,
   EventEmitter,
@@ -52,22 +53,33 @@ export class FormAdicionarRemoverEstoqueComponent
   idPeca!: string;
   valorTotal = 0;
   valorTotalPorPeca = 0;
+  isMobile = true;
 
   private estoqueSubscription!: Subscription;
   private razaoSubscription!: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
+    private observer: BreakpointObserver,
+
     private contatoService: ContatoService
   ) {}
 
   ngOnInit() {
+    this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
+      if (screenSize.matches) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    });
     this.form = this.createForm();
     this.loadEstoque();
     this.loadFornecedores();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('changes', this.isMobile);
     if (changes['formData'] && this.formData) {
       this.updateForm();
     }
