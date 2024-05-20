@@ -78,8 +78,8 @@ export class TabelaComponent implements OnInit {
   confirmSituacao(event: Event, data: Pedido[]) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Deseja excluir o dado?',
-      header: 'Confirme Exclusão',
+      message: 'Deseja alterar a situação do pedido?',
+      header: 'Confirme alteração',
       icon: 'pi pi-info-circle',
       acceptButtonStyleClass: 'p-button-danger p-button-text',
       rejectButtonStyleClass: 'p-button-text p-button-text',
@@ -93,7 +93,7 @@ export class TabelaComponent implements OnInit {
         this.messageService.add({
           severity: 'info',
           summary: 'Sucesso',
-          detail: 'Dado excluído',
+          detail: 'Dado alterado',
         });
       },
       reject: () => {

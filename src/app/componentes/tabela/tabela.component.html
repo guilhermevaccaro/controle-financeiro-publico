@@ -111,14 +111,30 @@
           (click)="confirm($event, product)"
         >
         </p-button>
-        <p-button
-          icon="pi pi-home"
-          [rounded]="true"
-          [text]="true"
-          severity="danger "
-          (click)="confirmSituacao($event, product)"
+        <ng-container
+          *ngIf="product.situacao.nome === 'Efetivado'; else pendente1"
         >
-        </p-button>
+          <p-button
+            icon="pi pi-history"
+            [rounded]="true"
+            pTooltip="Tornar Pendente"
+            [text]="true"
+            severity="warning"
+            (click)="confirmSituacao($event, product)"
+          >
+          </p-button>
+        </ng-container>
+        <ng-template #pendente1>
+          <p-button
+            icon="pi pi-check"
+            [rounded]="true"
+            pTooltip="Efetivar"
+            [text]="true"
+            severity="success"
+            (click)="confirmSituacao($event, product)"
+          >
+          </p-button>
+        </ng-template>
       </td>
     </tr>
   </ng-template>
