@@ -30,6 +30,7 @@ export class TransacoesComponent implements OnInit {
   receitaRecebidas!: number;
   formData!: Pedido;
   visible = false;
+  visibleEdit = false;
   quantidadeAtual!: number;
   inicio!: Date;
   fim!: Date;
@@ -46,6 +47,11 @@ export class TransacoesComponent implements OnInit {
   ngOnInit() {
     this.carregar();
   }
+
+  onDialogShow() {
+  console.log('O diálogo está sendo aberto.');
+}
+
 
   alterarSituacao(pedido: Pedido) {
     pedido.situacao.nome =
@@ -75,8 +81,15 @@ export class TransacoesComponent implements OnInit {
     this.visible = true;
   }
 
+  showModalEdit(formData: Pedido) {
+    this.formData = formData;
+    this.visibleEdit = true;
+  }
+
   public closeModal() {
+    console.log('close');
     this.visible = false;
+    this.visibleEdit = false;
   }
 
   onRemove(objeto: Pedido) {
@@ -127,9 +140,9 @@ export class TransacoesComponent implements OnInit {
               somaReceitasPendentes += valorTotal;
             }
           } else if (Pedido.tipo === 'despesa') {
-            somaDespesas -= valorTotal;
+            somaDespesas += valorTotal;
             if (Pedido.situacao.nome === 'Efetivado') {
-              somaDespesasEfetivadas -= valorTotal;
+              somaDespesasEfetivadas += valorTotal;
             } else {
               somaDespesasPendentes += valorTotal;
             }

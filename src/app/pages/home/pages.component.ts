@@ -17,6 +17,7 @@ export class PagesComponent implements OnInit {
   saldoPrevisto = 0;
   saldoPendente = 0;
   somaDespesa = 0;
+  somaDespesaPositiva = 0;
   somaReceita = 0;
   rangeDates: Date[] | undefined;
 
@@ -78,9 +79,7 @@ export class PagesComponent implements OnInit {
         let somaReceitas = 0;
         let somaDespesas = 0;
         let somaReceitasEfetivadas = 0;
-        let somaReceitasPendentes = 0;
         let somaDespesasEfetivadas = 0;
-        let somaDespesasPendentes = 0;
 
         // Itera sobre os documentos e atualiza as somas de acordo com o tipo da transação
         transacoes.forEach((Pedido) => {
@@ -89,22 +88,19 @@ export class PagesComponent implements OnInit {
             somaReceitas += valorTotal;
             if (Pedido.situacao.nome === 'Efetivado') {
               somaReceitasEfetivadas += valorTotal;
-            } else {
-              somaReceitasPendentes += valorTotal;
             }
           } else if (Pedido.tipo === 'despesa') {
-            somaDespesas -= valorTotal;
+            somaDespesas += valorTotal;
             if (Pedido.situacao.nome === 'Efetivado') {
-              somaDespesasEfetivadas -= valorTotal;
-            } else {
-              somaDespesasPendentes += valorTotal;
+              somaDespesasEfetivadas += valorTotal;
             }
           }
         });
 
-        this.saldoMes = somaReceitas + somaDespesas;
+        this.saldoMes = somaReceitasEfetivadas + somaDespesasEfetivadas;
         this.somaReceita = somaReceitas;
         this.somaDespesa = somaDespesas;
+        this.saldoPrevisto = somaReceitas + somaDespesas;
       });
   }
 }

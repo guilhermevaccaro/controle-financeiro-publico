@@ -99,6 +99,7 @@
         <p-button
           icon="pi pi-info-circle"
           [rounded]="true"
+          pTooltip="Info"
           [text]="true"
           (click)="abrindoModal(product)"
         >
@@ -106,6 +107,7 @@
         <p-button
           icon="pi pi-trash"
           [rounded]="true"
+          pTooltip="Excluir Pedido"
           [text]="true"
           severity="danger "
           (click)="confirm($event, product)"
@@ -135,6 +137,15 @@
           >
           </p-button>
         </ng-template>
+        <p-button
+          icon="pi pi-pencil"
+          severity="warning"
+          pTooltip="Editar Pedido"
+          [rounded]="true"
+          [text]="true"
+          (click)="abrindoModalPedido(product)"
+        >
+        </p-button>
       </td>
     </tr>
   </ng-template>

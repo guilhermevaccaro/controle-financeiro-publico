@@ -49,6 +49,7 @@ import { EstoqueComponent } from './pages/estoque/estoque.component';
 import { PagesComponent } from './pages/home/pages.component';
 import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { FormEditComponent } from './componentes/form-edit/form-edit.component';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -68,6 +69,7 @@ registerLocaleData(localePt);
     FormEstoqueComponent,
     FormAdicionarRemoverEstoqueComponent,
     FormRazaoComponent,
+    FormEditComponent,
   ],
   imports: [
     MatCardModule,

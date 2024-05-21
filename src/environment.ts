@@ -10,3 +10,16 @@ export const environment = {
     measurementId: 'G-VL01N6SPHJ',
   },
 };
+// ENV PRA TESTE
+// export const environment = {
+//   production: false,
+//   firebaseConfig: {
+//     apiKey: "AIzaSyCYIn9Qe1pyGKstu-WiTuhmIHgX6BXEPJ0",
+//   authDomain: "barbeariafamilystyle.firebaseapp.com",
+//   projectId: "barbeariafamilystyle",
+//   storageBucket: "barbeariafamilystyle.appspot.com",
+//   messagingSenderId: "835620718533",
+//   appId: "1:835620718533:web:eb69fcb288b140c3686dac",
+//   measurementId: "G-6XH8WQF6QP"
+//   },
+// };

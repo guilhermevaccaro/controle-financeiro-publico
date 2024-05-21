@@ -37,18 +37,20 @@ export class TransacoesListaComponent implements OnChanges {
       const contagemTipos: { [key: string]: number } = {};
 
       this.contatos.forEach((objeto) => {
+        const valorTotalAbsoluto = Math.abs(objeto.valorTotal); // Transformando despesas em positivo
+
         objeto.pecas.forEach((peca: { item: { nome: string } }) => {
           const nomePeca = peca.item.nome;
           if (contagemCategorias[nomePeca]) {
-            contagemCategorias[nomePeca] += objeto.valorTotal;
+            contagemCategorias[nomePeca] += valorTotalAbsoluto;
           } else {
-            contagemCategorias[nomePeca] = objeto.valorTotal;
+            contagemCategorias[nomePeca] = valorTotalAbsoluto;
           }
         });
         if (contagemTipos[objeto.tipo]) {
-          contagemTipos[objeto.tipo] += objeto.valorTotal;
+          contagemTipos[objeto.tipo] += valorTotalAbsoluto;
         } else {
-          contagemTipos[objeto.tipo] = objeto.valorTotal;
+          contagemTipos[objeto.tipo] = valorTotalAbsoluto;
         }
       });
 

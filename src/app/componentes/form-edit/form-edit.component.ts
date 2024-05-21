@@ -1,25 +1,21 @@
-/* eslint-disable no-prototype-builtins */
 import { BreakpointObserver } from '@angular/cdk/layout';
 import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import {
-  FormArray,
-  FormBuilder,
   FormGroup,
-  UntypedFormArray,
+  FormBuilder,
   Validators,
+  FormArray,
+  UntypedFormArray,
 } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
-import { Item, Peca, Pedido } from 'src/app/models/Pedido';
+import { Pedido, Situacao, Peca } from 'src/app/models/Pedido';
 import { ContatoService } from 'src/app/services/contato.service';
 
 interface ItemEstoque {
@@ -28,18 +24,12 @@ interface ItemEstoque {
   id: string;
 }
 
-interface Situacao {
-  nome: string;
-}
-
 @Component({
-  selector: 'app-form-adicionar-remover-estoque',
-  templateUrl: './form-adicionar-remover-estoque.component.html',
-  styleUrls: ['./form-adicionar-remover-estoque.component.css'],
+  selector: 'app-form-edit',
+  templateUrl: './form-edit.component.html',
+  styleUrls: ['./form-edit.component.css'],
 })
-export class FormAdicionarRemoverEstoqueComponent
-  implements OnInit, OnChanges, OnDestroy
-{
+export class FormEditComponent {
   @Input() formData!: Pedido | null;
   @Input() tipo = '';
   @Input() categoria = '';
@@ -168,24 +158,20 @@ export class FormAdicionarRemoverEstoqueComponent
       categoria: transacao?.categoria,
       descricao: transacao?.descricao,
       fornecedor: transacao?.fornecedor,
-      situacao: transacao?.situacao,
+      situacao: transacao?.situacao, // Assuming situacao is an object and we need its name
       tipo: transacao?.tipo,
       valorTotal: transacao?.valorTotal,
     });
 
     const pecasFormArray = this.formBuilder.array(
       transacao?.pecas?.map((peca: any) => {
-        console.log('Peca being processed:', peca);
-        const pecaFormGroup = this.createPecaFormGroup(peca);
-        pecaFormGroup.patchValue({
-          item: this.estoque.find((e) => e.id === peca.idPeca), // Verifique se a id do peca está sendo encontrada no estoque
-        });
-        return pecaFormGroup;
+        console.log('Peca being processed:', peca); // Log para verificar cada peca
+        return this.createPecaFormGroup(peca);
       }) || []
     );
 
     this.form.setControl('pecas', pecasFormArray);
-    console.log('FormArray de pecas:', pecasFormArray.value);
+    console.log('FormArray de pecas:', pecasFormArray.value); // Log para verificar o FormArray
   }
 
   onSubmit() {

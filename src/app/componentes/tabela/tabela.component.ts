@@ -16,6 +16,7 @@ import { DadoPDF, DadosPDF1 } from 'src/app/models/DadosPDF';
 export class TabelaComponent implements OnInit {
   @Input() pedidos!: Pedido[];
   @Output() clickOpen = new EventEmitter(false);
+  @Output() clickOpenEdit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
   @Output() clickAlterarSituacao = new EventEmitter(false);
   @Output() dateSelect = new EventEmitter(false);
@@ -53,6 +54,7 @@ export class TabelaComponent implements OnInit {
     this.emitDateSelect(); // Remove the argument from the method call
   }
   deletandoTransacao(pedido: Pedido[]) {
+    console.log('pedido ', pedido);
     this.remove.emit(pedido);
   }
   alterandoSituacao(pedido: Pedido[]) {
@@ -61,6 +63,12 @@ export class TabelaComponent implements OnInit {
   abrindoModal(pedido: Pedido[]) {
     if (pedido) {
       this.clickOpen.emit(pedido);
+    }
+  }
+  abrindoModalPedido(pedido: Pedido[]) {
+    if (pedido) {
+      console.log('pedido ', pedido);
+      this.clickOpenEdit.emit(pedido);
     }
   }
   emitDateSelect() {
@@ -81,7 +89,7 @@ export class TabelaComponent implements OnInit {
       message: 'Deseja alterar a situação do pedido?',
       header: 'Confirme alteração',
       icon: 'pi pi-info-circle',
-      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      acceptButtonStyleClass: 'p-button-success p-button-text',
       rejectButtonStyleClass: 'p-button-text p-button-text',
       acceptIcon: 'none',
       rejectIcon: 'none',
@@ -204,6 +212,7 @@ export class TabelaComponent implements OnInit {
 
     doc.setFontSize(18);
     doc.text(title, titleXPosition, 30, { align: 'center' });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (doc as any).autoTable(this.exportColumns, this.dadosPDF);
     doc.save(`pedidos_${new Date().toLocaleDateString()}.pdf`);
   }

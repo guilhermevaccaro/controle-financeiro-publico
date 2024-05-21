@@ -48,18 +48,12 @@
     *ngFor="let pecas of getPecasFormArray(); let i = index"
   >
     <div [formGroupName]="i" [ngClass]="{ 'display-flex': !isMobile }">
-      <p-dropdown
-        [filter]="true"
-        filterBy="nome, codigo"
-        appendTo="body"
-        [options]="estoque"
-        optionLabel="nome"
-        placeholder="Peça"
-        formControlName="item"
-        [showClear]="false"
-        class="teste"
-        (onChange)="selecionouPeca($event, i)"
-      ></p-dropdown>
+      <input
+      type="text"
+      pInputText
+      placeholder="Descrição"
+      formControlName="item.nome"
+    />
 
       <div>
         <span class="p-float-label">
@@ -88,7 +82,9 @@
       ></p-button>
     </div>
   </div>
-  <p-button (click)="addPeca(form.value)">Adicionar Peça</p-button>
+  <p-button *ngIf="formData?.id" (click)="addPeca(form.value)"
+    >Adicionar Peça</p-button
+  >
   <p-divider></p-divider>
 </form>
 
