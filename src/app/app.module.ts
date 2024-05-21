@@ -49,7 +49,6 @@ import { EstoqueComponent } from './pages/estoque/estoque.component';
 import { PagesComponent } from './pages/home/pages.component';
 import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { FormEditComponent } from './componentes/form-edit/form-edit.component';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -69,7 +68,6 @@ registerLocaleData(localePt);
     FormEstoqueComponent,
     FormAdicionarRemoverEstoqueComponent,
     FormRazaoComponent,
-    FormEditComponent,
   ],
   imports: [
     MatCardModule,
@@ -107,12 +105,12 @@ registerLocaleData(localePt);
     FormsModule,
 
     AngularFireModule.initializeApp(firebaseConfig),
-      ServiceWorkerModule.register('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        // Register the ServiceWorker as soon as the application is stable
-        // or after 30 seconds (whichever comes first).
-        registrationStrategy: 'registerWhenStable:30000'
-      }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },

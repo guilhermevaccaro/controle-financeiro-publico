@@ -4,6 +4,14 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     class="responsive-table"
   >
+    <ng-template pTemplate="caption">
+      <p-button (click)="updateEstoque()">Update Estoque</p-button>
+      <p-button
+        label="Adicionar Peça ao Estoque"
+        icon="pi pi-plus"
+        (click)="showModal()"
+      ></p-button>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th>Código</th>
@@ -64,6 +72,13 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     class="responsive-table"
   >
+    <ng-template pTemplate="caption">
+      <p-button
+        label="Adicionar Fornecedor / Cliente"
+        icon="pi pi-plus"
+        (click)="showModalRazao()"
+      ></p-button>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th>Nome</th>
@@ -103,11 +118,6 @@
   </p-dialog>
 </mat-card>
 <div class="botao">
-  <p-button
-    label="Adicionar Peça ao Estoque"
-    icon="pi pi-plus"
-    (click)="showModal()"
-  ></p-button>
   <p-dialog
     [header]="'Razão'"
     [(visible)]="visibleRazao"
@@ -119,13 +129,7 @@
       (closeModal)="closeModal()"
     ></app-form-razao>
   </p-dialog>
-  <div class="botao">
-    <p-button
-      label="Adicionar Fornecedor / Cliente"
-      icon="pi pi-plus"
-      (click)="showModalRazao()"
-    ></p-button>
-  </div>
+
   <p-toast />
   <p-confirmDialog />
 </div>

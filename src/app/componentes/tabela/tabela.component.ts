@@ -216,4 +216,5 @@ export class TabelaComponent implements OnInit {
     (doc as any).autoTable(this.exportColumns, this.dadosPDF);
     doc.save(`pedidos_${new Date().toLocaleDateString()}.pdf`);
   }
+
 }

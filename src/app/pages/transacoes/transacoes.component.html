@@ -168,9 +168,10 @@
   <app-form-modal [pedido]="formData"> </app-form-modal>
 </p-dialog>
 <p-dialog [(visible)]="visibleEdit" [modal]="true" (onShow)="onDialogShow()">
-  <!-- <app-form-edit [formData]="formData" (closeModal)="closeModal()">
-  </app-form-edit> -->
-  <app-form-adicionar-remover-estoque [formData]="formData" (closeModal)="closeModal()">
+  <app-form-adicionar-remover-estoque
+    [formData]="formData"
+    (closeModal)="closeModal()"
+  >
   </app-form-adicionar-remover-estoque>
 </p-dialog>
 <p-toast></p-toast>

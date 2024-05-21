@@ -75,7 +75,6 @@ export class FormAdicionarRemoverEstoqueComponent
     });
     this.form = this.createForm();
     this.loadEstoque();
-    console.log(this.estoque);
     this.loadFornecedores();
   }
 
@@ -189,6 +188,7 @@ export class FormAdicionarRemoverEstoqueComponent
   }
 
   onSubmit() {
+    console.log('submit', this.form.value);
     const formData = {
       ...this.form.value,
       valorTotal: this.calcularValorTotal(this.form.value),
@@ -198,7 +198,6 @@ export class FormAdicionarRemoverEstoqueComponent
       this.contatoService
         .addDocument('transacoes', formData)
         .then(() => {
-          this.updateEstoque(formData);
           this.resetForm();
         })
         .catch((err) => console.error('Error adding transacao', err));
@@ -206,10 +205,9 @@ export class FormAdicionarRemoverEstoqueComponent
       this.contatoService
         .updateDocument('transacoes', formData.id, formData)
         .then(() => {
-          this.updateEstoque(formData);
           this.resetForm();
         })
-        .catch((err) => console.error('Error updating transacao', err));
+        .catch((err: any) => console.error('Error updating transacao', err));
     }
   }
 
@@ -230,26 +228,6 @@ export class FormAdicionarRemoverEstoqueComponent
       idPeca: event.value.id,
       nome: event.value.nome,
     });
-  }
-
-  private updateEstoque(formData: Pedido) {
-    for (const peca of formData.pecas) {
-      const quantidade =
-        formData.tipo === 'receita'
-          ? peca.item.quantidade - peca.quantidadeAdicionada
-          : peca.quantidadeAdicionada + peca.item.quantidade;
-      console.log(
-        'Quantidade Atual:',
-        peca.item.quantidade,
-        'quantidadeAdicionada:',
-        peca.quantidadeAdicionada,
-        'Quantidade Final:',
-        quantidade
-      );
-      this.contatoService
-        .updateDocument('estoque', peca.idPeca, { quantidade: quantidade })
-        .catch((err) => console.error('Error updating estoque', err));
-    }
   }
 
   private calcularValorTotal(formData: Pedido): number {

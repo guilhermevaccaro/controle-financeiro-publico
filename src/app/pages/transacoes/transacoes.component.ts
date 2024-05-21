@@ -40,18 +40,14 @@ export class TransacoesComponent implements OnInit {
     private serviceContato: ContatoService,
     private route: ActivatedRoute
   ) {}
-  @Output() remove = new EventEmitter(false);
-  deletandoTransacao(key: Pedido) {
-    this.remove.emit(key);
-  }
+
   ngOnInit() {
     this.carregar();
   }
 
   onDialogShow() {
-  console.log('O diálogo está sendo aberto.');
-}
-
+    console.log('O diálogo está sendo aberto.');
+  }
 
   alterarSituacao(pedido: Pedido) {
     pedido.situacao.nome =
@@ -93,17 +89,72 @@ export class TransacoesComponent implements OnInit {
   }
 
   onRemove(objeto: Pedido) {
-    this.updateEstoque(objeto);
-    this.serviceContato.deleteDocument('transacoes', objeto.id);
+    this.serviceContato
+      .deleteDocument('transacoes', objeto.id)
+      .then(() => {
+        console.log(`Transação ${objeto.id} excluída com sucesso`);
+        // Atualize o estoque após excluir a transação
+        this.updateEstoque();
+      })
+      .catch((error) => {
+        console.error('Erro ao excluir a transação:', error);
+      });
   }
-  private updateEstoque(formData: Pedido) {
-    for (const peca of formData.pecas) {
-      const quantidade = peca.item.quantidade;
-      this.serviceContato
-        .updateDocument('estoque', peca.idPeca, { quantidade: quantidade })
-        .catch((err) => console.error('Error updating estoque', err));
-    }
+
+  private updateEstoque() {
+    const somaQuantidades: { [key: string]: number } = {};
+
+    const subscription = this.serviceContato
+      .getCollection('transacoes')
+      .subscribe({
+        next: (items) => {
+          items.forEach((transacao) => {
+            transacao.pecas.forEach(
+              (peca: { idPeca: any; quantidadeAdicionada: any }) => {
+                const idPeca = peca.idPeca;
+                let quantidadeAdicionada = peca.quantidadeAdicionada;
+
+                // Verificar o tipo de transação
+                if (transacao.tipo === 'receita') {
+                  // Se for receita, diminui a quantidade
+                  quantidadeAdicionada = -quantidadeAdicionada;
+                }
+                // Se for despesa, aumenta a quantidade (comportamento padrão)
+
+                // Acumular a quantidade no objeto somaQuantidades
+                if (somaQuantidades.hasOwnProperty(idPeca)) {
+                  somaQuantidades[idPeca] += quantidadeAdicionada;
+                } else {
+                  somaQuantidades[idPeca] = quantidadeAdicionada;
+                }
+              }
+            );
+          });
+
+          console.log('Soma das quantidades adicionadas:', somaQuantidades);
+
+          // Itera sobre o objeto somaQuantidades e atualiza o estoque para cada peça
+          for (const idPeca in somaQuantidades) {
+            if (somaQuantidades.hasOwnProperty(idPeca)) {
+              const quantidadeAdicionada = somaQuantidades[idPeca];
+
+              console.log(
+                `Atualizar estoque para peça ${idPeca}, quantidade ajustada: ${quantidadeAdicionada}`
+              );
+              this.serviceContato.updateDocument('estoque', idPeca, {
+                quantidade: quantidadeAdicionada,
+              });
+            }
+          }
+
+          // Cancelar a assinatura após receber as respostas
+          subscription.unsubscribe();
+        },
+        error: (err) =>
+          console.error('Erro ao obter coleção de transações:', err),
+      });
   }
+
   carregar() {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
