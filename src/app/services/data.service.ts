@@ -6,7 +6,7 @@ import { Pedido } from '../models/Pedido';
 @Injectable({
   providedIn: 'root',
 })
-export class ContatoService {
+export class DataService {
   constructor(private firestore: AngularFirestore) {}
 
   getCollection(collectionName: string): Observable<any[]> {

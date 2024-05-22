@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Pedido } from 'src/app/models/Pedido';
-import { ContatoService } from 'src/app/services/contato.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-pages',
-  templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.css'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
 })
-export class PagesComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   dados!: Pedido[];
   dadosDespesa!: Pedido[];
   dadosReceita!: Pedido[];
@@ -23,7 +23,7 @@ export class PagesComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private serviceContato: ContatoService
+    private dataService: DataService
   ) {
     const dataInicio = new Date();
     dataInicio.setDate(1);
@@ -60,7 +60,7 @@ export class PagesComponent implements OnInit {
 
     const startDate = inicio;
     const endDate = fim;
-    this.serviceContato
+    this.dataService
       .getTransacoesPorIntervaloDeDatas(startDate, endDate)
       .subscribe((transacoes) => {
         this.dados = transacoes;

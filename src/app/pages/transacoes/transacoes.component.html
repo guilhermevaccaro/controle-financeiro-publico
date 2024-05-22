@@ -167,7 +167,7 @@
 <p-dialog [(visible)]="visible" [modal]="true">
   <app-form-modal [pedido]="formData"> </app-form-modal>
 </p-dialog>
-<p-dialog [(visible)]="visibleEdit" [modal]="true" (onShow)="onDialogShow()">
+<p-dialog [(visible)]="visibleEdit" [modal]="true">
   <app-form-adicionar-remover-estoque
     [formData]="formData"
     (closeModal)="closeModal()"

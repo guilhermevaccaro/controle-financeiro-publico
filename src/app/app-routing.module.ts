@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PagesComponent } from './pages/home/pages.component';
-import { TransacoesComponent } from './pages/transacoes/transacoes.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EstoqueComponent } from './pages/estoque/estoque.component';
+import { TransacoesComponent } from './pages/transacoes/transacoes.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: PagesComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'transacoes', component: TransacoesComponent },
   { path: 'transacoes/receita', component: TransacoesComponent },
   { path: 'transacoes/despesa', component: TransacoesComponent },

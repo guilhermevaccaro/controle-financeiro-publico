@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Fornecedor } from 'src/app/models/Fornecedor';
-import { ContatoService } from 'src/app/services/contato.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-form-razao',
@@ -15,7 +15,7 @@ export class FormRazaoComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private contatoService: ContatoService
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -32,9 +32,9 @@ export class FormRazaoComponent implements OnInit {
   onSubmit() {
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
-      this.contatoService.addDocument('fornecedor', formData);
+      this.dataService.addDocument('fornecedor', formData);
     } else {
-      this.contatoService.updateDocument('fornecedor', formData.id, formData);
+      this.dataService.updateDocument('fornecedor', formData.id, formData);
     }
     this.form = this.criarForm();
     this.closeModal.emit();

@@ -54,7 +54,6 @@ export class TabelaComponent implements OnInit {
     this.emitDateSelect(); // Remove the argument from the method call
   }
   deletandoTransacao(pedido: Pedido[]) {
-    console.log('pedido ', pedido);
     this.remove.emit(pedido);
   }
   alterandoSituacao(pedido: Pedido[]) {
@@ -67,7 +66,6 @@ export class TabelaComponent implements OnInit {
   }
   abrindoModalPedido(pedido: Pedido[]) {
     if (pedido) {
-      console.log('pedido ', pedido);
       this.clickOpenEdit.emit(pedido);
     }
   }
@@ -151,7 +149,6 @@ export class TabelaComponent implements OnInit {
     table.filterGlobal(input.value, 'contains');
   }
   onTableFilter(event: TableFilterEvent) {
-    console.log('event ', event);
     this.filteredContatos = event.filteredValue;
   }
 

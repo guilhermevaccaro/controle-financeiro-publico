@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Estoque } from 'src/app/models/Estoque';
 import { Fornecedor } from 'src/app/models/Pedido';
-import { ContatoService } from 'src/app/services/contato.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-estoque',
@@ -17,30 +17,28 @@ export class EstoqueComponent implements OnInit {
   formData!: Estoque;
 
   constructor(
-    private service: ContatoService,
+    private dataService: DataService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private serviceContato: ContatoService
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
     this.carrega();
   }
   carrega() {
-    this.service.getCollection('estoque').subscribe((items) => {
+    this.dataService.getCollection('estoque').subscribe((items) => {
       this.estoque = items;
     });
-    this.service.getCollection('fornecedor').subscribe((items) => {
+    this.dataService.getCollection('fornecedor').subscribe((items) => {
       this.fornecedor = items;
     });
   }
 
   deletandoTransacao(tabela: string, key: string) {
-    this.service.deleteDocument(tabela, key);
+    this.dataService.deleteDocument(tabela, key);
   }
 
   confirm(event: Event, key: string, tabela: string) {
-    console.log(event, key, tabela);
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Deseja excluir o dado?',
@@ -91,25 +89,23 @@ export class EstoqueComponent implements OnInit {
   updateEstoque() {
     const somaQuantidades: { [key: string]: number } = {};
 
-    const subscription = this.serviceContato
+    const subscription = this.dataService
       .getCollection('transacoes')
       .subscribe({
         next: (items) => {
           items.forEach((transacao) => {
             transacao.pecas.forEach(
-              (peca: { idPeca: any; quantidadeAdicionada: any }) => {
+              (peca: { idPeca: string; quantidadeAdicionada: number }) => {
                 const idPeca = peca.idPeca;
                 let quantidadeAdicionada = peca.quantidadeAdicionada;
 
-                // Verificar o tipo de transação
                 if (transacao.tipo === 'receita') {
-                  // Se for receita, diminui a quantidade
                   quantidadeAdicionada = -quantidadeAdicionada;
                 }
-                // Se for despesa, aumenta a quantidade (comportamento padrão)
 
-                // Acumular a quantidade no objeto somaQuantidades
-                if (somaQuantidades.hasOwnProperty(idPeca)) {
+                if (
+                  Object.prototype.hasOwnProperty.call(somaQuantidades, idPeca)
+                ) {
                   somaQuantidades[idPeca] += quantidadeAdicionada;
                 } else {
                   somaQuantidades[idPeca] = quantidadeAdicionada;
@@ -118,23 +114,15 @@ export class EstoqueComponent implements OnInit {
             );
           });
 
-          console.log('Soma das quantidades adicionadas:', somaQuantidades);
-
-          // Itera sobre o objeto somaQuantidades e atualiza o estoque para cada peça
           for (const idPeca in somaQuantidades) {
-            if (somaQuantidades.hasOwnProperty(idPeca)) {
+            if (Object.prototype.hasOwnProperty.call(somaQuantidades, idPeca)) {
               const quantidadeAdicionada = somaQuantidades[idPeca];
 
-              console.log(
-                `Atualizar estoque para peça ${idPeca}, quantidade ajustada: ${quantidadeAdicionada}`
-              );
-              this.serviceContato.updateDocument('estoque', idPeca, {
+              this.dataService.updateDocument('estoque', idPeca, {
                 quantidade: quantidadeAdicionada,
               });
             }
           }
-
-          // Cancelar a assinatura após receber as respostas
           subscription.unsubscribe();
         },
         error: (err) =>

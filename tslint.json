@@ -5,7 +5,8 @@
   ],
   "rules": {
     "no-unused-variable": true,
-    "no-unused-expression": true
+    "no-unused-expression": true,
+    "no-unnecessary-type-assertion": true
   },
   "linterOptions": {
     "exclude": [

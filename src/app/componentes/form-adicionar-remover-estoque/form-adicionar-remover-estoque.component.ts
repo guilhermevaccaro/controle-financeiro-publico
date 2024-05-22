@@ -19,8 +19,8 @@ import {
 } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { Subscription } from 'rxjs';
-import { Item, Peca, Pedido } from 'src/app/models/Pedido';
-import { ContatoService } from 'src/app/services/contato.service';
+import { Peca, Pedido } from 'src/app/models/Pedido';
+import { DataService } from 'src/app/services/data.service';
 
 interface ItemEstoque {
   item: string;
@@ -62,7 +62,7 @@ export class FormAdicionarRemoverEstoqueComponent
     private formBuilder: FormBuilder,
     private observer: BreakpointObserver,
 
-    private contatoService: ContatoService
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -79,7 +79,6 @@ export class FormAdicionarRemoverEstoqueComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes', this.isMobile);
     if (changes['formData'] && this.formData) {
       this.updateForm();
     }
@@ -125,17 +124,17 @@ export class FormAdicionarRemoverEstoqueComponent
   }
 
   private loadEstoque() {
-    this.estoqueSubscription = this.contatoService
+    this.estoqueSubscription = this.dataService
       .getCollection('estoque')
       .subscribe({
-        next: (items) => ((this.estoque = items), console.log(items)),
+        next: (items) => (this.estoque = items),
 
         error: (err) => console.error('Error loading estoque', err),
       });
   }
 
   private loadFornecedores() {
-    this.razaoSubscription = this.contatoService
+    this.razaoSubscription = this.dataService
       .getCollection('fornecedor')
       .subscribe({
         next: (items) => (this.nome = items),
@@ -143,7 +142,7 @@ export class FormAdicionarRemoverEstoqueComponent
       });
   }
 
-  addPeca(item: any) {
+  addPeca(item: Peca) {
     const pecas = this.form.get('pecas') as FormArray;
     pecas.push(this.createPecaFormGroup(item));
   }
@@ -159,7 +158,6 @@ export class FormAdicionarRemoverEstoqueComponent
 
   private updateForm() {
     const transacao = this.formData;
-    console.log('transacao', transacao);
     this.form.patchValue({
       id: transacao?.id,
       data: transacao?.data,
@@ -173,8 +171,7 @@ export class FormAdicionarRemoverEstoqueComponent
     });
 
     const pecasFormArray = this.formBuilder.array(
-      transacao?.pecas?.map((peca: any) => {
-        console.log('Peca being processed:', peca);
+      transacao?.pecas?.map((peca: Peca) => {
         const pecaFormGroup = this.createPecaFormGroup(peca);
         pecaFormGroup.patchValue({
           item: this.estoque.find((e) => e.id === peca.idPeca), // Verifique se a id do peca está sendo encontrada no estoque
@@ -184,30 +181,28 @@ export class FormAdicionarRemoverEstoqueComponent
     );
 
     this.form.setControl('pecas', pecasFormArray);
-    console.log('FormArray de pecas:', pecasFormArray.value);
   }
 
   onSubmit() {
-    console.log('submit', this.form.value);
     const formData = {
       ...this.form.value,
       valorTotal: this.calcularValorTotal(this.form.value),
     };
 
     if (!formData.id) {
-      this.contatoService
+      this.dataService
         .addDocument('transacoes', formData)
         .then(() => {
           this.resetForm();
         })
         .catch((err) => console.error('Error adding transacao', err));
     } else {
-      this.contatoService
+      this.dataService
         .updateDocument('transacoes', formData.id, formData)
         .then(() => {
           this.resetForm();
         })
-        .catch((err: any) => console.error('Error updating transacao', err));
+        .catch((err: Error) => console.error('Error updating transacao', err));
     }
   }
 

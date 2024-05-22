@@ -1,7 +1,7 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
-import { LOCALE_ID, NgModule, isDevMode } from '@angular/core';
+import { isDevMode, LOCALE_ID, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire/compat';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { initializeApp } from 'firebase/app';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
@@ -45,10 +46,9 @@ import { FormRazaoComponent } from './componentes/form-razao/form-razao.componen
 import { SaldoComponent } from './componentes/saldo/saldo.component';
 import { TabelaComponent } from './componentes/tabela/tabela.component';
 import { TransacoesListaComponent } from './componentes/transacoes-lista/transacoes-lista.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { EstoqueComponent } from './pages/estoque/estoque.component';
-import { PagesComponent } from './pages/home/pages.component';
 import { TransacoesComponent } from './pages/transacoes/transacoes.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 
 const firebaseConfig = environment.firebaseConfig;
 initializeApp(firebaseConfig);
@@ -58,7 +58,7 @@ registerLocaleData(localePt);
 @NgModule({
   declarations: [
     AppComponent,
-    PagesComponent,
+    DashboardComponent,
     TransacoesListaComponent,
     TabelaComponent,
     SaldoComponent,

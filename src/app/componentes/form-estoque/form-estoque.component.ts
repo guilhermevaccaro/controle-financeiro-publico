@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Estoque } from 'src/app/models/Estoque';
-import { ContatoService } from 'src/app/services/contato.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-form-estoque',
@@ -15,7 +15,7 @@ export class FormEstoqueComponent implements OnInit, OnChanges {
 
   constructor(
     private formBuilder: FormBuilder,
-    private contatoService: ContatoService
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -50,9 +50,9 @@ export class FormEstoqueComponent implements OnInit, OnChanges {
   onSubmit() {
     const formData = this.form.value;
     if (formData.id === null || formData.id === '') {
-      this.contatoService.addDocument('estoque', formData);
+      this.dataService.addDocument('estoque', formData);
     } else {
-      this.contatoService.updateDocument('estoque', formData.id, formData);
+      this.dataService.updateDocument('estoque', formData.id, formData);
     }
     this.form = this.criarForm();
     this.closeModal.emit();

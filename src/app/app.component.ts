@@ -4,8 +4,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 
-import { ContatoService } from './services/contato.service';
 import { Pedido } from './models/Pedido';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private observer: BreakpointObserver,
-    private serviceContato: ContatoService,
+    private dataService: DataService,
     private config: PrimeNGConfig,
     public router: Router
   ) {}
@@ -111,6 +111,6 @@ export class AppComponent implements OnInit {
   }
 
   onRemove(key: string) {
-    this.serviceContato.deleteDocument('transacoes', key);
+    this.dataService.deleteDocument('transacoes', key);
   }
 }

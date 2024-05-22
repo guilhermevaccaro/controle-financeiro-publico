@@ -1,8 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pedido } from 'src/app/models/Pedido';
 import { RangeDate } from 'src/app/models/RangeDate';
-import { ContatoService } from 'src/app/services/contato.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-transacoes',
@@ -37,7 +37,7 @@ export class TransacoesComponent implements OnInit {
   public tipo = '';
 
   constructor(
-    private serviceContato: ContatoService,
+    private dataService: DataService,
     private route: ActivatedRoute
   ) {}
 
@@ -45,15 +45,11 @@ export class TransacoesComponent implements OnInit {
     this.carregar();
   }
 
-  onDialogShow() {
-    console.log('O diálogo está sendo aberto.');
-  }
-
   alterarSituacao(pedido: Pedido) {
     pedido.situacao.nome =
       pedido.situacao.nome === 'Pendente' ? 'Efetivado' : 'Pendente';
 
-    this.serviceContato.updateDocument('transacoes', pedido.id, {
+    this.dataService.updateDocument('transacoes', pedido.id, {
       'situacao.nome': pedido.situacao.nome,
     });
   }
@@ -83,17 +79,14 @@ export class TransacoesComponent implements OnInit {
   }
 
   public closeModal() {
-    console.log('close');
     this.visible = false;
     this.visibleEdit = false;
   }
 
   onRemove(objeto: Pedido) {
-    this.serviceContato
+    this.dataService
       .deleteDocument('transacoes', objeto.id)
       .then(() => {
-        console.log(`Transação ${objeto.id} excluída com sucesso`);
-        // Atualize o estoque após excluir a transação
         this.updateEstoque();
       })
       .catch((error) => {
@@ -104,25 +97,23 @@ export class TransacoesComponent implements OnInit {
   private updateEstoque() {
     const somaQuantidades: { [key: string]: number } = {};
 
-    const subscription = this.serviceContato
+    const subscription = this.dataService
       .getCollection('transacoes')
       .subscribe({
         next: (items) => {
           items.forEach((transacao) => {
             transacao.pecas.forEach(
-              (peca: { idPeca: any; quantidadeAdicionada: any }) => {
+              (peca: { idPeca: string; quantidadeAdicionada: number }) => {
                 const idPeca = peca.idPeca;
                 let quantidadeAdicionada = peca.quantidadeAdicionada;
 
-                // Verificar o tipo de transação
                 if (transacao.tipo === 'receita') {
-                  // Se for receita, diminui a quantidade
                   quantidadeAdicionada = -quantidadeAdicionada;
                 }
-                // Se for despesa, aumenta a quantidade (comportamento padrão)
 
-                // Acumular a quantidade no objeto somaQuantidades
-                if (somaQuantidades.hasOwnProperty(idPeca)) {
+                if (
+                  Object.prototype.hasOwnProperty.call(somaQuantidades, idPeca)
+                ) {
                   somaQuantidades[idPeca] += quantidadeAdicionada;
                 } else {
                   somaQuantidades[idPeca] = quantidadeAdicionada;
@@ -131,23 +122,16 @@ export class TransacoesComponent implements OnInit {
             );
           });
 
-          console.log('Soma das quantidades adicionadas:', somaQuantidades);
-
-          // Itera sobre o objeto somaQuantidades e atualiza o estoque para cada peça
           for (const idPeca in somaQuantidades) {
-            if (somaQuantidades.hasOwnProperty(idPeca)) {
+            if (Object.prototype.hasOwnProperty.call(somaQuantidades, idPeca)) {
               const quantidadeAdicionada = somaQuantidades[idPeca];
 
-              console.log(
-                `Atualizar estoque para peça ${idPeca}, quantidade ajustada: ${quantidadeAdicionada}`
-              );
-              this.serviceContato.updateDocument('estoque', idPeca, {
+              this.dataService.updateDocument('estoque', idPeca, {
                 quantidade: quantidadeAdicionada,
               });
             }
           }
 
-          // Cancelar a assinatura após receber as respostas
           subscription.unsubscribe();
         },
         error: (err) =>
@@ -158,8 +142,7 @@ export class TransacoesComponent implements OnInit {
   carregar() {
     this.pegaTipoUrl();
     this.filtro = this.opcoesSelecionadas;
-    console.log(this.inicio, this.fim);
-    this.serviceContato
+    this.dataService
       .getTransacoesPorIntervaloDeDatas(this.inicio, this.fim)
       .subscribe((transacoes) => {
         if (this.filtro === 'despesa') {
